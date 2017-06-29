@@ -1,12 +1,10 @@
 // FlexCLI.h
 #pragma once
 
-#include <types.h>
-#include <maths.h>
+//#include <types.h>
+//#include <maths.h>
 
 #include "NvFlex.h"
-//#include "NvFlexExt.h"
-//#include "NvFlexDevice.h"
 #include <vector>
 #include <map>
 #include <iostream>
