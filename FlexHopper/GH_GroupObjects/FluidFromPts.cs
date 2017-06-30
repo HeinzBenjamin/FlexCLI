@@ -29,7 +29,10 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddPointParameter("Positions", "Pos", "Point cloud of fluid particles", GH_ParamAccess.tree);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per particle. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Masses", "Mass", "Masses per particle. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -49,17 +52,43 @@ namespace FlexHopper.GH_GroupObjects
             GH_Structure<GH_Point> pts = new GH_Structure<GH_Point>();
             GH_Structure<GH_Vector> vel = new GH_Structure<GH_Vector>();
             GH_Structure<GH_Number> masses = new GH_Structure<GH_Number>();
-            GH_Structure<GH_Integer> groupIndices = new GH_Structure<GH_Integer>();
+            List<int> groupIndices = new List<int>();
 
             DA.GetDataTree(0, out pts);
             DA.GetDataTree(1, out vel);
             DA.GetDataTree(2, out masses);
-            DA.GetDataTree(3, out groupIndices);
+            DA.GetDataList(3, groupIndices);
 
-            if (pts.Branches.Count != vel.Branches.Count || pts.Branches.Count != masses.Branches.Count || pts.Branches.Count != groupIndices.Branches.Count)
-                throw new Exception("Tree structures don't match! Make sure everything is clean. The branch count should be the same for all inputs. GroupIndex input must hold exactly one value per branch; masses and velocities should either hold one value per branch or as many values per branch as there are particles in that branch.");
+            if (pts.Branches.Count != groupIndices.Count)
+                throw new Exception("Tree structures don't match! Make sure you have as many group indices as you have point tree branches!");
+
+            if (!pts.IsEmpty) pts.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
+            if (pts.Branches.Count == 1)
+            {
+                GH_Structure<GH_Point> vT = new GH_Structure<GH_Point>();
+                vT.AppendRange(pts.Branches[0], new GH_Path(0));
+                pts = vT;
+            }
+
+            if (!vel.IsEmpty) vel.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
+            if (vel.Branches.Count == 1)
+            {
+                GH_Structure<GH_Vector> vT = new GH_Structure<GH_Vector>();
+                vT.AppendRange(vel.Branches[0], new GH_Path(0));
+                vel = vT;
+            }
+
+            if (!masses.IsEmpty) masses.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
+            if (masses.Branches.Count == 1)
+            {
+                GH_Structure<GH_Number> vT = new GH_Structure<GH_Number>();
+                vT.AppendRange(masses.Branches[0], new GH_Path(0));
+                masses = vT;
+            }
 
             List<Fluid> fluids = new List<Fluid>();
+            
+
 
             for (int i = 0; i < pts.Branches.Count; i++)
             {
@@ -68,7 +97,7 @@ namespace FlexHopper.GH_GroupObjects
                 float[] Positions = new float[pts.Branches[i].Count * 3];
                 float[] Velocities = new float[pts.Branches[i].Count * 3];
                 float[] InvMasses = new float[pts.Branches[i].Count];
-                int GroupIndex = groupIndices.Branches[i][0].Value;
+                int GroupIndex = groupIndices[i];
 
                 //Fill up masses in case its shorter than positions
                 for (int j = masses.Branches[i].Count; j < pts.Branches[i].Count; j++)
@@ -90,7 +119,7 @@ namespace FlexHopper.GH_GroupObjects
                     InvMasses[j] = (float)(1.0f / masses.Branches[i][j].Value);
                 }
 
-                fluids.Add(new Fluid(Positions, Velocities, InvMasses, groupIndices.Branches[i][0].Value));
+                fluids.Add(new Fluid(Positions, Velocities, InvMasses, groupIndices[i]));
             }
 
             DA.SetDataList(0, fluids);
