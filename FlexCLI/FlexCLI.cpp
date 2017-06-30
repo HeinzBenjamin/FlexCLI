@@ -60,7 +60,7 @@ namespace FlexCLI {
 		NvFlexBuffer* InflatableOverPressures;
 		NvFlexBuffer* InflatableConstraintScales;
 
-
+		///Tells the host upon startup, how much memory it will need and reserves this memory
 		void Allocate() {
 			Particles = NvFlexAllocBuffer(Library, maxParticles, sizeof(float4), eNvFlexBufferHost);
 			Velocities = NvFlexAllocBuffer(Library, maxParticles, sizeof(float3), eNvFlexBufferHost);
@@ -95,7 +95,7 @@ namespace FlexCLI {
 		}
 
 		///<summary>
-		///Performs the following steps for every buffer: Check if pointer is 0; if it is, do nothing. If it is not, free buffer (Flex function) and set pointer to 0.
+		///Performs the following steps for every buffer: Check if pointer is 0; if it is, do nothing. If it is not, free buffer (NvFlex function) and set pointer to 0.
 		///</summary>
 		void Destroy() {
 			if (Particles) {
@@ -223,7 +223,7 @@ namespace FlexCLI {
 
 	SimBuffers Buffers;
 
-
+	///<summary>Create a default Flex engine object. This will initialize a solver, create buffers and set up default NvFlexParams.</summary>
 	Flex::Flex() {
 		if (Solver)
 			Destroy();
@@ -298,14 +298,14 @@ namespace FlexCLI {
 		Solver = NvFlexCreateSolver(Library, maxParticles, maxDiffuseParticles, maxNeighborsPerParticle);
 	}
 
+	///<summary>Returns true if pointers to library and solver objects are valid</summary>
 	bool Flex::IsReady() {
 		return Library && Solver;
 	}
 
 	//Registration methods private and public
 
-	///<summary>
-	///Register different collision geometries wrapped into the FlexCollisionGeometry class.
+	///<summary>Register different collision geometries wrapped into the FlexCollisionGeometry class.</summary>
 	void Flex::SetCollisionGeometry(FlexCollisionGeometry^ flexCollisionGeometry) {
 
 		//PLANES
@@ -466,6 +466,7 @@ namespace FlexCLI {
 			Buffers.Flags, numShapes);
 	}
 
+	///<summary>Register simulation parameters using the FlexCLI.FlexParams class</summary>
 	void Flex::SetParams(FlexParams^ flexParams) {
 		if (flexParams->IsValid()) {
 #pragma region set all
@@ -525,6 +526,7 @@ namespace FlexCLI {
 			throw gcnew Exception("FlexCLI: void Flex::SetParams(FlexParams^ flexParams) ---> Invalid flexParams");
 	}
 
+	///<summary>Register a simulation scenery using the FlexCLI.FlexScene class</summary>
 	void Flex::SetScene(FlexScene^ flexScene) {
 		//TO DO!!!! Create a deep copy of flexScene to avoid changing the original lists in flexScene
 		FlexScene^ s = flexScene;
@@ -577,7 +579,6 @@ namespace FlexCLI {
 
 	}
 
-	//Data Exchange
 	void Flex::SetParticles(List<FlexParticle^>^ flexParticles) {
 		//create buffers
 		n = flexParticles->Count;
