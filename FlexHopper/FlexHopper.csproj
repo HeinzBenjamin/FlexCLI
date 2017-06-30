@@ -76,10 +76,12 @@
     <Compile Include="GH_Getters\GH_GetParticleDescription.cs" />
     <Compile Include="GH_Getters\GH_GetRigids.cs" />
     <Compile Include="GH_Getters\GH_GetSpringSystems.cs" />
+    <Compile Include="GH_Getters\GH_InstantBake.cs" />
     <Compile Include="GH_GroupObjects\ClothFromMesh.cs" />
     <Compile Include="GH_GroupObjects\FluidFromPts.cs" />
     <Compile Include="GH_GroupObjects\InflatableFromCloth.cs" />
     <Compile Include="GH_GroupObjects\ParticlesFromPts.cs" />
+    <Compile Include="GH_GroupObjects\PointFountain.cs" />
     <Compile Include="GH_GroupObjects\RigidFromMesh.cs" />
     <Compile Include="GH_GroupObjects\SpringsFromLines.cs" />
     <Compile Include="GH_Params.cs" />
