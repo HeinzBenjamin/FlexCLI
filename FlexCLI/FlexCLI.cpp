@@ -365,6 +365,8 @@ namespace FlexCLI {
 			// create a triangle mesh
 			NvFlexTriangleMeshId mesh = NvFlexCreateTriangleMesh(Library);
 
+			
+
 			//assign vertex and face lists accordingly
 			float3* vertices = (float3*)NvFlexMap(Buffers.CollisionMeshVertices, 0);
 			int* faces = (int*)NvFlexMap(Buffers.CollisionMeshIndices, 0);

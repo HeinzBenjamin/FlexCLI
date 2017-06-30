@@ -124,6 +124,7 @@ namespace FlexHopper
                 }
                 flex.SetScene(scene);
                 flex.SetSolverOptions(options);
+
             }
             else if (go && flex != null && flex.IsReady())
             {

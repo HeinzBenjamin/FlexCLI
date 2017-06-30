@@ -23,6 +23,7 @@ namespace FlexHopper.GH_Getters
 
         List<Guid> ids = new List<Guid> {};
         Rhino.RhinoDoc doc = Rhino.RhinoDoc.ActiveDoc;
+        int counter = 0;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -44,6 +45,8 @@ namespace FlexHopper.GH_Getters
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
         }
+
+        
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -75,15 +78,27 @@ namespace FlexHopper.GH_Getters
             for(int i = 0; i < objs.Count; i++)
             {
                 GeometryBase gb;
+                Point3d pt;
                 if (ids.Count <= i) ids.Add(Guid.NewGuid());
-                //objs[i].ReferenceID = ids[i];
+
                 att.ObjectId = ids[i];
-                objs[i].CastTo<GeometryBase>(out gb);
-                
-                
-                
-                doc.Objects.Add(gb, att);
+                if (objs[i].CastTo<GeometryBase>(out gb))
+                    doc.Objects.Add(gb, att);
+
+                else if (objs[i].CastTo<Point3d>(out pt))
+                    doc.Objects.AddPoint(pt, att);
+
+                else
+                    throw new Exception("Object nr. " + i + " is not bakeable:\n" + objs[i].ToString());
             }
+
+            if(counter >= 10)
+            {
+                Rhino.RhinoDoc.ActiveDoc.ClearUndoRecords(true);
+                counter = 0;
+            }
+
+            counter++;
         }
 
         /// <summary>
