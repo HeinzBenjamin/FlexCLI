@@ -616,44 +616,6 @@ namespace FlexCLI {
 		NvFlexSetActive(Solver, Buffers.Active, nActive);
 	}
 
-	void Flex::AddParticles(List<FlexParticle^>^ flexParticles) {
-		//create buffers
-		n = flexParticles->Count;
-		int offset = Scene->NumParticles();
-		if (!n) return;
-		int nActive = 0;
-
-		float4* particles = (float4*)NvFlexMap(Buffers.Particles, eNvFlexMapWait);
-		float3* velocities = (float3*)NvFlexMap(Buffers.Velocities, eNvFlexMapWait);
-		int* phases = (int*)NvFlexMap(Buffers.Phases, eNvFlexMapWait);
-		int* actives = (int*)NvFlexMap(Buffers.Active, eNvFlexMapWait);
-
-		for (int i = offset; i < n + offset; i++) {
-			if (flexParticles[i]->IsValid()) {
-				particles[i] = float4(flexParticles[i]->PositionX, flexParticles[i]->PositionY, flexParticles[i]->PositionZ, flexParticles[i]->InverseMass);
-				velocities[i] = float3(flexParticles[i]->VelocityX, flexParticles[i]->VelocityY, flexParticles[i]->VelocityZ);
-				phases[i] = flexParticles[i]->Phase;
-				if (flexParticles[i]->IsActive)
-				{
-					actives[i] = i;
-					nActive++;
-				}
-			}
-			else
-				throw gcnew Exception("FlexCLI: void Flex::SetParticles(array<FlexParticle^>^ flexParticles ---> particle nr. " + i + " is invalid!\n" + flexParticles[i]->ToString());
-		}
-
-		NvFlexUnmap(Buffers.Particles);
-		NvFlexUnmap(Buffers.Velocities);
-		NvFlexUnmap(Buffers.Phases);
-		NvFlexUnmap(Buffers.Active);
-
-		NvFlexSetParticles(Solver, Buffers.Particles, n);
-		NvFlexSetVelocities(Solver, Buffers.Velocities, n);
-		NvFlexSetPhases(Solver, Buffers.Phases, n);
-		NvFlexSetActive(Solver, Buffers.Active, nActive);
-	}
-
 	List<FlexParticle^>^ Flex::GetParticles() {
 
 		List<FlexParticle^>^ parts = gcnew List<FlexParticle^>;

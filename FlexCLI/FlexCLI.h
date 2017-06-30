@@ -44,7 +44,6 @@ namespace FlexCLI {
 		void Destroy();			
 	internal:
 		void SetParticles(List<FlexParticle^>^ flexParticles);
-		void AddParticles(List<FlexParticle^>^ flexParticles);
 		void SetRigids(List<int>^ offsets, List<int>^ indices, List<float>^ restPositions, List<float>^ restNormals, List<float>^ stiffnesses, List<float>^ rotations, List<float>^ translations);
 		void SetSprings(List<int>^ springPairIndices, List<float>^ springLengths, List<float>^ springCoefficients);
 		void SetDynamicTriangles(List<int>^ triangleIndices, List<float>^ normals);
