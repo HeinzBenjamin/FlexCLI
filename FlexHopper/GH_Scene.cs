@@ -31,12 +31,18 @@ namespace FlexHopper
             pManager.AddGenericParameter("Spring Systems", "Springs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Cloth", "Cloths", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Inflatables", "Inflatables", "", GH_ParamAccess.list);
-            pManager[0].Optional = true;
+            pManager[0].Optional = true;            
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
             pManager[5].Optional = true;
+            pManager[0].DataMapping = GH_DataMapping.Flatten;
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
+            pManager[2].DataMapping = GH_DataMapping.Flatten;
+            pManager[3].DataMapping = GH_DataMapping.Flatten;
+            pManager[4].DataMapping = GH_DataMapping.Flatten;
+            pManager[5].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>

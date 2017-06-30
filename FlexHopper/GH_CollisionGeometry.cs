@@ -35,6 +35,11 @@ namespace FlexHopper
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
+            pManager[0].DataMapping = GH_DataMapping.Flatten;
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
+            pManager[2].DataMapping = GH_DataMapping.Flatten;
+            pManager[3].DataMapping = GH_DataMapping.Flatten;
+            pManager[4].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>

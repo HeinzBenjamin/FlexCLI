@@ -43,6 +43,7 @@ namespace FlexHopper
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
+            pManager[2].DataMapping = GH_DataMapping.Flatten;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

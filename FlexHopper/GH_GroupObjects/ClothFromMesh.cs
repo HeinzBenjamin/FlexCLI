@@ -29,8 +29,8 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddMeshParameter("Cloth Meshes", "Mesh", "Connect one or multiple meshes to make cloth.", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities. Either supply one vector per mesh vertex or one vector per mesh. In any case it has to be a tree structure matching the mesh count.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Masses", "Mass", "Either supply one value per mesh vertex or one value per mesh (to be applied on each vertx). In any case it has to be a tree structure matching the mesh count.", GH_ParamAccess.tree);
-            pManager.AddNumberParameter("Stretch Stiffness", "Stretch", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Bending Stiffness", "Bend", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Stretch Stiffness", "Stretch", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 1.0});
+            pManager.AddNumberParameter("Bending Stiffness", "Bend", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 0.0 });
             pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list);
             pManager.AddGenericParameter("Anchors", "Anchors", "As vertex index integers or (x,y,z)-points.", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
@@ -183,7 +183,16 @@ namespace FlexHopper.GH_GroupObjects
                 if (preTension.Count > i)
                     preTens = (float)preTension[i];
 
-                Cloth cloth = new Cloth(positions.ToArray(), velocities.ToArray(), invMasses.ToArray(), triangles, triangleNormals, (float)stretchStiffness[i], (float)bendStiffness[i], preTens, anchorIndices.ToArray(), groupIndexList[i]);
+                float sStiffness = (float)stretchStiffness[0];
+                if (stretchStiffness.Count > i)
+                    sStiffness = (float)stretchStiffness[i];
+
+                float bStiffness = (float)bendStiffness[0];
+                if (bendStiffness.Count > i)
+                    bStiffness = (float)bendStiffness[i];
+
+
+                Cloth cloth = new Cloth(positions.ToArray(), velocities.ToArray(), invMasses.ToArray(), triangles, triangleNormals, sStiffness, bStiffness, preTens, anchorIndices.ToArray(), groupIndexList[i]);
                 cloth.Mesh = mesh;
                 cloths.Add(cloth);
             }
