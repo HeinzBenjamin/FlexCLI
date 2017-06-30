@@ -145,6 +145,10 @@
       <AdditionalDependencies>../FlexCore110/lib/win64/NvFlexReleaseD3D_x64.lib;../FlexCore110/lib/win64/NvFlexExtReleaseD3D_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\FlexCore110\lib\win64;%(AdditionalLibraryDirectories);$(CUDA_PATH)/lib/x64;</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -159,6 +163,10 @@
       <AdditionalDependencies>../FlexCore110/lib/win64/NvFlexReleaseD3D_x64.lib;../FlexCore110/lib/win64/NvFlexExtReleaseD3D_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\FlexCore110\lib\win64;%(AdditionalLibraryDirectories);$(CUDA_PATH)/lib/x64;</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System" />
