@@ -31,11 +31,13 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Masses", "Mass", "Either supply one value per mesh vertex or one value per mesh (to be applied on each vertx). In any case it has to be a tree structure matching the mesh count.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Stretch Stiffness", "Stretch", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 1.0});
             pManager.AddNumberParameter("Bending Stiffness", "Bend", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 0.0 });
-            pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddGenericParameter("Anchors", "Anchors", "As vertex index integers or (x,y,z)-points.", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
+            pManager[3].Optional = true;
+            pManager[4].Optional = true;
             pManager[5].Optional = true;
             pManager[6].Optional = true;
         }
@@ -179,7 +181,7 @@ namespace FlexHopper.GH_GroupObjects
                     }
                 }
 
-                float preTens = 1.0f;
+                float preTens = (float)preTension[0]; ;
                 if (preTension.Count > i)
                     preTens = (float)preTension[i];
 
