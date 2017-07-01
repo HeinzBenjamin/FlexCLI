@@ -25,6 +25,7 @@ namespace FlexHopper
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            #region loots of inputs
             //common params
             pManager.AddVectorParameter("Gravity", "Gravity", "Constant acceleration vector applied to al particles.", GH_ParamAccess.item, new Vector3d(0.0, 0.0, -9.81));
             pManager.AddNumberParameter("Radius", "Radius", "The maximum interaction radius for particles.", GH_ParamAccess.item, 0.15);
@@ -74,12 +75,46 @@ namespace FlexHopper
 
             pManager.AddBooleanParameter("Relaxation Mode", "Relaxation Mode", "How the relaxation is applied inside the solver. If false, the relaxation factor is a fixed multiplier on each constraint's position delta. If true, the relaxation factor is a fixed multiplier on each constraint's delta divided by the particle's constraint count, convergence will be slower but more reliable.", GH_ParamAccess.item, true);
             pManager.AddNumberParameter("Relaxation Factor", "RelaxationFactor", "Control the convergence rate of the parallel solver, default: 1, values greater than 1 may lead to instability.", GH_ParamAccess.item, 1.0);
+
+            pManager[0].Optional = true;
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
+            pManager[4].Optional = true;
+            pManager[5].Optional = true;
+            pManager[6].Optional = true;
+            pManager[7].Optional = true;
+            pManager[8].Optional = true;
+            pManager[9].Optional = true;
+            pManager[10].Optional = true;
+            pManager[11].Optional = true;
+            pManager[12].Optional = true;
+            pManager[13].Optional = true;
+            pManager[14].Optional = true;
+            pManager[15].Optional = true;
+            pManager[16].Optional = true;
+            pManager[17].Optional = true;
+            pManager[18].Optional = true;
+            pManager[19].Optional = true;
+            pManager[20].Optional = true;
+            pManager[21].Optional = true;
+            pManager[22].Optional = true;
+            pManager[23].Optional = true;
+            pManager[24].Optional = true;
+            pManager[25].Optional = true;
+            pManager[26].Optional = true;
+            pManager[27].Optional = true;
+            pManager[28].Optional = true;
+            pManager[29].Optional = true;
+            pManager[30].Optional = true;
+            pManager[31].Optional = true;
+            #endregion
         }
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             ToolStripMenuItem item1 = Menu_AppendItem(menu, "Save Parameters", save_btn_Clicked);
-            item1.ToolTipText = "Save Flex parameters to .xml file.";
+            item1.ToolTipText = "Save Flex parameters to .xml file. This can later be called with the 'FlexParams from .xml file'-component";
         }
 
         private void save_btn_Clicked(object sender, EventArgs e)
