@@ -6,6 +6,7 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 
 using Rhino.Geometry;
+using FlexHopper.Properties;
 
 namespace FlexHopper.GH_GroupObjects
 {
@@ -17,7 +18,7 @@ namespace FlexHopper.GH_GroupObjects
         public ClothFromMesh()
           : base("Cloth From Mesh", "Cloth",
               "",
-              "Flex", "Groups")
+              "Flex", "Composition")
         {
         }
 
@@ -209,9 +210,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.cloth;
             }
         }
 

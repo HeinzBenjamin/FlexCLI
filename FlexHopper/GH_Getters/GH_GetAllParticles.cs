@@ -16,7 +16,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetAllParticles()
           : base("Get All Particles", "AllParts",
               "Get all particles from engine object",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

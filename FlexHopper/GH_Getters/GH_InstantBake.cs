@@ -17,7 +17,7 @@ namespace FlexHopper.GH_Getters
         public GH_InstantBake()
           : base("Instant Bake", "Bake",
               "Bakes a objects and deletes them again when updated, to account for movement.",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

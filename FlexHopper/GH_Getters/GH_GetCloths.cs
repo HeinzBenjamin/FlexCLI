@@ -18,7 +18,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetCloths()
           : base("Get Cloths", "Cloths",
               "",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

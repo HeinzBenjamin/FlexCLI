@@ -19,7 +19,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetParticleDescription()
           : base("Get Particle Description", "Particles",
               "<WARNING: This will slow down simulation significantly>\nRetrieve information about every single particle in the simulation.",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

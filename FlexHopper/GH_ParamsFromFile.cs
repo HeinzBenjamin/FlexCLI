@@ -7,6 +7,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 using FlexCLI;
+using FlexHopper.Properties;
 
 namespace FlexHopper
 {
@@ -22,7 +23,7 @@ namespace FlexHopper
         public GH_ParamsFromFile()
           : base("FlexParameters from .xml file", "Params",
               "Set environmental parameters for your simulation. Link a .xml file (INFO: Auto update doesn't work yet, so if you change you .xml file you'll have to manually recompute the component.",
-              "Flex", "Environment")
+              "Flex", "Setup")
         {
         }
 
@@ -66,19 +67,6 @@ namespace FlexHopper
             }
 
             doc.Load(path);
-
-            /*
-            //TO DO!!!
-            FileSystemWatcher watcher = new FileSystemWatcher(folder.Substring(0, folder.LastIndexOf(@"\") + 1), "*.xml");       
-            
-            // Add event handlers.
-            watcher.Changed += new FileSystemEventHandler((object source, FileSystemEventArgs e) => Rhino.Runtime.HostUtils.InvokeOnMainUiThread(new dUpdate(ExpSol)));
-            watcher.Created += new FileSystemEventHandler((object source, FileSystemEventArgs e) => Rhino.Runtime.HostUtils.InvokeOnMainUiThread(new dUpdate(ExpSol)));
-            watcher.Deleted += new FileSystemEventHandler((object source, FileSystemEventArgs e) => Rhino.Runtime.HostUtils.InvokeOnMainUiThread(new dUpdate(ExpSol)));
-            watcher.Renamed += new RenamedEventHandler((object source, RenamedEventArgs e) => Rhino.Runtime.HostUtils.InvokeOnMainUiThread(new dUpdate(ExpSol)));
-
-            // Begin watching.
-            watcher.EnableRaisingEvents = true;*/
 
 
             foreach (XmlNode node in doc.DocumentElement.ChildNodes)
@@ -255,9 +243,7 @@ namespace FlexHopper
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
-                //return Resources.IconForThisComponent;
-                return null;
+                return Resources.params1;
             }
         }
 

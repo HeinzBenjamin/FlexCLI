@@ -20,7 +20,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetFluids()
           : base("Get Fluids", "Fluids",
               "Get fluid particles from engine object",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

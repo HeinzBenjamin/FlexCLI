@@ -6,6 +6,8 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using FlexCLI;
 
+using FlexHopper.Properties;
+
 namespace FlexHopper
 {
     public class GH_Params : GH_Component
@@ -16,7 +18,7 @@ namespace FlexHopper
         public GH_Params()
           : base("FlexParameters from values", "Parameters",
               "Set environmental parameters for your simulation. Specify them here.",
-              "Flex", "Environment")
+              "Flex", "Setup")
         {
         }
 
@@ -306,9 +308,7 @@ namespace FlexHopper
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.params2;
             }
         }
 

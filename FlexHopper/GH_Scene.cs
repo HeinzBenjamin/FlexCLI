@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 using FlexCLI;
+using FlexHopper.Properties;
 
 namespace FlexHopper
 {
@@ -16,7 +17,7 @@ namespace FlexHopper
         public GH_Scene()
           : base("FlexScene", "Scene",
               "Create Scene",
-              "Flex", "Environment")
+              "Flex", "Setup")
         {
         }
 
@@ -103,9 +104,7 @@ namespace FlexHopper
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.scene;
             }
         }
 

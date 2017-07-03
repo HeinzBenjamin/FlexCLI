@@ -18,7 +18,7 @@ namespace FlexHopper.GH_GroupObjects
         public SpringsFromLines()
           : base("Spring System From Lines", "Springs",
               "",
-              "Flex", "Groups")
+              "Flex", "Composition")
         {
         }
 

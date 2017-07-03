@@ -18,7 +18,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetInflatables()
           : base("Get Inflatables", "Inflatables",
               "",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

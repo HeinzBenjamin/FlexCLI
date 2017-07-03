@@ -14,7 +14,7 @@ namespace FlexHopper.GH_GroupObjects
         public PointFountain()
           : base("Particle Gun", "Gun",
               "Connect a timer to me!",
-              "Flex", "Groups")
+              "Flex", "Composition")
         {
         }
 

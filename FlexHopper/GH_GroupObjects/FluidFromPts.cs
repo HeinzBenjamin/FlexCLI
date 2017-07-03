@@ -6,6 +6,7 @@ using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Data;
 
 using Rhino.Geometry;
+using FlexHopper.Properties;
 
 namespace FlexHopper.GH_GroupObjects
 {
@@ -17,7 +18,7 @@ namespace FlexHopper.GH_GroupObjects
         public FluidFromPts()
           : base("Fluid From Points", "Fluid",
               "",
-              "Flex", "Groups")
+              "Flex", "Composition")
         {
         }
 
@@ -133,9 +134,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.fluid;
             }
         }
 

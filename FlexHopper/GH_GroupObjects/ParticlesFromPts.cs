@@ -7,6 +7,7 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
 using FlexCLI;
+using FlexHopper.Properties;
 
 namespace FlexHopper.GH_GroupObjects
 {
@@ -18,7 +19,7 @@ namespace FlexHopper.GH_GroupObjects
         public ParticlesFromPts()
           : base("Particles From Points", "Particles",
               "",
-              "Flex", "Groups")
+              "Flex", "Composition")
         {
         }
 
@@ -186,9 +187,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.particles;
             }
         }
 

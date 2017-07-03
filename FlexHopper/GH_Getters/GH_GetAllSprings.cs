@@ -16,7 +16,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetAllSprings()
           : base("Get All Springs", "AllSprings",
               "Get all springs from engine object",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 

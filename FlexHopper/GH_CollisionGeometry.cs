@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 using FlexCLI;
+using FlexHopper.Properties;
 
 namespace FlexHopper
 {
@@ -16,7 +17,7 @@ namespace FlexHopper
         public GH_CollisionGeometry()
           : base("FlexCollisionGeometry", "CollGeometry",
               "Specifiy static geometry as colliding objects. Flex supports certain objects (Plane, Sphere and Box) more efficiently. If you want to register such objects as collision geometry, use the respective object input rather than meshes.",
-              "Flex", "Environment")
+              "Flex", "Setup")
         {
         }
 
@@ -213,9 +214,7 @@ namespace FlexHopper
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.collgeom;
             }
         }
 

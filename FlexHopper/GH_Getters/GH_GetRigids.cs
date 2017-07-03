@@ -18,7 +18,7 @@ namespace FlexHopper.GH_Getters
         public GH_GetRigids()
           : base("Get Rigids", "Rigids",
               "Get rigid bodies from engine object",
-              "Flex", "Getters")
+              "Flex", "Decomposition")
         {
         }
 
