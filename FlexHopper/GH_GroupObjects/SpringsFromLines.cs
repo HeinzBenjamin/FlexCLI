@@ -8,6 +8,8 @@ using Grasshopper.Kernel.Types;
 using Rhino;
 using Rhino.Geometry;
 
+using FlexHopper.Properties;
+
 namespace FlexHopper.GH_GroupObjects
 {
     public class SpringsFromLines : GH_Component
@@ -16,7 +18,7 @@ namespace FlexHopper.GH_GroupObjects
         /// Initializes a new instance of the SpringsFromLines class.
         /// </summary>
         public SpringsFromLines()
-          : base("Spring System From Lines", "Springs",
+          : base("Spring System From Lines / Meshes", "Springs",
               "",
               "Flex", "Composition")
         {
@@ -471,9 +473,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.springs;
             }
         }
 

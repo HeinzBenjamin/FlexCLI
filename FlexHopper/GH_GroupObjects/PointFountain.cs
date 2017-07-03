@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
+using FlexHopper.Properties;
+
 namespace FlexHopper.GH_GroupObjects
 {
     public class PointFountain : GH_Component
@@ -12,7 +14,7 @@ namespace FlexHopper.GH_GroupObjects
         /// Initializes a new instance of the PointFountain class.
         /// </summary>
         public PointFountain()
-          : base("Particle Gun", "Gun",
+          : base("Particle Fountain", "Fountain",
               "Connect a timer to me!",
               "Flex", "Composition")
         {
@@ -90,9 +92,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.fountain;
             }
         }
 

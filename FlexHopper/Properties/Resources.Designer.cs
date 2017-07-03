@@ -103,6 +103,16 @@ namespace FlexHopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fountain {
+            get {
+                object obj = ResourceManager.GetObject("fountain", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap inflabales {
             get {
                 object obj = ResourceManager.GetObject("inflabales", resourceCulture);
@@ -166,6 +176,16 @@ namespace FlexHopper.Properties {
         internal static System.Drawing.Bitmap scene {
             get {
                 object obj = ResourceManager.GetObject("scene", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap springs {
+            get {
+                object obj = ResourceManager.GetObject("springs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
