@@ -133,8 +133,35 @@
   <data name="fountain" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fountain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="getAllSprings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getAllSprings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getCloth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getCloth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getFluid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getFluid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getInflatable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getInflatable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getParticles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getParticles.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getRigids" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getRigids.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="getSprings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getSprings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="get_particlesDescriptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\get_particlesDescriptions.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="inflabales" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\inflabales.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="instant_bake" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\instant_bake.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="opts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\opts.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -5,6 +5,7 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using FlexCLI;
+using FlexHopper.Properties;
 
 namespace FlexHopper.GH_Getters
 {
@@ -87,9 +88,7 @@ namespace FlexHopper.GH_Getters
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.getAllSprings;
             }
         }
 

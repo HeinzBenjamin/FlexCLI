@@ -150,6 +150,51 @@
   <ItemGroup>
     <None Include="Resources\springs.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_fluid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_inflatable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_particles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_rigids.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_springs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_cloth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getCloth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getFluid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getInflatable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getParticles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getRigids.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getSprings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getAllSprings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\get_particlesDescriptions.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instant_bake.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
