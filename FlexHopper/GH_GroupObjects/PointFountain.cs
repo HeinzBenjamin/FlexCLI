@@ -68,13 +68,14 @@ namespace FlexHopper.GH_GroupObjects
 
             for(int i = 0; i < count; i++)
             {
-                pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 1.0) * dia * 2.0, (rnd.NextDouble() - 1.0) * dia * 2.0)));
+                pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 0.5) * dia * 2.0, (rnd.NextDouble() - 0.5) * dia * 2.0)));
                 Vector3d vv = oPlane.ZAxis;
                 vv.Unitize();
+                
                 vv *= vel;
                 Vector3d rotA = oPlane.XAxis;
                 rotA.Rotate(rnd.NextDouble() * Math.PI * 2, oPlane.ZAxis);
-                vv.Rotate(((rnd.NextDouble() - 1.0) * 2) * angle, rotA);
+                vv.Rotate(((rnd.NextDouble() - 0.5) * 2) * angle, rotA);
                 vels.Add(vv);
             }
 
