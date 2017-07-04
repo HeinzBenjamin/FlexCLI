@@ -35,7 +35,8 @@ namespace FlexHopper.GH_Getters
             pManager.AddTextParameter("Layer Name", "Layer", "", GH_ParamAccess.item, "Default");
             pManager.AddTextParameter("Material Name", "Mat", "Specify render material by its name in your Rhino material table.", GH_ParamAccess.item, "Default material");
             pManager.AddGenericParameter("Attributes (Optional)", "Att", "Add custom Rhino.DocObjects.ObjectAttributes - object. Either through scripting or by using Horster (or similar). If set this overrides the 'Layer Name' and 'Material Name' input", GH_ParamAccess.item);
-            
+            pManager.AddBooleanParameter("Clear Layer", "ClearL", "<CAUTION!> This deletes all objects on the specified layer without further warning!", GH_ParamAccess.item, false);
+            pManager[0].Optional = true;
             pManager[3].Optional = true;            
         }
 
@@ -60,6 +61,7 @@ namespace FlexHopper.GH_Getters
 
             string layerName = "Default";
             string matName = "Default material";
+            bool clearL = false;
 
             DA.GetData(1, ref layerName);
             DA.GetData(2, ref matName);            
@@ -69,7 +71,7 @@ namespace FlexHopper.GH_Getters
             att.MaterialIndex = doc.Materials.Find(matName, true);
 
             DA.GetData(3, ref att);
-
+            DA.GetData(4, ref clearL);
 
             //Delete objects by GUID
             doc.Objects.Delete(ids, true);
@@ -90,6 +92,13 @@ namespace FlexHopper.GH_Getters
 
                 else
                     throw new Exception("Object nr. " + i + " is not bakeable:\n" + objs[i].ToString());
+            }
+
+            if (clearL)
+            {
+
+                foreach (Rhino.DocObjects.RhinoObject o in doc.Objects.FindByLayer(layerName))
+                    doc.Objects.Delete(o, true);
             }
 
             if(counter >= 10)
