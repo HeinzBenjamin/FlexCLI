@@ -33,10 +33,11 @@ namespace FlexHopper
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("FlexParams", "Params", "Simulation Parameters", GH_ParamAccess.item);
-            pManager.AddGenericParameter("FlexCollisionGeometry", "Colliders", "", GH_ParamAccess.item);
-            pManager.AddGenericParameter("FlexScene", "Scene", "", GH_ParamAccess.list);
-            pManager.AddGenericParameter("FlexSolverOptions", "Options", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Flex Params", "Params", "Simulation Parameters", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Flex Collision Geometry", "Colliders", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Flex Force Fields", "Fields", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Flex Scene", "Scene", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Flex Solver Options", "Options", "", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Lock Mode", "Lock", "If true, the engine won't consider input updates during runtime. If you want to emit scene objects during simulation or check for updates in params, collision geometry or solver options, this must be true.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Reset", "Reset", "", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Go", "Go", "", GH_ParamAccess.item, false);
@@ -45,7 +46,8 @@ namespace FlexHopper
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
-            pManager[2].DataMapping = GH_DataMapping.Flatten;
+            pManager[5].Optional = true;
+            pManager[3].DataMapping = GH_DataMapping.Flatten;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -67,6 +69,7 @@ namespace FlexHopper
         int optionsTimeStamp = 0;
         int paramsTimeStamp = 0;
         List<int> sceneTimeStamps = new List<int>();
+        List<int> forceFieldTimeStamps = new List<int>();
         int geomTimeStamp = 0;
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -74,15 +77,16 @@ namespace FlexHopper
             //CONTINUE HERE!!!!
             FlexParams param = new FlexParams();
             FlexCollisionGeometry geom = new FlexCollisionGeometry();
+            List<FlexForceField> forceFields = new List<FlexForceField>();
             List<FlexScene> scenes = new List<FlexScene>();
             FlexSolverOptions options = new FlexSolverOptions();
             bool reset = false;
             
             bool go = false;
 
-            DA.GetData(4, ref lockMode);
-            DA.GetData(5, ref reset);
-            DA.GetData(6, ref go);            
+            DA.GetData(5, ref lockMode);
+            DA.GetData(6, ref reset);
+            DA.GetData(7, ref go);            
 
             if (reset)
             {
@@ -98,8 +102,9 @@ namespace FlexHopper
                 //retrieve relevant data
                 DA.GetData(0, ref param);
                 DA.GetData(1, ref geom);
-                DA.GetDataList(2, scenes);
-                DA.GetData(3, ref options);
+                DA.GetDataList(2, forceFields);
+                DA.GetDataList(3, scenes);
+                DA.GetData(4, ref options);
 
                 /*for (int i = 0; i < scenes.Count; i++)
                 {
@@ -108,6 +113,7 @@ namespace FlexHopper
                 }*/
 
                 sceneTimeStamps = new List<int>();
+                forceFieldTimeStamps = new List<int>();
 
                 //destroy old Flex instance
                 if(flex != null)
@@ -118,6 +124,9 @@ namespace FlexHopper
                 
                 flex.SetParams(param);
                 flex.SetCollisionGeometry(geom);
+                flex.SetForceFields(forceFields);
+                foreach (FlexForceField f in forceFields)
+                    forceFieldTimeStamps.Add(f.TimeStamp);
                 FlexScene scene = new FlexScene();
                 foreach (FlexScene s in scenes)
                 {
@@ -143,16 +152,35 @@ namespace FlexHopper
 
                 if (!lockMode)
                 {
+                    //update params if timestamp expired
                     DA.GetData(0, ref param);
                     if (param.TimeStamp != paramsTimeStamp)
                         flex.SetParams(param);
 
+                    //update geom if timestamp expired
                     DA.GetData(1, ref geom);
                     if (geom.TimeStamp != geomTimeStamp)
                         flex.SetCollisionGeometry(geom);
 
-                    DA.GetDataList(2, scenes);
-                    
+                    //update forcefields where timestamp expired
+                    DA.GetDataList(2, forceFields);
+                    bool needsUpdate = false;
+                    for (int i = forceFieldTimeStamps.Count; i < forceFields.Count; i++)
+                    {
+                        forceFieldTimeStamps.Add(forceFields[i].TimeStamp);
+                        needsUpdate = true;
+                    }
+                    for (int i = 0; i < forceFields.Count; i++)
+                        if (forceFields[i].TimeStamp != forceFieldTimeStamps[i])
+                        {
+                            needsUpdate = true;
+                            forceFieldTimeStamps[i] = forceFields[i].TimeStamp;
+                        }
+                    if (needsUpdate)
+                        flex.SetForceFields(forceFields);
+
+                    //update scenes where timestamp expired
+                    DA.GetDataList(3, scenes);                    
                     for (int i = sceneTimeStamps.Count; i < scenes.Count; i++)
                         sceneTimeStamps.Add(scenes[i].TimeStamp);
                     for(int i = 0; i < scenes.Count;i++)
@@ -163,7 +191,7 @@ namespace FlexHopper
                         }
                     
 
-                    DA.GetData(3, ref options);
+                    DA.GetData(4, ref options);
                     if (options.TimeStamp != optionsTimeStamp)
                         flex.SetSolverOptions(options);
                 }

@@ -103,7 +103,7 @@ namespace FlexHopper.GH_Getters
         {
             get
             {
-                return Resources.get_particlesDescriptions;
+                return Resources.get_particleDescriptions;
             }
         }
 

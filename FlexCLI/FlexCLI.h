@@ -5,6 +5,7 @@
 //#include <maths.h>
 
 #include "NvFlex.h"
+#include "NvFlexExt.h"
 #include <vector>
 #include <map>
 #include <iostream>
@@ -28,6 +29,7 @@ namespace FlexCLI {
 	ref class FlexParticle;
 	ref struct FlexSolverOptions;
 	ref class FlexUtils;
+	ref class FlexForceField;
 
 	public ref class Flex
 	{
@@ -39,6 +41,7 @@ namespace FlexCLI {
 		void SetParams(FlexParams^ flexParams);
 		void SetScene(FlexScene^ flexScene);
 		void SetSolverOptions(FlexSolverOptions^ flexSolverOptions);
+		void SetForceFields(List<FlexForceField^>^ flexForceFields);
 		bool IsReady();
 		void UpdateSolver();
 		void Destroy();			
@@ -53,6 +56,7 @@ namespace FlexCLI {
 		
 		//called in each update cycle
 		List<FlexParticle^>^ GetParticles();
+		List<FlexForceField^>^ FlexForceFields;
 		void GetRigidTransformations(List<float>^ %translations, List<float>^ %rotations);
 	};
 
@@ -216,8 +220,8 @@ namespace FlexCLI {
 		//Inflatables
 		int GetNumInflatables() { return NumInflatables; };
 		void RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, int groupIndex);
-		List<FlexParticle^>^ GetInflatableParticles();		
-		
+		List<FlexParticle^>^ GetInflatableParticles();
+
 		String^ ToString() override;
 
 		int TimeStamp;
@@ -283,8 +287,20 @@ namespace FlexCLI {
 		int TimeStamp;
 	};
 
-	public ref class FlexUtils {
+	public ref class FlexForceField {
+	public:		
+		FlexForceField(array<float>^ position, float radius, float strength, bool linearFallOff, int mode);
+		float Radius;
+		float Strength;
+		bool LinearFallOff;
+		array<float>^ Position;
+		int Mode;
+		int TimeStamp;
+
+		String^ ToString() override;
+	};
+	/*public ref class FlexUtils {
 	//public:
 		//static void ExtCreateWeldedMeshIndices(array<float>^ vertices, [Out] array<int>^ %uniqueVerts, [Out] array<int>^ %originalToUniqueMapping, float tolerance);
-	};
+	};*/
 }

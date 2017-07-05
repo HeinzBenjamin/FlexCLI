@@ -18,6 +18,7 @@ namespace FlexCLI {
 	NvFlexLibrary* Library;
 	NvFlexSolver* Solver;
 	NvFlexParams Params; 
+	NvFlexExtForceFieldCallback* ForceFieldCallback;
 
 	int n; //The particle count in this very iteration
 	float dt;
@@ -295,7 +296,14 @@ namespace FlexCLI {
 
 		Buffers.Allocate();
 
+		FlexForceFields = gcnew List<FlexForceField^>();
+
 		Solver = NvFlexCreateSolver(Library, maxParticles, maxDiffuseParticles, maxNeighborsPerParticle);
+
+		if (ForceFieldCallback)
+			NvFlexExtDestroyForceFieldCallback(ForceFieldCallback);
+
+		ForceFieldCallback = NvFlexExtCreateForceFieldCallback(Solver);
 	}
 
 	///<summary>Returns true if pointers to library and solver objects are valid</summary>
@@ -579,6 +587,34 @@ namespace FlexCLI {
 		else
 			throw gcnew Exception("Invalid solver options: Both dt and subSteps have to be > 0");
 
+	}
+
+	void Flex::SetForceFields(List<FlexForceField^>^ flexForceFields) {
+
+		std::vector<NvFlexExtForceField> forceFields (flexForceFields->Count);
+		NvFlexExtForceField forceField;
+
+		for (int i = 0; i < flexForceFields->Count; i++) {
+			NvFlexExtForceField ff;
+			ff.mPosition[0] = flexForceFields[i]->Position[0];
+			ff.mPosition[1] = flexForceFields[i]->Position[1];
+			ff.mPosition[2] = flexForceFields[i]->Position[2];
+			ff.mRadius = flexForceFields[i]->Radius;
+			ff.mStrength = flexForceFields[i]->Strength;
+			if (flexForceFields[i]->Mode == 0)
+				ff.mMode = NvFlexExtForceMode::eNvFlexExtModeForce;
+			else if (flexForceFields[i]->Mode == 1)
+				ff.mMode = NvFlexExtForceMode::eNvFlexExtModeImpulse;
+			else if (flexForceFields[i]->Mode == 2)
+				ff.mMode = NvFlexExtForceMode::eNvFlexExtModeVelocityChange;
+			else
+				throw gcnew Exception("void Flex::SetForceFields() ---> Invalid mode! Mode must be either 0, 1 or 2.");
+			ff.mLinearFalloff = flexForceFields[i]->LinearFallOff;		
+			
+			forceFields[i] = ff;
+		}
+
+		NvFlexExtSetForceFields(ForceFieldCallback, &forceFields[0], flexForceFields->Count);
 	}
 
 	void Flex::SetParticles(List<FlexParticle^>^ flexParticles) {

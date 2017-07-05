@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="GH_CollisionGeometry.cs" />
     <Compile Include="GH_Engine.cs" />
+    <Compile Include="GH_ForceField.cs" />
     <Compile Include="GH_Getters\GH_GetAllParticles.cs" />
     <Compile Include="GH_Getters\GH_GetAllSprings.cs" />
     <Compile Include="GH_Getters\GH_GetCloths.cs" />
@@ -97,12 +98,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
-      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
-      <Name>FlexCLI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -122,9 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\opts.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stage_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\scene.png" />
@@ -151,24 +143,6 @@
     <None Include="Resources\springs.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\get_fluid.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\get_inflatable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\get_particles.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\get_rigids.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\get_springs.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\get_cloth.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\getCloth.png" />
   </ItemGroup>
   <ItemGroup>
@@ -190,10 +164,16 @@
     <None Include="Resources\getAllSprings.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\get_particlesDescriptions.png" />
+    <None Include="Resources\instant_bake.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\instant_bake.png" />
+    <None Include="Resources\get_particleDescriptions.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
+      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
+      <Name>FlexCLI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

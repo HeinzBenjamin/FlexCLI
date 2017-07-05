@@ -182,6 +182,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="FlexCLI.cpp" />
     <ClCompile Include="FlexCollisionGeometry.cpp" />
+    <ClCompile Include="FlexForceField.cpp" />
     <ClCompile Include="FlexParams.cpp" />
     <ClCompile Include="FlexParticle.cpp" />
     <ClCompile Include="FlexScene.cpp" />

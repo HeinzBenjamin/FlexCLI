@@ -113,9 +113,9 @@ namespace FlexHopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap get_particlesDescriptions {
+        internal static System.Drawing.Bitmap get_particleDescriptions {
             get {
-                object obj = ResourceManager.GetObject("get_particlesDescriptions", resourceCulture);
+                object obj = ResourceManager.GetObject("get_particleDescriptions", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
