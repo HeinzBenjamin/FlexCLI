@@ -59,7 +59,6 @@ namespace FlexHopper
             //fluid params
             pManager.AddBooleanParameter("Fluid", "Fluid", "If true then particles with group index 0 are considered fluid particles and interact using the position based fluids method.", GH_ParamAccess.item, true);
             pManager.AddNumberParameter("Viscosity", "Viscosity", "Smoothes particle velocities using XSPH viscosity.", GH_ParamAccess.item, 0.0);
-            pManager.AddNumberParameter("Vorticity Confinement", "VorticityConfinement", "Increases vorticity by applying rotational forces to particles.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Cohesion", "Cohesion", "Control how strongly particles hold each other together, default: 0.025, range [0.0, +inf].", GH_ParamAccess.item, 0.025);
             pManager.AddNumberParameter("Surface Tension", "SurfaceTension", "Controls how strongly particles attempt to minimize surface area, default: 0.0, range: [0.0, +inf].", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Solid Pressure", "SolidPressure", "Add pressure from solid surfaces to particles.", GH_ParamAccess.item, 1.0);
@@ -109,7 +108,6 @@ namespace FlexHopper
             pManager[28].Optional = true;
             pManager[29].Optional = true;
             pManager[30].Optional = true;
-            pManager[31].Optional = true;
             #endregion
         }
 
@@ -165,7 +163,6 @@ namespace FlexHopper
                     paramString.Add("<" + nameof(param.StaticFriction) + ">" + param.StaticFriction + "</" + nameof(param.StaticFriction) + ">");
                     paramString.Add("<" + nameof(param.SurfaceTension) + ">" + param.SurfaceTension + "</" + nameof(param.SurfaceTension) + ">");
                     paramString.Add("<" + nameof(param.Viscosity) + ">" + param.Viscosity + "</" + nameof(param.Viscosity) + ">");
-                    paramString.Add("<" + nameof(param.VorticityConfinement) + ">" + param.VorticityConfinement + "</" + nameof(param.VorticityConfinement) + ">");
                     paramString.Add("<" + nameof(param.WindX) + ">" + param.WindX + "</" + nameof(param.WindX) + ">");
                     paramString.Add("<" + nameof(param.WindY) + ">" + param.WindY + "</" + nameof(param.WindY) + ">");
                     paramString.Add("<" + nameof(param.WindZ) + ">" + param.WindZ + "</" + nameof(param.WindZ) + ">");
@@ -209,7 +206,6 @@ namespace FlexHopper
             double dam = 0.0;
             bool flu = true;
             double vis = 0.0;
-            double vor = 0.0;
             double coh = 0.0;
             double suf = 0.0;
             double sop = 0.0;
@@ -243,7 +239,6 @@ namespace FlexHopper
             DA.GetData("Damping", ref dam);
             DA.GetData("Fluid", ref flu);
             DA.GetData("Viscosity", ref vis);
-            DA.GetData("Vorticity Confinement", ref vor);
             DA.GetData("Cohesion", ref coh);
             DA.GetData("Surface Tension", ref suf);
             DA.GetData("Solid Pressure", ref sop);
@@ -279,7 +274,6 @@ namespace FlexHopper
             param.Damping = (float)dam;
             param.Fluid = flu;
             param.Viscosity = (float)vis;
-            param.VorticityConfinement = (float)vor;
             param.Cohesion = (float)coh;
             param.SurfaceTension = (float)suf;
             param.SolidPressure = (float)sop;

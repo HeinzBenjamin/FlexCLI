@@ -27,7 +27,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             pManager.AddPlaneParameter("Origin Plane", "Plane", "", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Particle Count", "Count", "Particles generated per tick", GH_ParamAccess.item, 20);
-            pManager.AddNumberParameter("Diameter", "Dia", "Size of the fountain cross section. Make sure this is larger than the radius parameter in FlexParams.", GH_ParamAccess.item, 1.0);
+            pManager.AddNumberParameter("Diameter", "Dia", "Diameter of the fountain cross section. When using fluids or self colliding particles make sure this is large enough for the repelling particles to fit in the fountain cross section!", GH_ParamAccess.item, 1.0);
             pManager.AddNumberParameter("Angle", "Angle", "{0.0 to 2*Pi}", GH_ParamAccess.item, Math.PI * 0.16666667);
             pManager.AddNumberParameter("Velocity", "Vel", "", GH_ParamAccess.item, 1.0);
             pManager[1].Optional = true;
