@@ -500,6 +500,10 @@ namespace FlexCLI {
 		return this;
 	};
 
+	bool FlexScene::IsValid() {
+		return Particles->Count > 0;
+	}
+
 	String^ FlexScene::ToString() {
 		String^ str = gcnew String("FlexScene:");
 		str += "\nNumParticles = " + NumParticles();

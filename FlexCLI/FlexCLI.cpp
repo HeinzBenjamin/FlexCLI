@@ -540,7 +540,8 @@ namespace FlexCLI {
 	void Flex::SetScene(FlexScene^ flexScene) {
 		//TO DO!!!! Create a deep copy of flexScene to avoid changing the original lists in flexScene
 		FlexScene^ s = flexScene;
-
+		if (!s->IsValid())
+			return;
 		//set particles
 		SetParticles(s->Particles);
 
@@ -591,6 +592,8 @@ namespace FlexCLI {
 
 	void Flex::SetForceFields(List<FlexForceField^>^ flexForceFields) {
 
+		if (flexForceFields->Count == 0)
+			return;
 		std::vector<NvFlexExtForceField> forceFields (flexForceFields->Count);
 		NvFlexExtForceField forceField;
 

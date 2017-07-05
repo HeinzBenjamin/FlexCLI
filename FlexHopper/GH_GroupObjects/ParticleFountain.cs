@@ -8,12 +8,12 @@ using FlexHopper.Properties;
 
 namespace FlexHopper.GH_GroupObjects
 {
-    public class PointFountain : GH_Component
+    public class ParticleFountain : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the PointFountain class.
         /// </summary>
-        public PointFountain()
+        public ParticleFountain()
           : base("Particle Fountain", "Fountain",
               "Connect a timer to me!",
               "Flex", "Composition")
@@ -27,8 +27,8 @@ namespace FlexHopper.GH_GroupObjects
         {
             pManager.AddPlaneParameter("Origin Plane", "Plane", "", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Particle Count", "Count", "Particles generated per tick", GH_ParamAccess.item, 20);
-            pManager.AddNumberParameter("Diameter", "Dia", "Size of the fountain cross section", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Angle", "Angle", "{0.0 to 2*Pi}", GH_ParamAccess.item, Math.PI * 0.5);
+            pManager.AddNumberParameter("Diameter", "Dia", "Size of the fountain cross section. Make sure this is larger than the radius parameter in FlexParams.", GH_ParamAccess.item, 1.0);
+            pManager.AddNumberParameter("Angle", "Angle", "{0.0 to 2*Pi}", GH_ParamAccess.item, Math.PI * 0.16666667);
             pManager.AddNumberParameter("Velocity", "Vel", "", GH_ParamAccess.item, 1.0);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
@@ -68,7 +68,7 @@ namespace FlexHopper.GH_GroupObjects
 
             for(int i = 0; i < count; i++)
             {
-                pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 0.5) * dia * 2.0, (rnd.NextDouble() - 0.5) * dia * 2.0)));
+                pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 0.5) * dia, (rnd.NextDouble() - 0.5) * dia)));
                 Vector3d vv = oPlane.ZAxis;
                 vv.Unitize();
                 
