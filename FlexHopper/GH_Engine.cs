@@ -53,13 +53,14 @@ namespace FlexHopper
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Flex Object", "Flex", "", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Information", "Info", "Information about solver:\n1. Iteration nr.\n2. Total time [ms]\n3. Time of last tick [ms]\n4. Average time per tick [ms]\n5. Time percentage consumed only by solver update [%]\n6. Time percentage consumed by everything other than solver update [%]", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Information", "Info", "Information about solver:\n1. Iteration nr.\n2. Total time [ms]\n3. Time of last tick (without internal solver) [ms]\n4. Average time per tick [ms] (without internal solver)\n5. Time of last tick [ms] (internal solver only)\n6. Average time per tick [ms] (internal solver only)", GH_ParamAccess.list);
         }
 
 
         Flex flex = null;
         int counter = 0;
         Stopwatch sw = new Stopwatch();
+        Stopwatch sw2 = new Stopwatch();
         long totalTimeMs = 0;
         long totalUpdateTimeMs = 0;      //total time only consumed by this very engine component
         List<string> outInfo = new List<string>();
@@ -75,7 +76,8 @@ namespace FlexHopper
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //CONTINUE HERE!!!!
-            Task UpdateTask = new Task(() => Update());
+            Task<int> UpdateTask = new Task<int>(() => Update());
+            
 
             FlexParams param = new FlexParams();
             FlexCollisionGeometry geom = new FlexCollisionGeometry();
@@ -141,17 +143,6 @@ namespace FlexHopper
             }
             else if (go && flex != null && flex.IsReady())
             {
-                //Add timing info
-                outInfo = new List<string>();
-                counter++;
-                outInfo.Add(counter.ToString());
-                long currentTickTimeMs = sw.ElapsedMilliseconds;
-                totalTimeMs += currentTickTimeMs;                
-                outInfo.Add(totalTimeMs.ToString());
-                outInfo.Add(currentTickTimeMs.ToString());
-                double avTotalTickTime = ((double)totalTimeMs / (double)counter);
-                outInfo.Add(avTotalTickTime.ToString());
-
                 if (!lockMode)
                 {
                     //update params if timestamp expired
@@ -198,18 +189,30 @@ namespace FlexHopper
                         flex.SetSolverOptions(options);
                 }
 
-                //Actually Update the solver
-                
+                //Add timing info
+                outInfo = new List<string>();
+                counter++;
+                outInfo.Add(counter.ToString());
+                long currentTickTimeMs = sw.ElapsedMilliseconds;
                 sw.Restart();
-                UpdateTask.Start();
-                //flex.UpdateSolver();                
+                totalTimeMs += currentTickTimeMs;
+                outInfo.Add(totalTimeMs.ToString());
+                outInfo.Add(currentTickTimeMs.ToString());
+                float avTotalTickTime = ((float)totalTimeMs / (float)counter);
+                outInfo.Add(avTotalTickTime.ToString());
 
-                //Add more timing info
-                long postUpdateTick = sw.ElapsedMilliseconds;
-                totalUpdateTimeMs += postUpdateTick;
-                double ratUpdateTime = (((double)totalUpdateTimeMs / (double)counter) / avTotalTickTime) * 100.0;
+                //start update
+                UpdateTask.Start();
+
+                //Add solver timing info
+                int tickTimeSolver = UpdateTask.Result;
+                totalUpdateTimeMs += tickTimeSolver;
+                float ratUpdateTime = ((float)totalUpdateTimeMs / (float)counter);
+                outInfo.Add(tickTimeSolver.ToString());
                 outInfo.Add(ratUpdateTime.ToString());
-                outInfo.Add((100.0 - ratUpdateTime).ToString());
+
+                                
+                
             }
 
             if (go)
@@ -224,9 +227,11 @@ namespace FlexHopper
         }
         
 
-        void Update()
+        int Update()
         {
+            sw2.Restart();
             flex.UpdateSolver();
+            return (int)sw2.ElapsedMilliseconds;
         }
 
         protected override System.Drawing.Bitmap Icon
