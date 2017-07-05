@@ -103,6 +103,16 @@ namespace FlexHopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap forceField {
+            get {
+                object obj = ResourceManager.GetObject("forceField", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fountain {
             get {
                 object obj = ResourceManager.GetObject("fountain", resourceCulture);
