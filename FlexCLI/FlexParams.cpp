@@ -34,7 +34,7 @@ namespace FlexCLI {
 		CollisionDistance = 0.0f;
 		PlasticThreshold = 0.0f;
 		PlasticCreep = 0.0f;
-		Fluid = false;
+		Fluid = true;
 		SleepThreshold = 0.0f;
 		ShockPropagation = 0.0f;
 		Restitution = 0.0f;

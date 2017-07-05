@@ -265,7 +265,7 @@ namespace FlexCLI {
 		Params.collisionDistance = 0.0f;
 		Params.plasticThreshold = 0.0f;
 		Params.plasticCreep = 0.0f;
-		Params.fluid = false;
+		Params.fluid = true;
 		Params.sleepThreshold = 0.0f;
 		Params.shockPropagation = 0.0f;
 		Params.restitution = 0.0f;
