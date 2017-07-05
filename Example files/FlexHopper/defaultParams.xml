@@ -23,7 +23,7 @@
    <CollisionDistance> 0.075 </CollisionDistance>
    <PlasticThreshold> 0.0 </PlasticThreshold>
    <PlasticCreep> 0.0 </PlasticCreep>
-   <Fluid> false </Fluid>
+   <Fluid> true </Fluid>
    <SleepThreshold> 0.0 </SleepThreshold>
    <ShockPropagation> 0.0 </ShockPropagation>
    <Restitution> 0.0 </Restitution>
