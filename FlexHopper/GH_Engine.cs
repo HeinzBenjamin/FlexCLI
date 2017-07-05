@@ -75,6 +75,8 @@ namespace FlexHopper
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //CONTINUE HERE!!!!
+            Task UpdateTask = new Task(() => Update());
+
             FlexParams param = new FlexParams();
             FlexCollisionGeometry geom = new FlexCollisionGeometry();
             List<FlexForceField> forceFields = new List<FlexForceField>();
@@ -197,8 +199,10 @@ namespace FlexHopper
                 }
 
                 //Actually Update the solver
+                
                 sw.Restart();
-                flex.UpdateSolver();                
+                UpdateTask.Start();
+                //flex.UpdateSolver();                
 
                 //Add more timing info
                 long postUpdateTick = sw.ElapsedMilliseconds;
@@ -208,8 +212,11 @@ namespace FlexHopper
                 outInfo.Add((100.0 - ratUpdateTime).ToString());
             }
 
-            if(go)
+            if (go)
                 ExpireSolution(true);
+
+            else if (flex != null && UpdateTask.Status == TaskStatus.Running)
+                UpdateTask.Dispose();
 
             if(flex != null)
                 DA.SetData(0, flex);
@@ -217,10 +224,11 @@ namespace FlexHopper
         }
         
 
+        void Update()
+        {
+            flex.UpdateSolver();
+        }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
         protected override System.Drawing.Bitmap Icon
         {
             get
