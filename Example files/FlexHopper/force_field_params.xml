@@ -34,6 +34,6 @@
    <SolidPressure> 1.0 </SolidPressure>
    <Adhesion> 0.0 </Adhesion>
    <Cohesion> 0.025 </Cohesion>
-   <SurfaceTension> 0.000000001 </SurfaceTension>
+   <SurfaceTension> 0.0000000001 </SurfaceTension>
    <Buoyancy> 1.0 </Buoyancy>
 </params>
