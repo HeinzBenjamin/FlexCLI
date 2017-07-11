@@ -32,18 +32,21 @@ namespace FlexHopper
             pManager.AddGenericParameter("Spring Systems", "Springs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Cloth", "Cloths", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Inflatables", "Inflatables", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles combined. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
             pManager[0].Optional = true;            
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
             pManager[5].Optional = true;
+            pManager[6].Optional = true;
             pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager[1].DataMapping = GH_DataMapping.Flatten;
             pManager[2].DataMapping = GH_DataMapping.Flatten;
             pManager[3].DataMapping = GH_DataMapping.Flatten;
             pManager[4].DataMapping = GH_DataMapping.Flatten;
             pManager[5].DataMapping = GH_DataMapping.Flatten;
+            pManager[6].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>
@@ -68,6 +71,7 @@ namespace FlexHopper
             List<SpringSystem> springs = new List<SpringSystem>();
             List<Cloth> cloths = new List<Cloth>();
             List<Inflatable> inflatables = new List<Inflatable>();
+            List<ConstraintSystem> constraints = new List<ConstraintSystem>();
 
             DA.GetDataList(0, parts);
             DA.GetDataList(1, fluids);
@@ -75,11 +79,13 @@ namespace FlexHopper
             DA.GetDataList(3, springs);
             DA.GetDataList(4, cloths);
             DA.GetDataList(5, inflatables);
+            DA.GetDataList(6, constraints);
 
 
             foreach (FlexParticle p in parts)
                 scene.RegisterParticles(new float[3] { p.PositionX, p.PositionY, p.PositionZ }, new float[3] { p.VelocityX, p.VelocityY, p.VelocityZ }, new float[1] { p.InverseMass }, p.IsFluid, p.SelfCollision, p.GroupIndex);
-            foreach(Fluid f in fluids)
+
+            foreach (Fluid f in fluids)
                 scene.RegisterFluid(f.Positions, f.Velocities, f.InvMasses, f.GroupIndex);
 
             foreach(RigidBody r in rigids)
@@ -93,6 +99,9 @@ namespace FlexHopper
 
             foreach (Inflatable inf in inflatables)
                 scene.RegisterInflatable(inf.Positions, inf.Velocities, inf.InvMasses, inf.Triangles, inf.TriangleNormals, inf.StretchStiffness, inf.BendingStiffness, inf.PreTensionFactor, inf.RestVolume, inf.OverPressure, inf.ConstraintScale, inf.AnchorIndices, inf.GroupIndex);
+
+            foreach (ConstraintSystem c in constraints)
+                scene.RegisterCustomConstraints(c.AnchorIndices, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals);
 
             DA.SetData(0, scene);
         }

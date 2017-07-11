@@ -63,6 +63,16 @@ namespace FlexHopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap anchor {
+            get {
+                object obj = ResourceManager.GetObject("anchor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cloth {
             get {
                 object obj = ResourceManager.GetObject("cloth", resourceCulture);
@@ -283,9 +293,29 @@ namespace FlexHopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap spring_constraints {
+            get {
+                object obj = ResourceManager.GetObject("spring_constraints", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap springs {
             get {
                 object obj = ResourceManager.GetObject("springs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap triangles {
+            get {
+                object obj = ResourceManager.GetObject("triangles", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -78,11 +78,14 @@
     <Compile Include="GH_Getters\GH_GetSpringSystems.cs" />
     <Compile Include="GH_Getters\GH_InstantBake.cs" />
     <Compile Include="GH_GroupObjects\ClothFromMesh.cs" />
+    <Compile Include="GH_GroupObjects\ConstraintTriangle.cs" />
     <Compile Include="GH_GroupObjects\FluidFromPts.cs" />
+    <Compile Include="GH_GroupObjects\ConstraintAnchors.cs" />
     <Compile Include="GH_GroupObjects\InflatableFromCloth.cs" />
     <Compile Include="GH_GroupObjects\ParticlesFromPts.cs" />
     <Compile Include="GH_GroupObjects\ParticleFountain.cs" />
     <Compile Include="GH_GroupObjects\RigidFromMesh.cs" />
+    <Compile Include="GH_GroupObjects\ConstraintSprings.cs" />
     <Compile Include="GH_GroupObjects\SpringsFromLines.cs" />
     <Compile Include="GH_Params.cs" />
     <Compile Include="GH_ParamsFromFile.cs" />
@@ -177,6 +180,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\forceField.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anchor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\triangles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spring_constraints.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

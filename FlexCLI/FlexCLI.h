@@ -222,6 +222,8 @@ namespace FlexCLI {
 		void RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, int groupIndex);
 		List<FlexParticle^>^ GetInflatableParticles();
 
+		void RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals);
+
 		bool IsValid();
 		String^ ToString() override;
 		int TimeStamp;

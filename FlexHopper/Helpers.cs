@@ -287,6 +287,83 @@ namespace FlexHopper
         }
     }
 
+    class ConstraintSystem
+    {
+        public int[] AnchorIndices;
+        public int[] SpringPairIndices;
+        public float[] SpringTargetLengths;
+        public float[] SpringStiffnesses;
+        public int[] TriangleIndices;
+        public float[] TriangleNormals;
+
+        public ConstraintSystem()
+        {
+            AnchorIndices = new int[0];
+            SpringPairIndices = new int[0];
+            SpringTargetLengths = new float[0];
+            SpringStiffnesses = new float[0];
+            TriangleIndices = new int[0];
+            TriangleNormals = new float[0];
+        }
+
+        public ConstraintSystem(int[] anchorIndices)
+        {
+            AnchorIndices = anchorIndices;
+            SpringPairIndices = new int[0];
+            SpringTargetLengths = new float[0];
+            SpringStiffnesses = new float[0];
+            TriangleIndices = new int[0];
+            TriangleNormals = new float[0];
+        }
+
+        public ConstraintSystem(int[] springPairIndices, float[] springTargetLengths, float[] springStiffnesses)
+        {
+            if (springPairIndices.Length / 2 != springTargetLengths.Length || springPairIndices.Length / 2 != springStiffnesses.Length)
+                throw new Exception("Spring constraint input is invalid!");
+            AnchorIndices = new int[0];
+            SpringPairIndices = springPairIndices;
+            SpringTargetLengths = springTargetLengths;
+            SpringStiffnesses = springStiffnesses;
+            TriangleIndices = new int[0];
+            TriangleNormals = new float[0];
+        }
+
+        public ConstraintSystem(int[] triangleIndices, float[] triangleNormals = null)
+        {
+            AnchorIndices = new int[0];
+            SpringPairIndices = new int[0];
+            SpringTargetLengths = new float[0];
+            SpringStiffnesses = new float[0];
+            TriangleIndices = triangleIndices;
+            if (triangleNormals == null || triangleNormals.Length != triangleIndices.Length)
+            {
+                triangleNormals = new float[triangleIndices.Length];
+                for (int i = 0; i < triangleNormals.Length; i++)
+                    triangleNormals[i] = 0.0f;
+            }
+            TriangleNormals = triangleNormals;
+        }
+
+        public override string ToString()
+        {
+            string str = "Constraint System";
+            str += "\nAnchorIndices = {";
+            foreach (int i in AnchorIndices)
+                str += " " + i + ",";
+            str += "}";
+            str += "\nSpringPairs = {";
+            for(int i = 0; i < SpringPairIndices.Length / 2; i++)
+                str += " " + SpringPairIndices[2 * i] + " - " + SpringPairIndices[2 * i + 1] + ",";
+            str += "}";
+            str += "\nTriangles = {";
+            for (int i = 0; i < TriangleIndices.Length / 3; i++)
+                str += " " + TriangleIndices[3 * i] + " - " + TriangleIndices[3 * i + 1] + " - " + TriangleIndices[3 * i + 2] + ",";
+            str += "}";
+
+            return str;
+        }
+    }
+
     class Util
     {
         public static float SquareDistance(Point3d pointA, Point3d pointB)

@@ -157,7 +157,7 @@ namespace FlexCLI {
 		RigidTranslations->Add(0.0f);
 		RigidTranslations->Add(0.0f);
 
-		//NumRigids++;
+		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
 	///<summary>
@@ -388,6 +388,53 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
+	void FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
+	#pragma region check everything
+		if (triangleIndices->Length % 3 != 0 || springPairIndices->Length % 2 != 0 || springPairIndices->Length / 2 != springStiffnesses->Length || springPairIndices->Length / 2 != springDefaultLengths->Length)
+			throw gcnew Exception("void FlexScene::RegisterCustomConstraints(...) ---> Invalid input!");
+	#pragma endregion
+
+		for (int i = 0; i < anchorIndices->Length; i++)
+			Particles[anchorIndices[i]]->InverseMass = 0.0f;
+		
+		if (springPairIndices->Length > 0) {
+			SpringPairIndices->AddRange(springPairIndices);
+			SpringStiffnesses->AddRange(springStiffnesses);
+
+
+			for (int i = 0; i < springDefaultLengths->Length; i++) {
+				if (springDefaultLengths[i] >= 0.0f)
+					SpringLengths->Add(springDefaultLengths[i]);
+				else {
+					float distX = Particles[springPairIndices[2 * i]]->PositionX - Particles[springPairIndices[2 * i + 1]]->PositionX;
+					float distY = Particles[springPairIndices[2 * i]]->PositionY - Particles[springPairIndices[2 * i + 1]]->PositionY;
+					float distZ = Particles[springPairIndices[2 * i]]->PositionZ - Particles[springPairIndices[2 * i + 1]]->PositionZ;
+
+					float distance = Math::Sqrt(distX * distX + distY * distY + distZ * distZ);
+
+					SpringLengths->Add(distance * springDefaultLengths[i] * -1.0);
+				}
+			}
+
+			for (int i = 0; i < springPairIndices->Length; i++) {
+				for each(int j in SpringIndices) {
+					if (j == springPairIndices[i])
+						goto breakLoop;
+				}
+				SpringIndices->Add(springPairIndices[i]);
+			breakLoop:
+				int doNothing = 0;
+			}
+		}
+
+		if (triangleIndices->Length > 0) {
+			DynamicTriangleIndices->AddRange(triangleIndices);
+			DynamicTriangleNormals->AddRange(triangleNormals);
+		}
+
+		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
+	}
+
 	List<FlexParticle^>^ FlexScene::GetAllParticles() {
 		return Particles;
 	}
@@ -461,7 +508,7 @@ namespace FlexCLI {
 		for each(int ri in newScene->RigidIndices)
 			this->RigidIndices->Add(ri + oldNumParticles); {}
 		for each(int ro in newScene->RigidOffsets)
-			if (ro != 0 || oldRigidOffset == 0)
+			if (ro != 0 || oldRigidOffset == 0 && !(ro == 0 && oldRigidOffset == 0))
 				this->RigidOffsets->Add(ro + oldRigidOffset);
 		this->RigidRotations->AddRange(newScene->RigidRotations);
 		this->RigidTranslations->AddRange(newScene->RigidTranslations);

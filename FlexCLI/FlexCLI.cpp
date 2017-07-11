@@ -542,6 +542,9 @@ namespace FlexCLI {
 		FlexScene^ s = flexScene;
 		if (!s->IsValid())
 			return;
+
+		if (s->Particles->Count > maxParticles)
+			throw gcnew Exception("void Flex::SetScene() ---> Exceeded maximum particle count. Contact benjamin@felbrich.com for more info.");
 		//set particles
 		SetParticles(s->Particles);
 
