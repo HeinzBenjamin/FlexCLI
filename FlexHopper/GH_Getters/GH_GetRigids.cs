@@ -29,8 +29,8 @@ namespace FlexHopper.GH_Getters
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Flex Object", "Flex", "", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("n", "n", "You can chose to only draw rigids every nth solver iteration. This significantly speeds up internal simulation at the cost of less smooth appearance.", GH_ParamAccess.item, 1);            
-            pManager.AddBooleanParameter("Deformable", "Def", "If off, meshes are displayed as if they were 100% stiff. this is faster but neglects all kinds of deformation.", GH_ParamAccess.item, true);
+            pManager.AddIntegerParameter("n", "n", "You can chose to only draw rigids every nth solver iteration. This significantly speeds up internal simulation at the cost of less smooth appearance.", GH_ParamAccess.item, 1);
+            pManager.AddBooleanParameter("Deformable", "Def", "If off, meshes are displayed as if they were 100% stiff. This neglects all kinds of deformation to gain speed. Set to true only, if you have few meshes with few particles!", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Draw Particles", "DrawP", "Optionally not drawing particles can speed up the simulation.", GH_ParamAccess.item, true);
             pManager.AddGenericParameter("Rigids", "Rigids", "Optionally connect the original 'Rigid from Mesh' component to draw meshes.", GH_ParamAccess.list);
             pManager[4].Optional = true;
@@ -64,7 +64,7 @@ namespace FlexHopper.GH_Getters
             DA.GetData(1, ref n);
             n = Math.Max(1, n);
 
-            
+
 
             if (counter % n == 0)
             {
@@ -85,7 +85,7 @@ namespace FlexHopper.GH_Getters
                     pts = new GH_Structure<GH_Point>();
                     vel = new GH_Structure<GH_Vector>();
                     if (drawPts)
-                    {                        
+                    {
                         part = flex.Scene.GetRigidParticles();
 
                         foreach (FlexParticle fp in part)
@@ -103,20 +103,20 @@ namespace FlexHopper.GH_Getters
                         if (deformable && part.Count == 0)
                             part = flex.Scene.GetRigidParticles();
                         int rb_Index = 0;
-                        
+
                         foreach (RigidBody r in rigids)
                         {
                             if (r.HasMesh())
                             {
                                 GH_Mesh m = new GH_Mesh(r.Mesh.DuplicateMesh());
                                 if (deformable)
-                                {                                    
-                                    for(int i = 0; i < m.Value.Vertices.Count; i++)
+                                {
+                                    for (int i = 0; i < m.Value.Vertices.Count; i++)
                                     {
                                         m.Value.Vertices[i] = new Point3f(part[rb_Index].PositionX, part[rb_Index].PositionY, part[rb_Index].PositionZ);
 
                                         rb_Index++;
-                                    }                                    
+                                    }
                                 }
                                 else
                                 {
@@ -134,14 +134,14 @@ namespace FlexHopper.GH_Getters
                                     rb_Index++;
                                 }
                                 msh.Append(m, new GH_Path(r.GroupIndex));
-                                
+
                             }
                         }
-                            
+
                     }
                     else
                         msh = new GH_Structure<GH_Mesh>();
-                    
+
                 }
             }
 
