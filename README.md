@@ -1,6 +1,7 @@
 # FlexCLI
 FlexCLI is a C++/CLI interface to access the physics engine NVidia Flex from .Net environment. Furthermore the repository contains an implementation of FlexCLI in the form of a plugin for Grasshopper in Rhino3D. This plugin - called FlexHopper - provides the possiblity to use NVidia Flex physics simulation - via the FlexCLI pipeline - in the CAD software Rhino.<p>
-FlexCLI is built against NVidia Flex release 1.1.0. NVidia Flex is patented property of NVidia. The author of this repository did not create or change NVidia proprietary code, nor is he the author of any code contained in the folder FlexCore110. The author of this repository is the author of FlexCLI and FlexHopper only, both of which can found in the respective folders. The code inside the directory FlexCore110 is part of the NVidia Flex engine and included here to make FlexCLI usable. For more information on NVidia Flex go here: https://developer.nvidia.com/nvidia-flex-110-released<p><p>
+FlexCLI is built against NVidia Flex release 1.1.0. NVidia Flex is patented property of NVidia. The author of this repository did not create or change NVidia proprietary code, nor is he the author of NVidia Flex. The author of this repository is the author of FlexCLI and FlexHopper only, both of which can found in the respective folders.<br>
+For more information on NVidia Flex go here: https://developer.nvidia.com/flex and https://developer.nvidia.com/nvidia-flex-110-released<p><p>
 
 FlexCLI runs on x64 architectures only. It was built against .Net 4.5.2<p>
 Flex.sln contains FlexCLI and FlexHopper. Upon building the solution all compiled files will be stored inside "bin". Make sure to set your compiler platform to x64.<p>
