@@ -7,8 +7,8 @@ Flex.sln contains FlexCLI and FlexHopper. Upon building the solution all relevan
 FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
 
 # INSTRUCTIONS
-Please follow the instructions under one of these options
-<i> I want to use FlexHopper</i>
+Please follow the instructions under one of these options:<p>
+<i><b> I want to use FlexHopper</b></i>
 
 > I want to write code using FlexCLI
 
