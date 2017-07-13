@@ -18,4 +18,6 @@ Please follow the instructions under one of these options:<p>
 2. Put all of these files into one directory of your choice
 3. Start using FlexCLI.dll
 
-> I want to compile and edit everything
+<i><b>Option 3: Download, compile and edit this repo</i></b>
+1. git clone https://github.com/HeinzBenjamin/FlexCLI
+2. Follow the instructions inside FlexCore110/include/README.md
