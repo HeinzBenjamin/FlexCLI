@@ -10,3 +10,7 @@ http://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/flex/_static/api
 
 <NvFlexExt.h><br>
 https://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/flex/_static/api/_nv_flex_ext_8h_source.html
+
+
+More info:<br>
+https://developer.nvidia.com/flex
