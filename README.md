@@ -23,3 +23,4 @@ Please follow the instructions under one of these options:<p>
 <i><b>Option 3: Download, compile and edit this repo</i></b>
 1. git clone https://github.com/HeinzBenjamin/FlexCLI
 2. Follow the instructions inside FlexCore110/include/README.md
+3. Open Flex.sln -> Go to FlexHopper -> Properties -> Build Events -> Post-build event command line: Remove the last two lines
