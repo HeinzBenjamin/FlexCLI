@@ -8,7 +8,7 @@ FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
 
 # INSTRUCTIONS
 Please follow the instructions under one of these options
-> I want to use FlexHopper
+<i> I want to use FlexHopper</i>
 
 > I want to write code using FlexCLI
 
