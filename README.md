@@ -8,8 +8,11 @@ FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
 
 # INSTRUCTIONS
 Please follow the instructions under one of these options:<p>
-<i><b> I want to use FlexHopper</b></i>
-
+<i><b>Option 1: Only use FlexHopper</b></i>
+1. Go to the /bin folder in this repository and download all the files in there<br>
+2. Put all of these files into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
+3. Start up Rhino and start using FlexHopper<br>
+4. Check out the exmaple files in Example files/Flexhopper<p>
 > I want to write code using FlexCLI
 
 > I want to compile and edit everything
