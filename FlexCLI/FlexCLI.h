@@ -1,9 +1,6 @@
 // FlexCLI.h
 #pragma once
 
-//#include <types.h>
-//#include <maths.h>
-
 #include "NvFlex.h"
 #include "NvFlexExt.h"
 #include <vector>
@@ -290,7 +287,7 @@ namespace FlexCLI {
 	};
 
 	public ref class FlexForceField {
-	public:		
+	public:
 		FlexForceField(array<float>^ position, float radius, float strength, bool linearFallOff, int mode);
 		float Radius;
 		float Strength;
@@ -301,8 +298,4 @@ namespace FlexCLI {
 
 		String^ ToString() override;
 	};
-	/*public ref class FlexUtils {
-	//public:
-		//static void ExtCreateWeldedMeshIndices(array<float>^ vertices, [Out] array<int>^ %uniqueVerts, [Out] array<int>^ %originalToUniqueMapping, float tolerance);
-	};*/
 }
