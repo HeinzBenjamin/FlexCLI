@@ -5,3 +5,11 @@ FlexCLI is built against NVidia Flex release 1.1.0. NVidia Flex is patented prop
 FlexCLI runs on x64 architectures only.<p>
 Flex.sln contains FlexCLI and FlexHopper. Upon building the solution all relevant files will be stored inside "bin". Make sure to set your compiler to x64.<p>
 FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
+
+# INSTRUCTIONS
+Please follow the instructions under one of these options
+> I want to use FlexHopper
+
+> I want to write code using FlexCLI
+
+> I want to compile and edit everything
