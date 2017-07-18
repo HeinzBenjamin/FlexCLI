@@ -29,24 +29,16 @@ namespace FlexHopper
             pManager.AddGenericParameter("Particles", "Particles", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Fluids", "Fluids", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Rigid Bodies", "Rigids", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Soft Bodies", "Softs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Spring Systems", "Springs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Cloth", "Cloths", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Inflatables", "Inflatables", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles combined. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
-            pManager[0].Optional = true;            
-            pManager[1].Optional = true;
-            pManager[2].Optional = true;
-            pManager[3].Optional = true;
-            pManager[4].Optional = true;
-            pManager[5].Optional = true;
-            pManager[6].Optional = true;
-            pManager[0].DataMapping = GH_DataMapping.Flatten;
-            pManager[1].DataMapping = GH_DataMapping.Flatten;
-            pManager[2].DataMapping = GH_DataMapping.Flatten;
-            pManager[3].DataMapping = GH_DataMapping.Flatten;
-            pManager[4].DataMapping = GH_DataMapping.Flatten;
-            pManager[5].DataMapping = GH_DataMapping.Flatten;
-            pManager[6].DataMapping = GH_DataMapping.Flatten;
+            for(int i = 0; i < 8; i++)
+            {
+                pManager[i].Optional = true;
+                pManager[i].DataMapping = GH_DataMapping.Flatten;
+            }
         }
 
         /// <summary>
@@ -68,6 +60,7 @@ namespace FlexHopper
             List<FlexParticle> parts = new List<FlexParticle>();
             List<Fluid> fluids = new List<Fluid>();
             List<RigidBody> rigids = new List<RigidBody>();
+            List<SoftBody> softs = new List<SoftBody>();
             List<SpringSystem> springs = new List<SpringSystem>();
             List<Cloth> cloths = new List<Cloth>();
             List<Inflatable> inflatables = new List<Inflatable>();
@@ -76,10 +69,11 @@ namespace FlexHopper
             DA.GetDataList(0, parts);
             DA.GetDataList(1, fluids);
             DA.GetDataList(2, rigids);
-            DA.GetDataList(3, springs);
-            DA.GetDataList(4, cloths);
-            DA.GetDataList(5, inflatables);
-            DA.GetDataList(6, constraints);
+            DA.GetDataList(3, softs);
+            DA.GetDataList(4, springs);
+            DA.GetDataList(5, cloths);
+            DA.GetDataList(6, inflatables);
+            DA.GetDataList(7, constraints);
 
 
             foreach (FlexParticle p in parts)
@@ -91,6 +85,9 @@ namespace FlexHopper
             foreach(RigidBody r in rigids)
                 scene.RegisterRigidBody(r.Vertices, r.VertexNormals, r.Velocity, r.InvMasses, r.Stiffness, r.GroupIndex);
 
+            foreach (SoftBody s in softs)
+                scene.RegisterSoftBody(s.Vertices, s.Triangles, s.SoftParams[0], s.SoftParams[1], s.SoftParams[2], s.SoftParams[3], s.SoftParams[4], s.SoftParams[5], s.SoftParams[6], s.SoftParams[7], s.SoftParams[8], s.AnchorIndices, s.GroupIndex);
+
             foreach (SpringSystem s in springs)
                 s.SpringOffset = scene.RegisterSpringSystem(s.Positions, s.Velocities, s.InvMasses, s.SpringPairIndices, s.Stiffnesses, s.TargetLengths, s.SelfCollision, s.AnchorIndices, s.GroupIndex);
 
@@ -101,7 +98,7 @@ namespace FlexHopper
                 scene.RegisterInflatable(inf.Positions, inf.Velocities, inf.InvMasses, inf.Triangles, inf.TriangleNormals, inf.StretchStiffness, inf.BendingStiffness, inf.PreTensionFactor, inf.RestVolume, inf.OverPressure, inf.ConstraintScale, inf.AnchorIndices, inf.GroupIndex);
 
             foreach (ConstraintSystem c in constraints)
-                scene.RegisterCustomConstraints(c.AnchorIndices, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals);
+                scene.RegisterCustomConstraints(c.AnchorIndices, c.ShapeMatchingIndices, c.ShapeStiffness, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals);
 
             DA.SetData(0, scene);
         }

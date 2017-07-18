@@ -85,6 +85,34 @@ namespace FlexHopper
         }
     }
 
+    class SoftBody
+    {
+        public float[] Vertices;
+        public int[] Triangles;
+        public float[] Velocities;
+        public float[] InvMasses;
+        public float[] SoftParams;
+        public int[] AnchorIndices;
+        public int GroupIndex;
+        public Mesh Mesh;
+
+        public SoftBody(float[] vertices, float[] velocities, float[] invMass, int[] triangles, float[] softParams, int[] anchorIndices, int groupIndex)
+        {
+            Vertices = vertices;
+            Triangles = triangles;
+            Velocities = velocities;
+            InvMasses = invMass;
+            SoftParams = softParams;
+            AnchorIndices = anchorIndices;
+            GroupIndex = groupIndex;
+        }
+
+        public bool HasMesh()
+        {
+            return Mesh != null && Mesh.IsValid;
+        }
+    }
+
     class SpringSystem
     {
         public float[] Positions;
@@ -295,10 +323,14 @@ namespace FlexHopper
         public float[] SpringStiffnesses;
         public int[] TriangleIndices;
         public float[] TriangleNormals;
+        public int[] ShapeMatchingIndices;
+        public float ShapeStiffness;
 
         public ConstraintSystem()
         {
             AnchorIndices = new int[0];
+            ShapeMatchingIndices = new int[0];
+            ShapeStiffness = 0.0f;
             SpringPairIndices = new int[0];
             SpringTargetLengths = new float[0];
             SpringStiffnesses = new float[0];
@@ -309,6 +341,8 @@ namespace FlexHopper
         public ConstraintSystem(int[] anchorIndices)
         {
             AnchorIndices = anchorIndices;
+            ShapeMatchingIndices = new int[0];
+            ShapeStiffness = 0.0f;
             SpringPairIndices = new int[0];
             SpringTargetLengths = new float[0];
             SpringStiffnesses = new float[0];
@@ -316,11 +350,27 @@ namespace FlexHopper
             TriangleNormals = new float[0];
         }
 
+        public ConstraintSystem(int[] shapeMatchingIndices, float shapeStiffness)
+        {
+            AnchorIndices = new int[0];
+            ShapeMatchingIndices = shapeMatchingIndices;
+            ShapeStiffness = shapeStiffness;
+            SpringPairIndices = new int[0];
+            SpringTargetLengths = new float[0];
+            SpringStiffnesses = new float[0];
+            TriangleIndices = new int[0];
+            TriangleNormals = new float[0];
+            ShapeMatchingIndices = shapeMatchingIndices;
+            ShapeStiffness = shapeStiffness;
+        }
+
         public ConstraintSystem(int[] springPairIndices, float[] springTargetLengths, float[] springStiffnesses)
         {
             if (springPairIndices.Length / 2 != springTargetLengths.Length || springPairIndices.Length / 2 != springStiffnesses.Length)
                 throw new Exception("Spring constraint input is invalid!");
             AnchorIndices = new int[0];
+            ShapeMatchingIndices = new int[0];
+            ShapeStiffness = 0.0f;
             SpringPairIndices = springPairIndices;
             SpringTargetLengths = springTargetLengths;
             SpringStiffnesses = springStiffnesses;
@@ -331,6 +381,8 @@ namespace FlexHopper
         public ConstraintSystem(int[] triangleIndices, float[] triangleNormals = null)
         {
             AnchorIndices = new int[0];
+            ShapeMatchingIndices = new int[0];
+            ShapeStiffness = 0.0f;
             SpringPairIndices = new int[0];
             SpringTargetLengths = new float[0];
             SpringStiffnesses = new float[0];
@@ -349,6 +401,10 @@ namespace FlexHopper
             string str = "Constraint System";
             str += "\nAnchorIndices = {";
             foreach (int i in AnchorIndices)
+                str += " " + i + ",";
+            str += "}";
+            str += "\nShapeMatching = {";
+            foreach (int i in ShapeMatchingIndices)
                 str += " " + i + ",";
             str += "}";
             str += "\nSpringPairs = {";
@@ -371,6 +427,35 @@ namespace FlexHopper
             float[] pA = new float[3] { (float)pointA.X, (float)pointA.Y, (float)pointA.Z };
             float[] pB = new float[3] { (float)pointB.X, (float)pointB.Y, (float)pointB.Z };
             return (pA[0] - pB[0]) * (pA[0] - pB[0]) + (pA[1] - pB[1]) * (pA[1] - pB[1]) + (pA[2] - pB[2]) * (pA[2] - pB[2]);
+        }
+
+        public static int[] AnchorIndicesFromIGH_Goo(List<IGH_Goo> anchorGoo, Point3d[] vertices, float anchorThreshold)
+        {
+            List<int> anchorIndices = new List<int>();
+
+            foreach (IGH_Goo ao in anchorGoo)
+            {
+                string aS = "";
+                int aI = -1;
+                Point3d aP;
+                if (ao.CastTo<Point3d>(out aP))
+                {
+                    for (int j = 0; j < vertices.Length; j++)
+                    {
+                        if (Util.SquareDistance(vertices[j], aP) < anchorThreshold * anchorThreshold)
+                        {
+                            anchorIndices.Add(j);
+                            break;
+                        }
+                    }
+                }
+                else if (ao.CastTo<int>(out aI))
+                    anchorIndices.Add(aI);
+                else if (ao.CastTo<string>(out aS))
+                    anchorIndices.Add(int.Parse(aS));
+            }
+
+            return anchorIndices.ToArray();
         }
     }
 }

@@ -40,6 +40,69 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
+	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, int groupIndex) {
+		
+		if (asset->numParticles == 0)
+			return;
+
+		int oldNumParticles = NumParticles();
+		List<FlexParticle^>^ parts = gcnew List<FlexParticle^>();
+
+		for (int i = 0; i < asset->numParticles; i++) {
+			array<float>^ pos = gcnew array<float>{asset->particles[4 * i], asset->particles[4 * i + 1], asset->particles[4 * i + 2]};
+			array<float>^ vel = gcnew array<float>{0.0f, 0.0f, 0.0f};
+			float im = asset->particles[4 * i + 3];
+			parts->Add(gcnew FlexParticle(pos, vel, im, NvFlexMakePhase(groupIndex, 0), true));
+		}
+		Particles->AddRange(parts);
+
+
+		for (int i = 0; i < asset->numSprings; i++) {
+			SpringPairIndices->Add(asset->springIndices[2 * i] + oldNumParticles);
+			SpringPairIndices->Add(asset->springIndices[2 * i + 1] + oldNumParticles);
+			SpringStiffnesses->Add(asset->springCoefficients[i]);
+			SpringLengths->Add(asset->springRestLengths[i]);
+			SpringIndices->Add(i + oldNumParticles);
+		}
+
+		array<int>^ shapeIndices = gcnew array<int>(asset->numShapeIndices);
+		for (int i = 0; i < asset->numShapeIndices; i++) {
+			shapeIndices[i] = asset->shapeIndices[i];
+			RigidIndices->Add(asset->shapeIndices[i] + oldNumParticles);
+		}
+		array<int>^ shapeOffsets = gcnew array<int>(asset->numShapes+1);
+		shapeOffsets[0] = 0;
+		int oldOffsetPosition = RigidOffsets[RigidOffsets->Count - 1];
+		array<float>^ shapeCoefficients = gcnew array<float>(asset->numShapes);
+		for (int i = 0; i < asset->numShapes; i++) {
+			shapeOffsets[i+1] = asset->shapeOffsets[i];
+			RigidOffsets->Add(asset->shapeOffsets[i] + oldOffsetPosition);
+			RigidStiffnesses->Add(asset->shapeCoefficients[i]);
+			RigidTranslations->Add(0.0f);
+			RigidTranslations->Add(0.0f);
+			RigidTranslations->Add(0.0f);
+			RigidRotations->Add(0.0f);
+			RigidRotations->Add(0.0f);
+			RigidRotations->Add(0.0f);
+			RigidRotations->Add(0.0f);
+			shapeCoefficients[i] = asset->shapeCoefficients[i];
+			for (int j = shapeOffsets[i]; j < shapeOffsets[i + 1]; j++)
+			{
+				RigidRestPositions->Add(parts[shapeIndices[j]]->PositionX - asset->shapeCenters[3 * i]);
+				RigidRestPositions->Add(parts[shapeIndices[j]]->PositionY - asset->shapeCenters[3 * i + 1]);
+				RigidRestPositions->Add(parts[shapeIndices[j]]->PositionZ - asset->shapeCenters[3 * i + 2]);
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(-0.5f);
+			}
+		}
+
+
+		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
+
+	}
+
 	void FlexScene::RegisterParticles(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, bool isFluid, bool selfCollision, int groupIndex) {
 		if (positions->Length % 3 != 0 || velocities->Length % 3 != 0 || positions->Length != velocities->Length || positions->Length / 3 != inverseMasses->Length)
 			throw gcnew Exception("FlexScene::RegisterParticles(...) Invalid input!");
@@ -158,6 +221,28 @@ namespace FlexCLI {
 		RigidTranslations->Add(0.0f);
 
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
+	}
+
+	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, array<int>^ anchorIndices, int groupIndex) {
+		#pragma region check everthing
+		for each (FlexParticle^ p in Particles)
+			if (p->GroupIndex == groupIndex)
+				throw gcnew Exception("Soft Body: Group index " + groupIndex + " already in use!");
+		if (vertices->Length == 0 || vertices->Length % 3 != 0 || triangles->Length % 3 != 0)
+			throw gcnew Exception("FlexScene::RegisterSoftBody(...) Invalid input!");
+		#pragma endregion
+
+		std::vector<float> vt(vertices->Length);
+		for (int i = 0; i < vertices->Length; i++) vt[i] = vertices[i];
+
+		std::vector<int> tr(triangles->Length);
+		for (int i = 0; i < triangles->Length; i++) tr[i] = triangles[i];
+
+		NvFlexExtAsset* asset = NvFlexExtCreateSoftFromMesh(&vt[0], vertices->Length / 3, &tr[0], triangles->Length, particleSpacing, volumeSampling, surfaceSampling, clusterSpacing, clusterRadius, clusterStiffness, linkRadius, linkStiffness, globalStiffness);
+
+		RegisterAsset(asset, groupIndex);
+
+		NvFlexExtDestroyAsset(asset);
 	}
 
 	///<summary>
@@ -388,7 +473,7 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
+	void FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ shapeMatchingIndices, float shapeStiffness, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
 	#pragma region check everything
 		if (triangleIndices->Length % 3 != 0 || springPairIndices->Length % 2 != 0 || springPairIndices->Length / 2 != springStiffnesses->Length || springPairIndices->Length / 2 != springDefaultLengths->Length)
 			throw gcnew Exception("void FlexScene::RegisterCustomConstraints(...) ---> Invalid input!");
@@ -397,6 +482,39 @@ namespace FlexCLI {
 		for (int i = 0; i < anchorIndices->Length; i++)
 			Particles[anchorIndices[i]]->InverseMass = 0.0f;
 		
+		if (shapeMatchingIndices->Length > 0) {
+			RigidIndices->AddRange(shapeMatchingIndices);
+			float3 massCenter = float3( 0.0f,0.0f,0.0f );
+			for (int i = 0; i < shapeMatchingIndices->Length; i++) {
+				massCenter.x += Particles[shapeMatchingIndices[i]]->PositionX;
+				massCenter.y += Particles[shapeMatchingIndices[i]]->PositionY;
+				massCenter.z += Particles[shapeMatchingIndices[i]]->PositionZ;				
+			}
+			massCenter.x /= shapeMatchingIndices->Length;
+			massCenter.y /= shapeMatchingIndices->Length;
+			massCenter.z /= shapeMatchingIndices->Length;
+
+			for (int i = 0; i < shapeMatchingIndices->Length; i++) {
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(0.0f);
+				RigidRestNormals->Add(-0.5f);
+				RigidRestPositions->Add(Particles[shapeMatchingIndices[i]]->PositionX - massCenter.x);
+				RigidRestPositions->Add(Particles[shapeMatchingIndices[i]]->PositionY - massCenter.y);
+				RigidRestPositions->Add(Particles[shapeMatchingIndices[i]]->PositionZ - massCenter.z);
+				RigidRotations->Add(0.0f);
+				RigidRotations->Add(0.0f);
+				RigidRotations->Add(0.0f);
+				RigidRotations->Add(0.0f);
+				RigidTranslations->Add(0.0f);
+				RigidTranslations->Add(0.0f);
+				RigidTranslations->Add(0.0f);
+			}
+
+			RigidOffsets->Add(shapeMatchingIndices->Length + RigidOffsets[RigidOffsets->Count - 1]);
+			RigidStiffnesses->Add(shapeStiffness);
+		}
+
 		if (springPairIndices->Length > 0) {
 			SpringPairIndices->AddRange(springPairIndices);
 			SpringStiffnesses->AddRange(springStiffnesses);
