@@ -37,6 +37,7 @@ namespace FlexHopper
             pManager.AddGenericParameter("Flex Collision Geometry", "Colliders", "", GH_ParamAccess.item);
             pManager.AddGenericParameter("Flex Force Fields", "Fields", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Flex Scene", "Scene", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Global Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles from all scenes combined to allow for constraints involving particles from multiple scenes. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
             pManager.AddGenericParameter("Flex Solver Options", "Options", "", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Lock Mode", "Lock", "If true, the engine won't consider input updates during runtime. If you want to emit scene objects during simulation or check for updates in params, collision geometry or solver options, this must be true.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Reset", "Reset", "", GH_ParamAccess.item, false);
@@ -47,7 +48,9 @@ namespace FlexHopper
             pManager[3].Optional = true;
             pManager[4].Optional = true;
             pManager[5].Optional = true;
+            pManager[6].Optional = true;
             pManager[3].DataMapping = GH_DataMapping.Flatten;
+            pManager[4].DataMapping = GH_DataMapping.Flatten;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -70,6 +73,7 @@ namespace FlexHopper
         int optionsTimeStamp = 0;
         int paramsTimeStamp = 0;
         List<int> sceneTimeStamps = new List<int>();
+        List<int> constraintTimeStamps = new List<int>();
         List<int> forceFieldTimeStamps = new List<int>();
         int geomTimeStamp = 0;
 
@@ -83,14 +87,15 @@ namespace FlexHopper
             FlexCollisionGeometry geom = new FlexCollisionGeometry();
             List<FlexForceField> forceFields = new List<FlexForceField>();
             List<FlexScene> scenes = new List<FlexScene>();
+            List<ConstraintSystem> constraints = new List<ConstraintSystem>();
             FlexSolverOptions options = new FlexSolverOptions();
             bool reset = false;
             
             bool go = false;
 
-            DA.GetData(5, ref lockMode);
-            DA.GetData(6, ref reset);
-            DA.GetData(7, ref go);            
+            DA.GetData(6, ref lockMode);
+            DA.GetData(7, ref reset);
+            DA.GetData(8, ref go);            
 
             if (reset)
             {
@@ -108,7 +113,8 @@ namespace FlexHopper
                 DA.GetData(1, ref geom);
                 DA.GetDataList(2, forceFields);
                 DA.GetDataList(3, scenes);
-                DA.GetData(4, ref options);
+                DA.GetDataList(4, constraints);
+                DA.GetData(5, ref options);
 
                 /*for (int i = 0; i < scenes.Count; i++)
                 {
@@ -136,6 +142,11 @@ namespace FlexHopper
                 {
                     scene.AppendScene(s);
                     sceneTimeStamps.Add(s.TimeStamp);
+                }
+                foreach(ConstraintSystem c in constraints)
+                {
+                    scene.RegisterCustomConstraints(c.AnchorIndices, c.ShapeMatchingIndices, c.ShapeStiffness, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals);
+                    constraintTimeStamps.Add(c.TimeStamp);
                 }
                 flex.SetScene(scene);
                 flex.SetSolverOptions(options);
@@ -182,9 +193,24 @@ namespace FlexHopper
                             flex.SetScene(flex.Scene.AppendScene(scenes[i]));
                             sceneTimeStamps[i] = scenes[i].TimeStamp;                            
                         }
-                    
 
-                    DA.GetData(4, ref options);
+                    DA.GetDataList(4, constraints);
+                    for (int i = constraintTimeStamps.Count; i < constraints.Count; i++)
+                        constraintTimeStamps.Add(constraints[i].TimeStamp);
+                    for (int i = 0; i < constraints.Count; i++)
+                    {
+                        ConstraintSystem c = constraints[i];
+                        if (c.TimeStamp != constraintTimeStamps[i])
+                        {
+                            if (!flex.Scene.RegisterCustomConstraints(c.AnchorIndices, c.ShapeMatchingIndices, c.ShapeStiffness, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals))
+                                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Custom constraint indices exceeded particle count. No constraints applied!");
+                            flex.SetScene(flex.Scene);
+                            constraintTimeStamps[i] = constraints[i].TimeStamp;
+                        }
+                    }
+
+
+                    DA.GetData(5, ref options);
                     if (options.TimeStamp != optionsTimeStamp)
                         flex.SetSolverOptions(options);
                 }

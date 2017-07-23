@@ -325,6 +325,7 @@ namespace FlexHopper
         public float[] TriangleNormals;
         public int[] ShapeMatchingIndices;
         public float ShapeStiffness;
+        public int TimeStamp;   //needs a time stamp because it can be added to the global scene.
 
         public ConstraintSystem()
         {
@@ -336,6 +337,7 @@ namespace FlexHopper
             SpringStiffnesses = new float[0];
             TriangleIndices = new int[0];
             TriangleNormals = new float[0];
+            TimeStamp = 0;
         }
 
         public ConstraintSystem(int[] anchorIndices)
@@ -348,6 +350,7 @@ namespace FlexHopper
             SpringStiffnesses = new float[0];
             TriangleIndices = new int[0];
             TriangleNormals = new float[0];
+            TimeStamp = TimeStamp = System.DateTime.Now.Minute * 60000 + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Millisecond;
         }
 
         public ConstraintSystem(int[] shapeMatchingIndices, float shapeStiffness)
@@ -362,6 +365,7 @@ namespace FlexHopper
             TriangleNormals = new float[0];
             ShapeMatchingIndices = shapeMatchingIndices;
             ShapeStiffness = shapeStiffness;
+            TimeStamp = TimeStamp = System.DateTime.Now.Minute * 60000 + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Millisecond;
         }
 
         public ConstraintSystem(int[] springPairIndices, float[] springTargetLengths, float[] springStiffnesses)
@@ -376,6 +380,7 @@ namespace FlexHopper
             SpringStiffnesses = springStiffnesses;
             TriangleIndices = new int[0];
             TriangleNormals = new float[0];
+            TimeStamp = TimeStamp = System.DateTime.Now.Minute * 60000 + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Millisecond;
         }
 
         public ConstraintSystem(int[] triangleIndices, float[] triangleNormals = null)
@@ -394,6 +399,7 @@ namespace FlexHopper
                     triangleNormals[i] = 0.0f;
             }
             TriangleNormals = triangleNormals;
+            TimeStamp = TimeStamp = System.DateTime.Now.Minute * 60000 + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Millisecond;
         }
 
         public override string ToString()
@@ -415,6 +421,7 @@ namespace FlexHopper
             for (int i = 0; i < TriangleIndices.Length / 3; i++)
                 str += " " + TriangleIndices[3 * i] + " - " + TriangleIndices[3 * i + 1] + " - " + TriangleIndices[3 * i + 2] + ",";
             str += "}";
+            str += "\nTimeStamp = " + TimeStamp.ToString();
 
             return str;
         }

@@ -473,14 +473,29 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ shapeMatchingIndices, float shapeStiffness, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
+	///<returns>Return true, if registration was succesful. Returns false, if constraint indices exceeded particle count.</returns>
+	bool FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ shapeMatchingIndices, float shapeStiffness, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
 	#pragma region check everything
 		if (triangleIndices->Length % 3 != 0 || springPairIndices->Length % 2 != 0 || springPairIndices->Length / 2 != springStiffnesses->Length || springPairIndices->Length / 2 != springDefaultLengths->Length)
 			throw gcnew Exception("void FlexScene::RegisterCustomConstraints(...) ---> Invalid input!");
-	#pragma endregion
+
+		for each(int i in anchorIndices)
+			if (i >= Particles->Count)
+				return false;
+		for each(int i in shapeMatchingIndices)
+			if (i >= Particles->Count)
+				return false;
+		for each(int i in springPairIndices)
+			if (i >= Particles->Count)
+				return false;
+		for each(int i in triangleIndices)
+			if (i >= Particles->Count)
+				return false;
+		#pragma endregion
+
 
 		for (int i = 0; i < anchorIndices->Length; i++)
-			Particles[anchorIndices[i]]->InverseMass = 0.0f;
+				Particles[anchorIndices[i]]->InverseMass = 0.0f;
 		
 		if (shapeMatchingIndices->Length > 0) {
 			RigidIndices->AddRange(shapeMatchingIndices);
@@ -551,6 +566,7 @@ namespace FlexCLI {
 		}
 
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
+		return true;
 	}
 
 	List<FlexParticle^>^ FlexScene::GetAllParticles() {

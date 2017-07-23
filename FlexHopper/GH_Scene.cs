@@ -33,7 +33,7 @@ namespace FlexHopper
             pManager.AddGenericParameter("Spring Systems", "Springs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Cloth", "Cloths", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Inflatables", "Inflatables", "", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles combined. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Local Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles combined in this specific scene. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
             for(int i = 0; i < 8; i++)
             {
                 pManager[i].Optional = true;
