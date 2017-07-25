@@ -4,16 +4,18 @@
 
 namespace FlexCLI {
 
-	int maxParticles = 65536 * 4;
+	int multiplicator = 8;
+
+	int maxParticles = 65536 * multiplicator;
 	int maxDiffuseParticles = 0;
-	int maxNeighborsPerParticle = INT8_MAX;
-	int maxCollisionShapeNumber = 65536 * 4;		//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
+	int maxNeighborsPerParticle = INT8_MAX * multiplicator;
+	int maxCollisionShapeNumber = 65536;			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
 	int maxCollisionMeshVertexCount = 65536;		//max nr. of vertices in a single collision mesh
 	int maxCollisionMeshIndexCount = 65536;			//max nr. of faces in a single collision mesh
 	int maxCollisionConvexShapePlanes = 65536;		//max nr. of faces in all convex collision meshes combined
-	int maxRigidBodies = 65536;						//max nr. of rigid bodies
-	int maxSprings = 65536 * 4;						//max nr. of springs
-	int maxDynamicTriangles = 65536;				//needed for cloth
+	int maxRigidBodies = 65536 * multiplicator;		//max nr. of rigid bodies
+	int maxSprings = 65536 * multiplicator;			//max nr. of springs
+	int maxDynamicTriangles = 65536 * multiplicator;//needed for cloth
 
 	NvFlexLibrary* Library;
 	NvFlexSolver* Solver;
