@@ -43,15 +43,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RhinoCommon">
+      <HintPath>..\..\..\..\98 Code Tools\DLLs\RhinoCommon.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="RhinoCommon">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Rhinoceros 5.0\System\rhinocommon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Grasshopper">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Common Files\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\Grasshopper.dll</HintPath>
@@ -208,8 +206,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-Copy "$(TargetDir)FlexCLI.dll" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexCLI.dll"
-Copy "$(TargetPath)" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexHopper.gha"
+Copy "$(TargetDir)FlexCLI.dll" "C:\Users\Benjamin\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexCLI.dll"
+Copy "$(TargetPath)" "C:\Users\Benjamin\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexHopper.gha"
 Erase "$(TargetDir)$(ProjectName).dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug32|AnyCPU' ">
