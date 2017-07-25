@@ -25,3 +25,9 @@ Please follow the instructions under one of these options:<p>
 1. git clone https://github.com/HeinzBenjamin/FlexCLI
 2. Follow the instructions inside FlexCore110/include/README.md
 3. Open Flex.sln -> Go to FlexHopper -> Properties -> Build Events -> Post-build event command line: Remove the last two lines
+
+#NOTES
+FlexHopper only works with Rhino 64bit.<br>
+If you receive an error message saying that FlexCLI or one of its dependecies could not be loaded, make sure to:<br>
+A. Unlock all FlexHopper related files in the Library folder (Right click -> properties)
+B. Start up "Rhinoceros 5 (64bit)" and not the default "Rhinoceros 5"
