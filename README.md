@@ -12,7 +12,7 @@ Please follow the instructions under one of these options:<p>
 <i><b>Option 1: Only use FlexHopper</b></i>
 1. Download whole package ("Clone or Download" > "Download ZIP")<br>
   2. Extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
-3. Unlock all files (Right click -> Properties -> Tick Unlock)
+3. If necessary, unlock all files (Right click -> Properties -> Tick Unlock)
 4. Start up Rhino and start using FlexHopper<br>
 5. Check out the exmaple files in Example files/Flexhopper
 
