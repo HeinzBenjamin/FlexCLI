@@ -105,7 +105,10 @@ namespace FlexHopper.GH_GroupObjects
 
             for (int i = 0; i < meshes.Count; i++)
             {
-                Mesh mesh = meshes[i];
+                Mesh mesh = new Mesh();
+                mesh.Vertices.AddVertices(meshes[i].Vertices);
+                mesh.Faces.AddFaces(meshes[i].Faces);
+
                 GH_Path path = new GH_Path(i);
                 List<float> positions = new List<float>();
                 List<float> velocities = new List<float>();

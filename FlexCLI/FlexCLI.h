@@ -30,7 +30,7 @@ namespace FlexCLI {
 
 	public ref class Flex
 	{
-	// public: Everything accessible from FlexHopper
+		// public: Everything accessible from FlexHopper
 	public:
 		Flex();
 		FlexScene^ Scene;
@@ -41,7 +41,7 @@ namespace FlexCLI {
 		void SetForceFields(List<FlexForceField^>^ flexForceFields);
 		bool IsReady();
 		void UpdateSolver();
-		void Destroy();			
+		void Destroy();
 	internal:
 		void SetParticles(List<FlexParticle^>^ flexParticles);
 		void SetRigids(List<int>^ offsets, List<int>^ indices, List<float>^ restPositions, List<float>^ restNormals, List<float>^ stiffnesses, List<float>^ rotations, List<float>^ translations);
@@ -50,7 +50,7 @@ namespace FlexCLI {
 		void SetInflatables(List<int>^ startIndices, List<int>^ numTriangles, List<float>^ restVolumes, List<float>^ overPressures, List<float>^ constraintScales);
 
 		static void DecomposePhase(int phase, int %groupIndex, bool %selfCollision, bool %fluid);
-		
+
 		//called in each update cycle
 		List<FlexParticle^>^ GetParticles();
 		List<FlexForceField^>^ FlexForceFields;
@@ -59,8 +59,8 @@ namespace FlexCLI {
 
 	// Structs as they is presented to .Net
 	public ref class FlexParams {
-	public:		
-		#pragma region fields
+	public:
+#pragma region fields
 		int NumIterations;					//!< Number of solver iterations to perform per-substep
 
 		float GravityX;						//!< Constant acceleration applied to all particles
@@ -130,9 +130,9 @@ namespace FlexCLI {
 
 		int RelaxationMode;					//!< How the relaxation is applied inside the solver; 0: global, 1: local
 		float RelaxationFactor;				//!< Control the convergence rate of the parallel solver, default: 1, values greater than 1 may lead to instability
-		#pragma endregion
+#pragma endregion
 		FlexParams();
-		bool IsValid();	
+		bool IsValid();
 		String^ ToString() override;
 		int TimeStamp;
 	};
@@ -140,7 +140,7 @@ namespace FlexCLI {
 	public ref class FlexCollisionGeometry {
 	public:
 		FlexCollisionGeometry();
-		
+
 		void AddPlane(float A, float B, float C, float D);
 		void AddSphere(array<float>^ centerXYZ, float radius);
 		void AddBox(array<float>^ halfHeightsXYZ, array<float>^ centerXYZ, array<float>^ rotationABCD);
@@ -149,36 +149,36 @@ namespace FlexCLI {
 		void AddConvexShape(array<float>^ planes, array<float>^ upperLimit, array<float>^ lowerLimit);
 
 		int TimeStamp;
-	internal:		
-		    //Plane properties
-			array<float>^ Planes;
-			int NumPlanes;
-			//Sphere properties
-			int NumSpheres;
-			List<float>^ SphereCenters;
-			List<float>^ SphereRadii;
-			//Box properties
-			int NumBoxes;
-			List<float>^ BoxHalfHeights;
-			List<float>^ BoxCenters;
-			List<float>^ BoxRotations;
-			//Capsule properties
-			int NumCapsules;
-			List<float>^ CapsuleHalfHeights;
-			List<float>^ CapsuleRadii;
-			List<float>^ CapsuleCenters;
-			List<float>^ CapsuleRotations;
-			//Mesh properties
-			int NumMeshes;
-			List<array<float>^>^ MeshVertices;
-			List<array<int>^>^ MeshFaces;
-			List<array<float>^>^ MeshLowerBounds;
-			List<array<float>^>^ MeshUpperBounds;
-			//ConvexShape properties
-			int NumConvex;
-			List<array<float>^>^ ConvexPlanes;
-			List<array<float>^>^ ConvexLowerBounds;
-			List<array<float>^>^ ConvexUpperBounds;
+	internal:
+		//Plane properties
+		array<float>^ Planes;
+		int NumPlanes;
+		//Sphere properties
+		int NumSpheres;
+		List<float>^ SphereCenters;
+		List<float>^ SphereRadii;
+		//Box properties
+		int NumBoxes;
+		List<float>^ BoxHalfHeights;
+		List<float>^ BoxCenters;
+		List<float>^ BoxRotations;
+		//Capsule properties
+		int NumCapsules;
+		List<float>^ CapsuleHalfHeights;
+		List<float>^ CapsuleRadii;
+		List<float>^ CapsuleCenters;
+		List<float>^ CapsuleRotations;
+		//Mesh properties
+		int NumMeshes;
+		List<array<float>^>^ MeshVertices;
+		List<array<int>^>^ MeshFaces;
+		List<array<float>^>^ MeshLowerBounds;
+		List<array<float>^>^ MeshUpperBounds;
+		//ConvexShape properties
+		int NumConvex;
+		List<array<float>^>^ ConvexPlanes;
+		List<array<float>^>^ ConvexLowerBounds;
+		List<array<float>^>^ ConvexUpperBounds;
 	};
 
 	public ref class FlexScene {
@@ -186,7 +186,7 @@ namespace FlexCLI {
 		FlexScene();
 		int NumParticles() { return Particles->Count; };
 
-		List<FlexParticle^>^ Particles;		
+		List<FlexParticle^>^ Particles;
 		List<FlexParticle^>^ GetAllParticles();
 
 		//Particles in general
@@ -197,7 +197,7 @@ namespace FlexCLI {
 		List<FlexParticle^>^ GetFluidParticles();
 
 		//Rigids
-		int NumRigids() { return RigidOffsets->Count-1; };
+		int NumRigids() { return RigidOffsets->Count - 1; };
 		void RegisterRigidBody(array<float>^ vertices, array<float>^ vertexNormals, array<float>^ velocity, array<float>^ inverseMasses, float stiffness, int groupIndex);
 		List<FlexParticle^>^ GetRigidParticles();
 		List<float>^ GetRigidRotations() { return RigidRotations; };

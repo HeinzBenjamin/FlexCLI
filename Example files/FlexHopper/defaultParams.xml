@@ -18,8 +18,8 @@
    <SolidRestDistance> 0.0 </SolidRestDistance>
    <Dissipation> 0.0 </Dissipation>
    <Damping> 0.0 </Damping>
-   <ParticleCollisionMargin> 0.0 </ParticleCollisionMargin>
-   <ShapeCollisionMargin> 0.0 </ShapeCollisionMargin>
+   <ParticleCollisionMargin> 0.075 </ParticleCollisionMargin>
+   <ShapeCollisionMargin> 0.075 </ShapeCollisionMargin>
    <CollisionDistance> 0.075 </CollisionDistance>
    <PlasticThreshold> 0.0 </PlasticThreshold>
    <PlasticCreep> 0.0 </PlasticCreep>
@@ -29,7 +29,7 @@
    <Restitution> 0.0 </Restitution>
    <MaxSpeed> 3.402823466e+38 </MaxSpeed>
    <MaxAcceleration> 100.0 </MaxAcceleration>
-   <RelaxationMode> 1 </RelaxationMode>
+   <RelaxationMode> 0 </RelaxationMode>
    <RelaxationFactor> 1.0 </RelaxationFactor>
    <SolidPressure> 1.0 </SolidPressure>
    <Adhesion> 0.0 </Adhesion>

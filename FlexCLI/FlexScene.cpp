@@ -41,7 +41,7 @@ namespace FlexCLI {
 	}
 
 	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, int groupIndex) {
-		
+
 		if (asset->numParticles == 0)
 			return;
 
@@ -70,12 +70,12 @@ namespace FlexCLI {
 			shapeIndices[i] = asset->shapeIndices[i];
 			RigidIndices->Add(asset->shapeIndices[i] + oldNumParticles);
 		}
-		array<int>^ shapeOffsets = gcnew array<int>(asset->numShapes+1);
+		array<int>^ shapeOffsets = gcnew array<int>(asset->numShapes + 1);
 		shapeOffsets[0] = 0;
 		int oldOffsetPosition = RigidOffsets[RigidOffsets->Count - 1];
 		array<float>^ shapeCoefficients = gcnew array<float>(asset->numShapes);
 		for (int i = 0; i < asset->numShapes; i++) {
-			shapeOffsets[i+1] = asset->shapeOffsets[i];
+			shapeOffsets[i + 1] = asset->shapeOffsets[i];
 			RigidOffsets->Add(asset->shapeOffsets[i] + oldOffsetPosition);
 			RigidStiffnesses->Add(asset->shapeCoefficients[i]);
 			RigidTranslations->Add(0.0f);
@@ -224,13 +224,13 @@ namespace FlexCLI {
 	}
 
 	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, array<int>^ anchorIndices, int groupIndex) {
-		#pragma region check everthing
+#pragma region check everthing
 		for each (FlexParticle^ p in Particles)
 			if (p->GroupIndex == groupIndex)
 				throw gcnew Exception("Soft Body: Group index " + groupIndex + " already in use!");
 		if (vertices->Length == 0 || vertices->Length % 3 != 0 || triangles->Length % 3 != 0)
 			throw gcnew Exception("FlexScene::RegisterSoftBody(...) Invalid input!");
-		#pragma endregion
+#pragma endregion
 
 		std::vector<float> vt(vertices->Length);
 		for (int i = 0; i < vertices->Length; i++) vt[i] = vertices[i];
@@ -475,7 +475,7 @@ namespace FlexCLI {
 
 	///<returns>Return true, if registration was succesful. Returns false, if constraint indices exceeded particle count.</returns>
 	bool FlexScene::RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ shapeMatchingIndices, float shapeStiffness, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals) {
-	#pragma region check everything
+#pragma region check everything
 		if (triangleIndices->Length % 3 != 0 || springPairIndices->Length % 2 != 0 || springPairIndices->Length / 2 != springStiffnesses->Length || springPairIndices->Length / 2 != springDefaultLengths->Length)
 			throw gcnew Exception("void FlexScene::RegisterCustomConstraints(...) ---> Invalid input!");
 
@@ -491,19 +491,19 @@ namespace FlexCLI {
 		for each(int i in triangleIndices)
 			if (i >= Particles->Count)
 				return false;
-		#pragma endregion
+#pragma endregion
 
 
 		for (int i = 0; i < anchorIndices->Length; i++)
-				Particles[anchorIndices[i]]->InverseMass = 0.0f;
-		
+			Particles[anchorIndices[i]]->InverseMass = 0.0f;
+
 		if (shapeMatchingIndices->Length > 0) {
 			RigidIndices->AddRange(shapeMatchingIndices);
-			float3 massCenter = float3( 0.0f,0.0f,0.0f );
+			float3 massCenter = float3(0.0f, 0.0f, 0.0f);
 			for (int i = 0; i < shapeMatchingIndices->Length; i++) {
 				massCenter.x += Particles[shapeMatchingIndices[i]]->PositionX;
 				massCenter.y += Particles[shapeMatchingIndices[i]]->PositionY;
-				massCenter.z += Particles[shapeMatchingIndices[i]]->PositionZ;				
+				massCenter.z += Particles[shapeMatchingIndices[i]]->PositionZ;
 			}
 			massCenter.x /= shapeMatchingIndices->Length;
 			massCenter.y /= shapeMatchingIndices->Length;

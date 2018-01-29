@@ -56,21 +56,23 @@ namespace FlexHopper.GH_GroupObjects
         {
             float anchorThreshold = 0.01f;
 
-            Mesh mesh = new Mesh();
+            Mesh msh = new Mesh();
             List<Vector3d> vels = new List<Vector3d>();
             List<double> masses = new List<double>();
             List<double> softParams = new List<double>();
             List<IGH_Goo> anchors = new List<IGH_Goo>();
             int groupIndex = 0;
 
-            DA.GetData(0, ref mesh);
+            DA.GetData(0, ref msh);
             DA.GetDataList(1, vels);
             DA.GetDataList(2, masses);
             DA.GetDataList(3, softParams);
             DA.GetDataList(4, anchors);
             DA.GetData(5, ref groupIndex);
 
-            
+            Mesh mesh = new Mesh();
+            mesh.Vertices.AddVertices(msh.Vertices);
+            mesh.Faces.AddFaces(msh.Faces);
 
             float[] vertices = new float[mesh.Vertices.Count * 3];
             for(int i = 0; i < mesh.Vertices.Count; i++)

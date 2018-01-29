@@ -58,7 +58,8 @@ namespace FlexHopper.GH_GroupObjects
                 List<int> ints = new List<int>();
                 foreach (GH_Integer inte in siTree.Branches[i])
                     ints.Add(inte.Value);
-                constraints.Add(new ConstraintSystem(ints.ToArray(), (float)ss[i]));
+                if(ints.Count > 1)
+                    constraints.Add(new ConstraintSystem(ints.ToArray(), (float)ss[i]));
             }
 
             DA.SetDataList(0, constraints);

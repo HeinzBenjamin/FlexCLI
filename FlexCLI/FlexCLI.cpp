@@ -19,7 +19,7 @@ namespace FlexCLI {
 
 	NvFlexLibrary* Library;
 	NvFlexSolver* Solver;
-	NvFlexParams Params; 
+	NvFlexParams Params;
 	NvFlexExtForceFieldCallback* ForceFieldCallback;
 
 	int n; //The particle count in this very iteration
@@ -375,7 +375,7 @@ namespace FlexCLI {
 			// create a triangle mesh
 			NvFlexTriangleMeshId mesh = NvFlexCreateTriangleMesh(Library);
 
-			
+
 
 			//assign vertex and face lists accordingly
 			float3* vertices = (float3*)NvFlexMap(Buffers.CollisionMeshVertices, 0);
@@ -599,7 +599,7 @@ namespace FlexCLI {
 
 		if (flexForceFields->Count == 0)
 			return;
-		std::vector<NvFlexExtForceField> forceFields (flexForceFields->Count);
+		std::vector<NvFlexExtForceField> forceFields(flexForceFields->Count);
 		NvFlexExtForceField forceField;
 
 		for (int i = 0; i < flexForceFields->Count; i++) {
@@ -617,8 +617,8 @@ namespace FlexCLI {
 				ff.mMode = NvFlexExtForceMode::eNvFlexExtModeVelocityChange;
 			else
 				throw gcnew Exception("void Flex::SetForceFields() ---> Invalid mode! Mode must be either 0, 1 or 2.");
-			ff.mLinearFalloff = flexForceFields[i]->LinearFallOff;		
-			
+			ff.mLinearFalloff = flexForceFields[i]->LinearFallOff;
+
 			forceFields[i] = ff;
 		}
 
@@ -719,7 +719,7 @@ namespace FlexCLI {
 			}
 			sti[i] = stiffnesses[i];
 			//for some weird reason rotations always returns zeros unless w is initialized with some tvalue from the beginning. if x, y, or z are initialized as non-zero values, intitial rotation is applied which is wrong.
-			if(rotations[i * 4] == 0.0f && rotations[i * 4 + 1] == 0.0f && rotations[i * 4 + 2] == 0.0f && rotations[i * 4 + 3] == 0.0f)
+			if (rotations[i * 4] == 0.0f && rotations[i * 4 + 1] == 0.0f && rotations[i * 4 + 2] == 0.0f && rotations[i * 4 + 3] == 0.0f)
 				rot[i] = float4(rotations[i * 4], rotations[i * 4 + 1], rotations[i * 4 + 2], rotations[i * 4 + 3] + 1);
 			else
 				rot[i] = float4(rotations[i * 4], rotations[i * 4 + 1], rotations[i * 4 + 2], rotations[i * 4 + 3]);

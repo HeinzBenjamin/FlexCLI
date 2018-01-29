@@ -67,23 +67,29 @@ namespace FlexHopper.GH_GroupObjects
 
             for(int i = 0; i < meshes.Count; i++)
             {
-                meshes[i].UnifyNormals();
-                meshes[i].Normals.ComputeNormals();                
-                meshes[i].Normals.UnitizeNormals();
+                Mesh mesh = new Mesh();
+                
+                //make new super shallow copy, as user referenced meshes are crazy heavy smh
+                mesh.Vertices.AddVertices(meshes[i].Vertices);
+                mesh.Faces.AddFaces(meshes[i].Faces);
+
+                mesh.UnifyNormals();
+                mesh.Normals.ComputeNormals();                
+                mesh.Normals.UnitizeNormals();
                 
                 List<float> vertices = new List<float>();
                 List<float> normals = new List<float>();
                 List<float> invMasses = new List<float>();
 
-                for(int j = 0; j < meshes[i].Vertices.Count; j++)
+                for(int j = 0; j < mesh.Vertices.Count; j++)
                 {
-                    vertices.Add(meshes[i].Vertices[j].X);
-                    vertices.Add(meshes[i].Vertices[j].Y);
-                    vertices.Add(meshes[i].Vertices[j].Z);
+                    vertices.Add(mesh.Vertices[j].X);
+                    vertices.Add(mesh.Vertices[j].Y);
+                    vertices.Add(mesh.Vertices[j].Z);
 
-                    normals.Add(meshes[i].Normals[j].X);
-                    normals.Add(meshes[i].Normals[j].Y);
-                    normals.Add(meshes[i].Normals[j].Z);
+                    normals.Add(mesh.Normals[j].X);
+                    normals.Add(mesh.Normals[j].Y);
+                    normals.Add(mesh.Normals[j].Z);
 
                     double mass = 1.0;
                     if (masses.Count == 1)
@@ -108,7 +114,7 @@ namespace FlexHopper.GH_GroupObjects
 
                 RigidBody rb = new RigidBody(vertices.ToArray(), velocity, normals.ToArray(), invMasses.ToArray(), stiffness, groupIndices[i]);
 
-                rb.Mesh = meshes[i].DuplicateMesh();
+                rb.Mesh = mesh;
 
                 rigids.Add(rb);
             }

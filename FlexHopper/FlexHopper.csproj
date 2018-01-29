@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RhinoCommon">
-      <HintPath>..\..\..\..\98 Code Tools\DLLs\RhinoCommon.dll</HintPath>
+      <HintPath>C:\Program Files\Rhinoceros 5.0 (64-bit)\System\RhinoCommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -185,16 +185,16 @@
     <None Include="Resources\spring_constraints.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
-      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
-      <Name>FlexCLI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\shapeMatching.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\softBody.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
+      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
+      <Name>FlexCLI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -206,8 +206,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-Copy "$(TargetDir)FlexCLI.dll" "C:\Users\Benjamin\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexCLI.dll"
-Copy "$(TargetPath)" "C:\Users\Benjamin\AppData\Roaming\Grasshopper\Libraries\FlexHopper\FlexHopper.gha"
+Copy "$(TargetDir)FlexCLI.dll" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper110\FlexCLI.dll"
+Copy "$(TargetPath)" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper110\FlexHopper.gha"
 Erase "$(TargetDir)$(ProjectName).dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug32|AnyCPU' ">
