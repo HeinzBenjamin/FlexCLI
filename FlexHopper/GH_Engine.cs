@@ -76,12 +76,13 @@ namespace FlexHopper
         List<int> constraintTimeStamps = new List<int>();
         List<int> forceFieldTimeStamps = new List<int>();
         int geomTimeStamp = 0;
+        Task<int> UpdateTask;
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //CONTINUE HERE!!!!
-            Task<int> UpdateTask = new Task<int>(() => Update());
-            
+            UpdateTask = new Task<int>(() => Update());
+
 
             FlexParams param = new FlexParams();
             FlexCollisionGeometry geom = new FlexCollisionGeometry();

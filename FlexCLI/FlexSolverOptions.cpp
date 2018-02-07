@@ -23,6 +23,11 @@ namespace FlexCLI {
 	}
 
 	String^ FlexSolverOptions::ToString() {
-		return "FlexSolverOptions";
+		String^ str = gcnew String("FlexScene:");
+		str += "\ndt = " + dT.ToString();
+		str += "\nSubSteps = " + SubSteps.ToString();
+		str += "\nNumIter = " + NumIterations.ToString();
+		str += "\n\nTimeStamp = " + TimeStamp.ToString();
+		return str;
 	}
 }
