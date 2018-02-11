@@ -37,7 +37,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Additional Sheet Stiffening", "Sheet", "Optionally supply a stiffness factor value that is applied to the +1-neighborhood of each vertex. This is currently only supported for mesh inputs.", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Self Collision", "SelfColl", "Determine whether particles of one spring group collide with themselves", GH_ParamAccess.list, true);            
             pManager.AddGenericParameter("Anchors", "Anchors", "Index numbers or (x,y,z)-points.", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list, new List<int> { 0 });
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
