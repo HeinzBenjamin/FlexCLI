@@ -15,7 +15,7 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         public ParticleFountain()
           : base("Particle Fountain", "Fountain",
-              "Connect a timer to me!",
+              "Connect a timer to me and make sure to not be in Lock Mode (Flex Engine component).",
               "Flex", "Composition")
         {
         }

@@ -18,7 +18,7 @@ namespace FlexHopper
             get
             {
                 //Return a 24x24 pixel bitmap to represent this GHA library.
-                return null;
+                return FlexHopper.Properties.Resources.engine;
             }
         }
         public override string Description
@@ -26,7 +26,7 @@ namespace FlexHopper
             get
             {
                 //Return a short string describing the purpose of this GHA library.
-                return "";
+                return "Fast GPU-based physics simulation.";
             }
         }
         public override Guid Id
@@ -42,7 +42,7 @@ namespace FlexHopper
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "Benjamin Felbrich";
             }
         }
         public override string AuthorContact
@@ -50,7 +50,7 @@ namespace FlexHopper
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "flexhopper@felbrich.com";
             }
         }
     }

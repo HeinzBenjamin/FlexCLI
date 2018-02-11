@@ -28,13 +28,10 @@ namespace FlexHopper.GH_GroupObjects
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("Rigid Body Mesh", "Mesh", "Make sure the meshes are clean and all normals are pointing outward.", GH_ParamAccess.list);
-            pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Mass", "Mass", "Masses per mesh particle. Supply as many values as you have meshes. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Stiffness", "Sti", "Betwen [0.0] and [1.0]. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each rigid body later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
-            pManager[1].Optional = true;
-            pManager[2].Optional = true;
-            pManager[3].Optional = true;
+            pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new Vector3d(0.0,0.0,0.0));
+            pManager.AddNumberParameter("Mass", "Mass", "Masses per mesh particle. Supply as many values as you have meshes. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
+            pManager.AddNumberParameter("Stiffness", "Sti", "Betwen [0.0] and [1.0]. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
+            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each rigid body later on. Each rigid body has to have its own unique group index! If you supply multiple meshes you have two different options for the GInd input:\n1) Supply one integer index for each mesh\n2) Supply one integer index for the first mesh, the others are numbered upwards (if you have more object components in your scene, you'll have to ensure yourself that each GInd is globally unique to the engine)", GH_ParamAccess.list, new List<int> { 0 });
         }
 
         /// <summary>
@@ -93,10 +90,10 @@ namespace FlexHopper.GH_GroupObjects
 
                     double mass = 1.0;
                     if (masses.Count == 1)
-                        mass = masses[i];
+                        mass = masses[0];
                     else if (masses.Count > i)
                         mass = masses[i];
-                    invMasses.Add((float)(1.0/Math.Max(mass, 0.00000001)));
+                    invMasses.Add((float)(1.0/Math.Max(mass, 0.00000000001)));
                 }
 
                 float[] velocity = new float[3] { 0.0f, 0.0f, 0.0f };
@@ -112,7 +109,13 @@ namespace FlexHopper.GH_GroupObjects
                 else if (stiffnesses.Count > i)
                     stiffness = (float)stiffnesses[i];
 
-                RigidBody rb = new RigidBody(vertices.ToArray(), velocity, normals.ToArray(), invMasses.ToArray(), stiffness, groupIndices[i]);
+                int groupIndex = i;
+                if (groupIndices.Count == 1)
+                    groupIndex += groupIndices[0];
+                else if (groupIndices.Count > i)
+                    groupIndex = groupIndices[i];
+
+                RigidBody rb = new RigidBody(vertices.ToArray(), velocity, normals.ToArray(), invMasses.ToArray(), stiffness, groupIndex);
 
                 rb.Mesh = mesh;
 

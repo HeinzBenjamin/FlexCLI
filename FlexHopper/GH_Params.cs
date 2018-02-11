@@ -16,7 +16,7 @@ namespace FlexHopper
         /// Initializes a new instance of the GH_Params class.
         /// </summary>
         public GH_Params()
-          : base("FlexParameters from values", "Parameters",
+          : base("Flex Parameters from values", "Parameters",
               "Set environmental parameters for your simulation. Specify them here.",
               "Flex", "Setup")
         {
@@ -29,7 +29,7 @@ namespace FlexHopper
         {
             #region loots of inputs
             //common params
-            pManager.AddVectorParameter("Gravity", "Gravity", "Constant acceleration vector applied to al particles.", GH_ParamAccess.item, new Vector3d(0.0, 0.0, -9.81));
+            pManager.AddVectorParameter("Gravity", "Gravity", "Constant acceleration vector applied to all particles.", GH_ParamAccess.item, new Vector3d(0.0, 0.0, -9.81));
             pManager.AddNumberParameter("Radius", "Radius", "The maximum interaction radius for particles.", GH_ParamAccess.item, 0.15);
 
             //collisions

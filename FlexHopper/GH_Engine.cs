@@ -34,12 +34,12 @@ namespace FlexHopper
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Flex Params", "Params", "Simulation Parameters", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Flex Collision Geometry", "Colliders", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Flex Collision Geometry", "Colliders", "Geometry to collide against", GH_ParamAccess.item);
             pManager.AddGenericParameter("Flex Force Fields", "Fields", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Flex Scene", "Scene", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Global Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles from all scenes combined to allow for constraints involving particles from multiple scenes. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
             pManager.AddGenericParameter("Flex Solver Options", "Options", "", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Lock Mode", "Lock", "If true, the engine won't consider input updates during runtime. If you want to emit scene objects during simulation or check for updates in params, collision geometry or solver options, this must be true.", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Lock Mode", "Lock", "If true, the engine won't consider input updates during runtime and therefor run faster. If you want to emit scene objects during simulation or check for updates in params, collision geometry or solver options, this must be false.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Reset", "Reset", "", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Go", "Go", "", GH_ParamAccess.item, false);
             pManager[0].Optional = true;
@@ -265,10 +265,7 @@ namespace FlexHopper
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
                 return Resources.engine;
-                //return null;
             }
         }
 

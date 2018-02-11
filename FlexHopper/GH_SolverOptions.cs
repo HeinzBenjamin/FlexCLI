@@ -15,7 +15,7 @@ namespace FlexHopper
         /// Initializes a new instance of the GH_SolverOptions class.
         /// </summary>
         public GH_SolverOptions()
-          : base("Flex Sover Options", "Opts",
+          : base("Flex Solver Options", "Opts",
               "",
               "Flex", "Engine")
         {
@@ -27,9 +27,8 @@ namespace FlexHopper
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("Time step", "dt", "Time step per engine iteration", GH_ParamAccess.item, 0.0166666666667);
-            pManager.AddIntegerParameter("Sub Steps", "SubSteps", "Number of sub-steps between each iteration. Collision detection is performed per sub-step. Therefore many sub-steps are slow but more reliable.", GH_ParamAccess.item, 3);
-            pManager.AddIntegerParameter("NumIterations", "NumIt", "Number of iterations to be performed per sub step.", GH_ParamAccess.item, 3);
-            //TODO pManager.AddBooleanParameter("Enable Timers","Timers","Tool for monitoring per kernel solver timing. Slows down solver a LOT. Only use for monitoring")
+            pManager.AddIntegerParameter("Sub Steps", "SubSteps", "Number of sub-steps in each time step. Collision detection is performed per sub-step. Therefore many sub-steps are slow but more reliable.", GH_ParamAccess.item, 3);
+            pManager.AddIntegerParameter("NumIterations", "NumIt", "Number of iterations to be performed per sub step. A higher value ensures accurate computation at the cost of speed.", GH_ParamAccess.item, 3);
         }
 
         /// <summary>

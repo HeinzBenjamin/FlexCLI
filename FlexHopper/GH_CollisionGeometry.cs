@@ -15,7 +15,7 @@ namespace FlexHopper
         /// Initializes a new instance of the GH_CollisionGeometry class.
         /// </summary>
         public GH_CollisionGeometry()
-          : base("FlexCollisionGeometry", "CollGeometry",
+          : base("Flex Collision Geometry", "CollGeometry",
               "Specifiy static geometry as colliding objects. Flex supports certain objects (Plane, Sphere and Box) more efficiently. If you want to register such objects as collision geometry, use the respective object input rather than meshes.",
               "Flex", "Setup")
         {
@@ -26,10 +26,10 @@ namespace FlexHopper
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPlaneParameter("Collision Planes", "Planes", "If you have planes to register, use this input rather than mesh or SDF.", GH_ParamAccess.list);
-            pManager.AddSurfaceParameter("Collision Spheres","Spheres", "If you have spheres to register, use this input rather than mesh or SDF.", GH_ParamAccess.list);
-            pManager.AddBoxParameter("Collision Boxes", "Boxes", "If you have spheres to register, use this input rather than mesh or SDF.", GH_ParamAccess.list);
-            pManager.AddMeshParameter("Collision Meshes", "Meshes", "Make sure the mesh is triangulated, clean and all faces are pointing inwards", GH_ParamAccess.list);
+            pManager.AddPlaneParameter("Collision Planes", "Planes", "If you have planes to register, use this input rather than meshes.", GH_ParamAccess.list);
+            pManager.AddSurfaceParameter("Collision Spheres","Spheres", "If you have spheres to register, use this input rather than meshes.", GH_ParamAccess.list);
+            pManager.AddBoxParameter("Collision Boxes", "Boxes", "If you have spheres to register, use this input rather than meshes.", GH_ParamAccess.list);
+            pManager.AddMeshParameter("Collision Meshes", "Meshes", "Make sure the mesh is triangulated, clean and all face normals uniformly point inwards", GH_ParamAccess.list);
             pManager.AddMeshParameter("Convex Meshes", "CMeshes", "Meshes that are known to be convex are being recognized faster. Add them here. (Currently only supports meshes with up to 64 faces)", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;

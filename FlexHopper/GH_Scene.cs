@@ -15,8 +15,8 @@ namespace FlexHopper
         /// Initializes a new instance of the GH_Scene class.
         /// </summary>
         public GH_Scene()
-          : base("FlexScene", "Scene",
-              "Create Scene",
+          : base("Flex Scene", "Scene",
+              "Create a scene object containing all moving geometry.",
               "Flex", "Setup")
         {
         }

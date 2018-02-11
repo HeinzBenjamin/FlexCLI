@@ -33,11 +33,8 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Mass", "Mass", "Masses per mesh particle. Supply as many values as you have meshes. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, 1.0);
             pManager.AddNumberParameter("Soft Params", "Params", "Supply the following parameters as a number list:\n0 Particle spacing\n1 Volume sampling (set to zero if mesh is not closed)\n2 Surface sampling (good for ensure details in intricate meshes and for open meshes)\n3 Cluster spacing (should be at least particle spacing)\n4 Cluster radius(should be larger than cluster sampling, otherwise there's no overlap)\n5 Cluster stiffness\n6 Link radius\n7 Link stiffness\n8 Global stiffness", GH_ParamAccess.list);
             pManager.AddGenericParameter("Anchors", "Anchors", "Index numbers or (x,y,z)-points.", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each rigid body later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.item);
-            pManager[1].Optional = true;
-            pManager[2].Optional = true;
+            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each soft body later on. Each soft body has to have its own unique group index!If you supply multiple meshes you have two different options for the GInd input:\n1) Supply one integer index for each mesh\n2) Supply one integer index for the first mesh, the others are numbered upwards(if you have more object components in your scene, you'll have to ensure yourself that each GInd is globally unique to the engine)", GH_ParamAccess.list, new List<int> { 0 });
             pManager[4].Optional = true;
-            pManager[5].Optional = true;
         }
 
         /// <summary>

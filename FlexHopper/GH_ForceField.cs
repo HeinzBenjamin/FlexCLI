@@ -15,7 +15,7 @@ namespace FlexHopper
         /// Initializes a new instance of the GH_ForceField class.
         /// </summary>
         public GH_ForceField()
-          : base("Force Field", "Force Field",
+          : base("Flex Force Field", "Force Field",
               "",
               "Flex", "Setup")
         {

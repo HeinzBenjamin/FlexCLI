@@ -15,7 +15,7 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         public ConstraintSprings()
           : base("Constraints: Springs", "Springs",
-              "Add spring constraints by particle index. You'll have to keep track of indexing yourself.",
+              "Add spring constraints by particle indices.",
               "Flex", "Composition")
         {
         }

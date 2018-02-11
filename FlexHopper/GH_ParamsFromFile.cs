@@ -21,7 +21,7 @@ namespace FlexHopper
         /// new tabs/panels will automatically be created.
         /// </summary>
         public GH_ParamsFromFile()
-          : base("FlexParameters from .xml file", "Params",
+          : base("Flex Parameters from .xml file", "Params",
               "Set environmental parameters for your simulation. Link a .xml file (INFO: Auto update doesn't work yet, so if you change you .xml file you'll have to manually recompute the component.",
               "Flex", "Setup")
         {
