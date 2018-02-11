@@ -49,8 +49,6 @@ namespace FlexHopper.GH_GroupObjects
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            float anchorThreshold = 0.01f;
-
             List<Mesh> meshes = new List<Mesh>();
             List<Vector3d> velocities = new List<Vector3d>();
             List<double> masses = new List<double>() { 1.0 };

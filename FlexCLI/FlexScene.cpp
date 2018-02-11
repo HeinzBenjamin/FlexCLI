@@ -3,6 +3,7 @@
 
 namespace FlexCLI {
 
+	///<summary>Empty constructor</summary>
 	FlexScene::FlexScene() {
 		//general
 		Particles = gcnew List<FlexParticle^>();

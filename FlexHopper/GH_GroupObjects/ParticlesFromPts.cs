@@ -116,7 +116,6 @@ namespace FlexHopper.GH_GroupObjects
             }
             #endregion
 
-
             List<FlexParticle> parts = new List<FlexParticle>();
 
             for (int i = 0; i < ptsTree.PathCount; i++)

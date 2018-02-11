@@ -183,9 +183,13 @@ namespace FlexCLI {
 
 	public ref class FlexScene {
 	public:
+		///<summary>Empty constructor</summary>
 		FlexScene();
+
+		///<summary>Number of all particles in the scene</summary>
 		int NumParticles() { return Particles->Count; };
 
+		
 		List<FlexParticle^>^ Particles;
 		List<FlexParticle^>^ GetAllParticles();
 
