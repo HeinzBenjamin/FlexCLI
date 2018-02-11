@@ -204,7 +204,7 @@ namespace FlexCLI {
 		List<float>^ GetRigidTranslations() { return RigidTranslations; };
 
 		//Softs
-		void RegisterSoftBody(array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, array<int>^ anchorIndices, int groupIndex);
+		void RegisterSoftBody(array<float>^ vertices, array<float>^ velocity, float inverseMass, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, int groupIndex);
 
 		//Springs
 		int NumSprings() { return (int)(SpringPairIndices->Count * 0.5); };
@@ -234,7 +234,7 @@ namespace FlexCLI {
 	internal:
 		//reference to flex class
 		Flex^ Flex;
-		void RegisterAsset(NvFlexExtAsset* asset, int groupIndex);
+		void RegisterAsset(NvFlexExtAsset* asset, array<float>^ velocity, float invMass, int groupIndex);
 		//Fluids
 		List<int>^ FluidIndices;
 		//Rigids

@@ -29,7 +29,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             pManager.AddMeshParameter("Rigid Body Mesh", "Mesh", "Make sure the meshes are clean and all normals are pointing outward.", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new Vector3d(0.0,0.0,0.0));
-            pManager.AddNumberParameter("Mass", "Mass", "Masses per mesh particle. Supply as many values as you have meshes. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
+            pManager.AddNumberParameter("Mass", "Mass", "Masses of mesh particles. Supply one value per mesh. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddNumberParameter("Stiffness", "Sti", "Betwen [0.0] and [1.0]. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each rigid body later on. Each rigid body has to have its own unique group index! If you supply multiple meshes you have two different options for the GInd input:\n1) Supply one integer index for each mesh\n2) Supply one integer index for the first mesh, the others are numbered upwards (if you have more object components in your scene, you'll have to ensure yourself that each GInd is globally unique to the engine)", GH_ParamAccess.list, new List<int> { 0 });
         }
@@ -39,7 +39,7 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Rigid Objects", "Rigids", "Connect to FlexScene", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Rigid Bodies", "Rigids", "Connect to Flex Scene", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -64,8 +64,7 @@ namespace FlexHopper.GH_GroupObjects
 
             for(int i = 0; i < meshes.Count; i++)
             {
-                Mesh mesh = new Mesh();
-                
+                Mesh mesh = new Mesh();                
                 //make new super shallow copy, as user referenced meshes are crazy heavy smh
                 mesh.Vertices.AddVertices(meshes[i].Vertices);
                 mesh.Faces.AddFaces(meshes[i].Faces);

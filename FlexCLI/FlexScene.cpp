@@ -40,7 +40,7 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, int groupIndex) {
+	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, array<float>^ velocity, float invMass, int groupIndex) {
 
 		if (asset->numParticles == 0)
 			return;
@@ -50,12 +50,9 @@ namespace FlexCLI {
 
 		for (int i = 0; i < asset->numParticles; i++) {
 			array<float>^ pos = gcnew array<float>{asset->particles[4 * i], asset->particles[4 * i + 1], asset->particles[4 * i + 2]};
-			array<float>^ vel = gcnew array<float>{0.0f, 0.0f, 0.0f};
-			float im = asset->particles[4 * i + 3];
-			parts->Add(gcnew FlexParticle(pos, vel, im, NvFlexMakePhase(groupIndex, 0), true));
+			parts->Add(gcnew FlexParticle(pos, velocity, invMass, NvFlexMakePhase(groupIndex, 0), true));
 		}
 		Particles->AddRange(parts);
-
 
 		for (int i = 0; i < asset->numSprings; i++) {
 			SpringPairIndices->Add(asset->springIndices[2 * i] + oldNumParticles);
@@ -223,7 +220,7 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, array<int>^ anchorIndices, int groupIndex) {
+	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<float>^ velocity, float inverseMass, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, int groupIndex) {
 #pragma region check everthing
 		for each (FlexParticle^ p in Particles)
 			if (p->GroupIndex == groupIndex)
@@ -240,8 +237,8 @@ namespace FlexCLI {
 
 		NvFlexExtAsset* asset = NvFlexExtCreateSoftFromMesh(&vt[0], vertices->Length / 3, &tr[0], triangles->Length, particleSpacing, volumeSampling, surfaceSampling, clusterSpacing, clusterRadius, clusterStiffness, linkRadius, linkStiffness, globalStiffness);
 
-		RegisterAsset(asset, groupIndex);
-
+		RegisterAsset(asset, velocity, inverseMass, groupIndex);		
+		
 		NvFlexExtDestroyAsset(asset);
 	}
 

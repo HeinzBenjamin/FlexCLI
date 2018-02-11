@@ -88,22 +88,20 @@ namespace FlexHopper
     class SoftBody
     {
         public float[] Vertices;
-        public int[] Triangles;
-        public float[] Velocities;
-        public float[] InvMasses;
+        public float[] Velocity;
+        public float InvMass;
+        public int[] Triangles;        
         public float[] SoftParams;
-        public int[] AnchorIndices;
         public int GroupIndex;
         public Mesh Mesh;
 
-        public SoftBody(float[] vertices, float[] velocities, float[] invMass, int[] triangles, float[] softParams, int[] anchorIndices, int groupIndex)
+        public SoftBody(float[] vertices, float[] velocity, float invMass, int[] triangles, float[] softParams, int groupIndex)
         {
             Vertices = vertices;
             Triangles = triangles;
-            Velocities = velocities;
-            InvMasses = invMass;
+            Velocity = velocity;
+            InvMass = invMass;
             SoftParams = softParams;
-            AnchorIndices = anchorIndices;
             GroupIndex = groupIndex;
         }
 
