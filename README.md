@@ -12,12 +12,12 @@ Please follow the instructions under one of these options:<p>
 <i><b>Option 1: Only use FlexHopper</b></i>
 1. Make sure your machine fulfills the hardware requirements (see below).
 2. Make sure you have Rhino 5 64bit or Rhino 6 64bit along with the latest version of Grasshopper installed.
-2. Download whole package:<br>
-	Option A:
-	- on the upper right of this website click "Clone or Download" > "Download ZIP"; <br>
-	- extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.
-	Option B:
-	- Go to www.food4rhino.com/app/flexhopper > Download and install from there
+3. Download whole package:<br>
+Option A:
+- on the upper right of this website click "Clone or Download" > "Download ZIP"; <br>
+- extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
+Option B:
+- Go to www.food4rhino.com/app/flexhopper > Download and install from there
 4. If necessary, unlock all files (Right click -> Properties -> Tick Unlock)
 5. Start up Rhino and start using FlexHopper<br>
 6. Check out the exmaple files in Example files/Flexhopper
@@ -39,6 +39,6 @@ A. Unlock all FlexHopper related files in the Library folder (Right click -> pro
 B. Start up "Rhinoceros 5 (64bit)" and not the default "Rhinoceros 5"
 
 # HARDWARE REQUIREMENTS NVIDIA FLEX
-1. A dedicated NVidia and AMD graphics card running one of the following drivers:<br>
+1. A dedicated NVidia and AMD graphics card supporting DirectX11 and running one of the following drivers:<br>
 Nvidia Geforce Game Ready Driver 372.90 or above<br>
 AMD Radeon Driver version 16.9.1 or above
