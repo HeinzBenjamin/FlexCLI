@@ -16,7 +16,7 @@ Please follow the instructions under one of these options:<p>
 	Option A:
 	- on the upper right of this website click "Clone or Download" > "Download ZIP"; <br>
 	- extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
-	Option B:
+Option B:
 	- Go to www.food4rhino.com/app/flexhopper > Download and install from there
 4. If necessary, unlock all files (Right click -> Properties -> Tick Unlock)
 5. Start up Rhino and start using FlexHopper<br>
