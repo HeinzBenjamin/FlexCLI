@@ -10,11 +10,13 @@ FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
 # INSTRUCTIONS
 Please follow the instructions under one of these options:<p>
 <i><b>Option 1: Only use FlexHopper</b></i>
-1. Download whole package ("Clone or Download" > "Download ZIP")<br>
-  2. Extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
-3. If necessary, unlock all files (Right click -> Properties -> Tick Unlock)
-4. Start up Rhino and start using FlexHopper<br>
-5. Check out the exmaple files in Example files/Flexhopper
+1. Make sure your machine fulfills the hardware requirements (see below).
+2. Make sure you have Rhino 5 64bit or Rhino 6 64bit along with the latest version of Grasshopper installed.
+2. Download whole package ("Clone or Download" > "Download ZIP")<br>
+3. Extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.<br>
+4. If necessary, unlock all files (Right click -> Properties -> Tick Unlock)
+5. Start up Rhino and start using FlexHopper<br>
+6. Check out the exmaple files in Example files/Flexhopper
 
 <i><b>Option 2: Use FlexCLI to write your own implementation of NVidia Flex in .Net</i></b>
 1. Go to the /bin folder in this repository and download all files apart from "FlexHopper.gha"
@@ -31,3 +33,8 @@ FlexHopper only works with Rhino 64bit.<br>
 If you receive an error message saying that FlexCLI or one of its dependecies could not be loaded, make sure to:<br>
 A. Unlock all FlexHopper related files in the Library folder (Right click -> properties)
 B. Start up "Rhinoceros 5 (64bit)" and not the default "Rhinoceros 5"
+
+# HARDWARE REQUIREMENTS NVIDIA FLEX
+1. A dedicated NVidia and AMD graphics card running one of the following drivers:<br>
+Nvidia Geforce Game Ready Driver 372.90 or above<br>
+AMD Radeon Driver version 16.9.1 or above

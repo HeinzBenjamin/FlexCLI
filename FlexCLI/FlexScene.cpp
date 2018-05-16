@@ -96,7 +96,6 @@ namespace FlexCLI {
 			}
 		}
 
-
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 
 	}
@@ -222,13 +221,13 @@ namespace FlexCLI {
 	}
 
 	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<float>^ velocity, float inverseMass, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, int groupIndex) {
-#pragma region check everthing
+	#pragma region check everthing
 		for each (FlexParticle^ p in Particles)
 			if (p->GroupIndex == groupIndex)
 				throw gcnew Exception("Soft Body: Group index " + groupIndex + " already in use!");
 		if (vertices->Length == 0 || vertices->Length % 3 != 0 || triangles->Length % 3 != 0)
 			throw gcnew Exception("FlexScene::RegisterSoftBody(...) Invalid input!");
-#pragma endregion
+	#pragma endregion
 
 		std::vector<float> vt(vertices->Length);
 		for (int i = 0; i < vertices->Length; i++) vt[i] = vertices[i];
@@ -240,6 +239,49 @@ namespace FlexCLI {
 
 		RegisterAsset(asset, velocity, inverseMass, groupIndex);		
 		
+		NvFlexExtDestroyAsset(asset);
+	}
+
+	void FlexScene::InitSoftBodyFromMesh(void*% asset, array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness) {
+		std::vector<float> vt(vertices->Length);
+		for (int i = 0; i < vertices->Length; i++) vt[i] = vertices[i];
+
+		std::vector<int> tr(triangles->Length);
+		for (int i = 0; i < triangles->Length; i++) tr[i] = triangles[i];
+
+		asset = (void*)NvFlexExtCreateSoftFromMesh(&vt[0], vertices->Length / 3, &tr[0], triangles->Length, particleSpacing, volumeSampling, surfaceSampling, clusterSpacing, clusterRadius, clusterStiffness, linkRadius, linkStiffness, globalStiffness);
+	}
+
+	void FlexScene::UnwrapSoftBody(void* asset, array<float>^% particles, array<int>^% springIndices, array<array<int>^>^% shapeIndices) {
+		NvFlexExtAsset* a = (NvFlexExtAsset*)asset;
+		
+		particles = gcnew array<float>(a->numParticles * 3);
+		for (int i = 0; i < a->numParticles; i++) {
+			particles[i * 3] = a->particles[i * 4];
+			particles[i * 3 + 1] = a->particles[i * 4 + 1];
+			particles[i * 3 + 2] = a->particles[i * 4 + 2];
+		}
+
+		springIndices = gcnew array<int>(a->numSprings * 2);
+		for (int i = 0; i < springIndices->Length; i++)
+			springIndices[i] = a->springIndices[i];
+
+		shapeIndices = gcnew array<array<int>^>(a->numShapes);
+		int counter = 0;
+		for (int i = 0; i < a->numShapes; i++) {
+			if (i == 0)
+				shapeIndices[0] = gcnew array<int>(a->shapeOffsets[0]);				
+			else
+				shapeIndices[i] = gcnew array<int>(a->shapeOffsets[i] - a->shapeOffsets[i - 1]);				
+			
+			for (int j = 0; j < shapeIndices[i]->Length; j++) {
+				shapeIndices[i][j] = a->shapeIndices[counter];
+				counter += 1;
+			}
+		}
+	}
+
+	void FlexScene::DestroySoftBody(NvFlexExtAsset* asset) {
 		NvFlexExtDestroyAsset(asset);
 	}
 

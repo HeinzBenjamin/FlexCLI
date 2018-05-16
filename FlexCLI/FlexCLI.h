@@ -209,6 +209,9 @@ namespace FlexCLI {
 
 		//Softs
 		void RegisterSoftBody(array<float>^ vertices, array<float>^ velocity, float inverseMass, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, int groupIndex);
+		static void InitSoftBodyFromMesh(void*% asset, array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness);
+		static void UnwrapSoftBody(void* asset, array<float>^% particles, array<int>^% springIndices, array<array<int>^>^% shapeIndices);
+		static void DestroySoftBody(NvFlexExtAsset* asset);
 
 		//Springs
 		int NumSprings() { return (int)(SpringPairIndices->Count * 0.5); };
@@ -228,6 +231,9 @@ namespace FlexCLI {
 
 		//Custom Constraints
 		bool RegisterCustomConstraints(array<int>^ anchorIndices, array<int>^ shapeMatchingIndices, float shapeStiffness, array<int>^ springPairIndices, array<float>^ springStiffnesses, array<float>^ springDefaultLengths, array<int>^ triangleIndices, array<float>^ triangleNormals);
+
+		//Exposes RegisterAsset to managed code, using unsigned long as asset pointer NvFlexExtAsset*
+		void RegisterAsset(unsigned long long asset, array<float>^ velocity, float invMass, int groupIndex) { RegisterAsset((NvFlexExtAsset*)asset, velocity, invMass, groupIndex); }
 
 		bool IsValid();
 		String^ ToString() override;

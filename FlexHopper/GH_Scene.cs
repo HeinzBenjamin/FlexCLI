@@ -86,8 +86,13 @@ namespace FlexHopper
                 scene.RegisterRigidBody(r.Vertices, r.VertexNormals, r.Velocity, r.InvMasses, r.Stiffness, r.GroupIndex);
 
             foreach (SoftBody s in softs)
-                scene.RegisterSoftBody(s.Vertices, s.Velocity, s.InvMass, s.Triangles, s.SoftParams[0], s.SoftParams[1], s.SoftParams[2], s.SoftParams[3], s.SoftParams[4], s.SoftParams[5], s.SoftParams[6], s.SoftParams[7], s.SoftParams[8], s.GroupIndex);
+            {
+                if (s.Asset != 0)
+                    scene.RegisterAsset(s.Asset, s.Velocity, s.InvMass, s.GroupIndex);
+                else
+                    scene.RegisterSoftBody(s.Vertices, s.Velocity, s.InvMass, s.Triangles, s.SoftParams[0], s.SoftParams[1], s.SoftParams[2], s.SoftParams[3], s.SoftParams[4], s.SoftParams[5], s.SoftParams[6], s.SoftParams[7], s.SoftParams[8], s.GroupIndex);
 
+            }
             foreach (SpringSystem s in springs)
                 s.SpringOffset = scene.RegisterSpringSystem(s.Positions, s.Velocities, s.InvMasses, s.SpringPairIndices, s.Stiffnesses, s.TargetLengths, s.SelfCollision, s.AnchorIndices, s.GroupIndex);
 

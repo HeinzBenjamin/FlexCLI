@@ -10,6 +10,8 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 
+using FlexCLI;
+
 namespace FlexHopper
 {
     class Fluid
@@ -94,8 +96,14 @@ namespace FlexHopper
         public float[] SoftParams;
         public int GroupIndex;
         public Mesh Mesh;
+        public ulong Asset;        
 
-        public SoftBody(float[] vertices, float[] velocity, float invMass, int[] triangles, float[] softParams, int groupIndex)
+        public List<GH_Point> InitialParticles;
+        public GH_Structure<GH_Integer> SpringIndices;
+        public GH_Structure<GH_Integer> ShapeIndices;
+        
+
+        public SoftBody(float[] vertices, float[] velocity, float invMass, int[] triangles, float[] softParams, int groupIndex, ref GH_Structure<GH_Point> particleTree, ref GH_Structure<GH_Integer> spiTree, ref GH_Structure<GH_Integer> smcTree, ref GH_Structure<GH_Line> lineTree, ref GH_Structure<GH_Box> boxTree)
         {
             Vertices = vertices;
             Triangles = triangles;
@@ -103,6 +111,64 @@ namespace FlexHopper
             InvMass = invMass;
             SoftParams = softParams;
             GroupIndex = groupIndex;
+            Asset = 0;
+            
+            InitialParticles = new List<GH_Point>();
+            SpringIndices = new GH_Structure<GH_Integer>();
+            ShapeIndices = new GH_Structure<GH_Integer>();
+
+            unsafe
+            {
+                void* asset = null;
+                FlexScene.InitSoftBodyFromMesh(ref asset, vertices, triangles, softParams[0], softParams[1], softParams[2], softParams[3], softParams[4], softParams[5], softParams[6], softParams[7], softParams[8]);
+                Asset = (ulong)asset;
+
+                float[] initParticles = new float[0];
+                int[] springIndices = new int[0];
+                int[][] shapeIndices = new int[0][];
+
+                FlexScene.UnwrapSoftBody(asset, ref initParticles, ref springIndices, ref shapeIndices);
+
+                int gPathIndex = particleTree.Branches.Count;
+
+                for (int i = 0; i < initParticles.Length; i += 3)
+                {
+                    GH_Point pt = new GH_Point(new Point3d((double)initParticles[i], (double)initParticles[i + 1], (double)initParticles[i + 2]));
+                    InitialParticles.Add(pt);
+                    particleTree.Append(pt, new GH_Path(gPathIndex));
+                }
+
+                for (int i = 0; i < springIndices.Length; i += 2)
+                {
+                    //add to this very object
+                    GH_Path p = new GH_Path(i / 2);
+                    SpringIndices.Append(new GH_Integer(springIndices[i]), p);
+                    SpringIndices.Append(new GH_Integer(springIndices[i + 1]), p);
+
+                    //add to global tree for display
+                    GH_Path gp = new GH_Path(gPathIndex, i / 2);
+                    spiTree.Append(new GH_Integer(springIndices[i]), gp);
+                    spiTree.Append(new GH_Integer(springIndices[i + 1]), gp);
+
+                    lineTree.Append(
+                        new GH_Line(new Line(InitialParticles[springIndices[i]].Value, InitialParticles[springIndices[i + 1]].Value)));
+                }
+
+                for (int i = 0; i < shapeIndices.Length; i++)
+                {
+                    //add to this very object
+                    GH_Path p = new GH_Path(i);
+                    GH_Path gp = new GH_Path(gPathIndex, i);
+                    List<Point3d> smcPoints = new List<Point3d>();
+                    for (int j = 0; j < shapeIndices[i].Length; j++)
+                    {
+                        ShapeIndices.Append(new GH_Integer(shapeIndices[i][j]), p);
+                        smcTree.Append(new GH_Integer(shapeIndices[i][j]), gp);
+                        smcPoints.Add(InitialParticles[shapeIndices[i][j]].Value);
+                    }
+                    boxTree.Append(new GH_Box(new BoundingBox(smcPoints)), gp);
+                }
+            }
         }
 
         public bool HasMesh()
