@@ -8,6 +8,7 @@ using Rhino.Geometry;
 
 using FlexCLI;
 using FlexHopper.Properties;
+using System.Windows.Forms;
 
 namespace FlexHopper
 {
@@ -233,6 +234,43 @@ namespace FlexHopper
 
             DA.SetData(0, param);
 
+        }
+
+
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            ToolStripMenuItem mm = Menu_AppendItem(menu, "Make default file", item1_Clicked);
+            mm.ToolTipText = "Lets you dave a flex parameter file the default values to your drive, so you can just make changes to the default values.";
+        }
+
+        private void item1_Clicked(object sender, EventArgs e)
+        {
+            SaveFileDialog savefile = new SaveFileDialog();
+            // set a default file name
+            savefile.FileName = "defaultFlexParams.xml";
+            GH_Document doc = this.OnPingDocument();
+            //savefile.InitialDirectory = doc.FilePath.Substring(0, doc.FilePath.LastIndexOf(@"\"));
+            savefile.InitialDirectory = ".";
+            // set filters - this can be done in properties as well
+            savefile.Filter = ".xml files (*.xml)|*.xml|All files (*.*)|*.*";
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string s = "<?xml version=\"1.0\"?><params><GravityX>0.0</GravityX><GravityY>0.0</GravityY><GravityZ>-9.81</GravityZ><WindX>0.0</WindX><WindY>0.0</WindY><WindZ>0.0</WindZ><Radius>0.15</Radius><Viscosity>0.0</Viscosity><DynamicFriction>0.0</DynamicFriction><StaticFriction>0.0</StaticFriction><ParticleFriction>0.0</ParticleFriction><FreeSurfaceDrag>0.0</FreeSurfaceDrag><Drag>0.0</Drag><Lift>0.0</Lift><FluidRestDistance>0.0</FluidRestDistance><SolidRestDistance>0.0</SolidRestDistance><Dissipation>0.0</Dissipation><Damping>0.0</Damping><ParticleCollisionMargin>0.075</ParticleCollisionMargin><ShapeCollisionMargin>0.075</ShapeCollisionMargin><CollisionDistance>0.075</CollisionDistance><PlasticThreshold>0.0</PlasticThreshold><PlasticCreep>0.0</PlasticCreep><Fluid>true</Fluid><SleepThreshold>0.0</SleepThreshold><ShockPropagation>0.0</ShockPropagation><Restitution>0.0</Restitution><MaxSpeed>3.402823466e+38</MaxSpeed><MaxAcceleration>100.0</MaxAcceleration><RelaxationMode>0</RelaxationMode><RelaxationFactor>1.0</RelaxationFactor><SolidPressure>1.0</SolidPressure><Adhesion>0.0</Adhesion><Cohesion>0.025</Cohesion><SurfaceTension>0.0</SurfaceTension><Buoyancy>1.0</Buoyancy></params>";
+                    XmlDocument xdoc = new XmlDocument();
+                    xdoc.LoadXml(s);
+                    
+                    Stream stream = System.IO.File.Open(savefile.FileName, System.IO.FileMode.Create);
+                    xdoc.Save(stream);
+                    stream.Close();
+                }
+                catch (Exception ex)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "couldn't save param file:\n" + ex.ToString());
+                }
+            }
         }
 
         /// <summary>

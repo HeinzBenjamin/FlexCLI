@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+
 using Rhino.Geometry;
 using FlexHopper.Properties;
 
@@ -24,9 +27,9 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Triangle Indices", "Ind", "Indices of particles that are connected by a triangle and affected by wind, lift and drag in the form of a flattened list", GH_ParamAccess.list);
-            pManager.AddVectorParameter("Triangle Normals (optional)", "Nor", "Optional vertex normals. Length must be a third of 'Triangle Indices' length.", GH_ParamAccess.list);
-            pManager[1].Optional = true;
+            pManager.AddIntegerParameter("Triangle Indices", "Ind", "Indices of particles that are connected by a triangle and affected by wind, lift and drag. Supply a tree where each branch has three indices.", GH_ParamAccess.tree);
+            //pManager.AddVectorParameter("Triangle Normals (optional)", "Nor", "Optional vertex normals. Length must be a third of 'Triangle Indices' length.", GH_ParamAccess.list);
+            //pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -43,13 +46,32 @@ namespace FlexHopper.GH_GroupObjects
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<int> ind = new List<int>();
-            List<float> nor = new List<float>();
+            GH_Structure<GH_Integer> ind = new GH_Structure<GH_Integer>();
+            List<Vector3d> nor = new List<Vector3d>();            
 
-            DA.GetDataList(0, ind);
+            DA.GetDataTree(0, out ind);
             DA.GetDataList(1, nor);
 
-            DA.SetData(0, new ConstraintSystem(ind.ToArray(), nor.ToArray()));
+            
+
+            List<int> indices = new List<int>();
+            foreach (List<GH_Integer> i in ind.Branches)
+            {
+                indices.Add(i[0].Value);
+                indices.Add(i[1].Value);
+                indices.Add(i[2].Value);
+            }
+
+            /*List<float> normals = new List<float>();
+            foreach(Vector3d v in nor)
+            {
+                normals.Add((float)v.X);
+                normals.Add((float)v.Y);
+                normals.Add((float)v.Z);
+            }*/
+
+            //DA.SetData(0, new ConstraintSystem(indices.ToArray(), normals.ToArray()));
+            DA.SetData(0, new ConstraintSystem(indices.ToArray()));
         }
 
         /// <summary>

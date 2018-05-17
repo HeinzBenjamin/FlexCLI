@@ -17,7 +17,7 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         public ConstraintShapeMatching()
           : base("Constraint: Shape Matching Constraint", "Shape Matching",
-              "Group particles into shape matching constraints where they remain equidistant relative to each other",
+              "Group particles into shapes where they try to remain in their current formation",
               "Flex", "Composition")
         {
         }
@@ -28,7 +28,8 @@ namespace FlexHopper.GH_GroupObjects
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddIntegerParameter("Particle Indices", "Ind", "Particle indices to form shape matching constraints", GH_ParamAccess.tree);
-            pManager.AddNumberParameter("Stiffness", "Stiffness", "0.0 to 1.0", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Stiffness", "Stiff", "0.0 to 1.0", GH_ParamAccess.list);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -59,7 +60,15 @@ namespace FlexHopper.GH_GroupObjects
                 foreach (GH_Integer inte in siTree.Branches[i])
                     ints.Add(inte.Value);
                 if(ints.Count > 1)
-                    constraints.Add(new ConstraintSystem(ints.ToArray(), (float)ss[i]));
+                {
+                    if(ss.Count == 0)
+                        constraints.Add(new ConstraintSystem(ints.ToArray(), 1.0f));
+                    else if (ss.Count > i)
+                        constraints.Add(new ConstraintSystem(ints.ToArray(), (float)ss[i]));
+                    else
+                        constraints.Add(new ConstraintSystem(ints.ToArray(), (float)ss[ss.Count - 1]));
+                }
+                    
             }
 
             DA.SetDataList(0, constraints);

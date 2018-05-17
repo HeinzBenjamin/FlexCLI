@@ -474,14 +474,19 @@ namespace FlexHopper
             foreach (int i in AnchorIndices)
                 str += " " + i + ",";
             str += "}";
-            str += "\nShapeMatching = {";
-            foreach (int i in ShapeMatchingIndices)
-                str += " " + i + ",";
-            str += "}";
             str += "\nSpringPairs = {";
             for(int i = 0; i < SpringPairIndices.Length / 2; i++)
                 str += " " + SpringPairIndices[2 * i] + " - " + SpringPairIndices[2 * i + 1] + ",";
             str += "}";
+            str += "\nSpringStiffnesses = {";
+            for (int i = 0; i < SpringStiffnesses.Length; i++)
+                str += " " + SpringStiffnesses[i] + ",";
+            str += "}";
+            str += "\nShapeMatching = {";
+            foreach (int i in ShapeMatchingIndices)
+                str += " " + i + ",";
+            str += "}";
+            str += "\nShapeStiffness = " + ShapeStiffness;
             str += "\nTriangles = {";
             for (int i = 0; i < TriangleIndices.Length / 3; i++)
                 str += " " + TriangleIndices[3 * i] + " - " + TriangleIndices[3 * i + 1] + " - " + TriangleIndices[3 * i + 2] + ",";
