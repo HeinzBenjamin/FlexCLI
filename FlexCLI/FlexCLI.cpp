@@ -20,8 +20,7 @@ namespace FlexCLI {
 	NvFlexLibrary* Library;
 	NvFlexSolver* Solver;
 	NvFlexParams Params;
-	NvFlexExtForceFieldCallback* ForceFieldCallback;
-
+	NvFlexExtForceFieldCallback* ForceFieldCallback; 
 	int n; //The particle count in this very iteration
 	float dt;
 	int subSteps;

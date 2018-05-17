@@ -127,9 +127,10 @@ namespace FlexHopper
                 int[] springIndices = new int[0];
                 int[][] shapeIndices = new int[0][];
 
-                FlexScene.UnwrapSoftBody(asset, ref initParticles, ref springIndices, ref shapeIndices);
+                FlexScene.UnwrapSoftBody(asset, ref initParticles, ref springIndices, ref shapeIndices);                
 
                 int gPathIndex = particleTree.Branches.Count;
+                GH_Path globalPath = new GH_Path(gPathIndex);
 
                 for (int i = 0; i < initParticles.Length; i += 3)
                 {
@@ -151,7 +152,7 @@ namespace FlexHopper
                     spiTree.Append(new GH_Integer(springIndices[i + 1]), gp);
 
                     lineTree.Append(
-                        new GH_Line(new Line(InitialParticles[springIndices[i]].Value, InitialParticles[springIndices[i + 1]].Value)));
+                        new GH_Line(new Line(InitialParticles[springIndices[i]].Value, InitialParticles[springIndices[i + 1]].Value)), globalPath);
                 }
 
                 for (int i = 0; i < shapeIndices.Length; i++)
@@ -166,7 +167,7 @@ namespace FlexHopper
                         smcTree.Append(new GH_Integer(shapeIndices[i][j]), gp);
                         smcPoints.Add(InitialParticles[shapeIndices[i][j]].Value);
                     }
-                    boxTree.Append(new GH_Box(new BoundingBox(smcPoints)), gp);
+                    boxTree.Append(new GH_Box(new BoundingBox(smcPoints)), globalPath);
                 }
             }
         }

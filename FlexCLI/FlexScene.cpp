@@ -18,6 +18,8 @@ namespace FlexCLI {
 		RigidStiffnesses = gcnew List<float>();
 		RigidRotations = gcnew List<float>();
 		RigidTranslations = gcnew List<float>();
+		NumActualRigids = 0;
+		SoftBodyOffsets = gcnew List<int>();
 		//springs
 		SpringPairIndices = gcnew List<int>();
 		SpringIndices = gcnew List<int>();
@@ -41,7 +43,7 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, array<float>^ velocity, float invMass, int groupIndex) {
+	void FlexScene::RegisterAsset(NvFlexExtAsset* asset, array<float>^ velocity, float invMass, int groupIndex, bool isSoftBody) {
 
 		if (asset->numParticles == 0)
 			return;
@@ -54,6 +56,11 @@ namespace FlexCLI {
 			parts->Add(gcnew FlexParticle(pos, velocity, invMass, NvFlexMakePhase(groupIndex, 0), true));
 		}
 		Particles->AddRange(parts);
+		if (isSoftBody) {
+			if (SoftBodyOffsets->Count == 0)
+				SoftBodyOffsets->Add(oldNumParticles);
+			SoftBodyOffsets->Add(oldNumParticles + asset->numParticles);
+		}
 
 		for (int i = 0; i < asset->numSprings; i++) {
 			SpringPairIndices->Add(asset->springIndices[2 * i] + oldNumParticles);
@@ -217,29 +224,9 @@ namespace FlexCLI {
 		RigidTranslations->Add(0.0f);
 		RigidTranslations->Add(0.0f);
 
+		NumActualRigids += 1;
+
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
-	}
-
-	void FlexScene::RegisterSoftBody(array<float>^ vertices, array<float>^ velocity, float inverseMass, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness, int groupIndex) {
-	#pragma region check everthing
-		for each (FlexParticle^ p in Particles)
-			if (p->GroupIndex == groupIndex)
-				throw gcnew Exception("Soft Body: Group index " + groupIndex + " already in use!");
-		if (vertices->Length == 0 || vertices->Length % 3 != 0 || triangles->Length % 3 != 0)
-			throw gcnew Exception("FlexScene::RegisterSoftBody(...) Invalid input!");
-	#pragma endregion
-
-		std::vector<float> vt(vertices->Length);
-		for (int i = 0; i < vertices->Length; i++) vt[i] = vertices[i];
-
-		std::vector<int> tr(triangles->Length);
-		for (int i = 0; i < triangles->Length; i++) tr[i] = triangles[i];
-
-		NvFlexExtAsset* asset = NvFlexExtCreateSoftFromMesh(&vt[0], vertices->Length / 3, &tr[0], triangles->Length, particleSpacing, volumeSampling, surfaceSampling, clusterSpacing, clusterRadius, clusterStiffness, linkRadius, linkStiffness, globalStiffness);
-
-		RegisterAsset(asset, velocity, inverseMass, groupIndex);		
-		
-		NvFlexExtDestroyAsset(asset);
 	}
 
 	void FlexScene::InitSoftBodyFromMesh(void*% asset, array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness) {
@@ -625,14 +612,22 @@ namespace FlexCLI {
 	List<FlexParticle^>^ FlexScene::GetRigidParticles() {
 		List<FlexParticle^>^ particles = gcnew List<FlexParticle^>();
 
-		for (int numRigid = 0; numRigid < NumRigids(); numRigid++) {
-			for (int j = RigidOffsets[numRigid]; j < RigidOffsets[numRigid + 1]; j++) {
-				FlexParticle^ part = Particles[RigidIndices[j]];
-
-				particles->Add(part);
-			}
+		for (int numRigid = 0; numRigid < NumActualRigids; numRigid++) {
+			for (int j = RigidOffsets[numRigid]; j < RigidOffsets[numRigid + 1]; j++)
+				particles->Add(Particles[RigidIndices[j]]);
 		}
 
+		return particles;
+	}
+
+	List<List<FlexParticle^>^>^ FlexScene::GetSoftParticles() {
+		List<List<FlexParticle^>^>^ particles = gcnew List<List<FlexParticle^>^>();
+		for (int i = 1; i < SoftBodyOffsets->Count; i++) {
+			List<FlexParticle^>^ part = gcnew List<FlexParticle^>();
+			for (int j = SoftBodyOffsets[i - 1]; j < SoftBodyOffsets[i]; j++)
+				part->Add(Particles[j]);
+			particles->Add(part);
+		}
 		return particles;
 	}
 
@@ -689,6 +684,9 @@ namespace FlexCLI {
 		this->RigidRestNormals->AddRange(newScene->RigidRestNormals);
 		this->RigidRestPositions->AddRange(newScene->RigidRestPositions);
 		this->RigidStiffnesses->AddRange(newScene->RigidStiffnesses);
+		this->NumActualRigids += newScene->NumActualRigids;
+		//TO DO!!!!
+		this->SoftBodyOffsets->AddRange(newScene->SoftBodyOffsets);
 
 		//springs
 		for each(int si in newScene->SpringIndices)
@@ -732,6 +730,7 @@ namespace FlexCLI {
 		str += "\nNumFluidParticles = " + FluidIndices->Count;
 		str += "\nNumRigidParticles = " + RigidIndices->Count;
 		str += "\nNumRigidBodies = " + (RigidOffsets->Count - 1);
+		str += "\nNumSoftBodies = " + ((SoftBodyOffsets->Count - 1) > 0 ? (SoftBodyOffsets->Count - 1) : 0);
 		str += "\nNumSpringParticles = " + SpringIndices->Count;
 		str += "\nNumSprings = " + (SpringPairIndices->Count / 2);
 		str += "\nNumClothParticles = " + ClothIndices->Count;

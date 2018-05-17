@@ -102,6 +102,7 @@
     <Compile Include="GH_Getters\GH_GetFluids.cs" />
     <Compile Include="GH_Getters\GH_GetInflatables.cs" />
     <Compile Include="GH_Getters\GH_GetParticleDescription.cs" />
+    <Compile Include="GH_Getters\GH_GetSofts.cs" />
     <Compile Include="GH_Getters\GH_GetRigids.cs" />
     <Compile Include="GH_Getters\GH_GetSpringSystems.cs" />
     <Compile Include="GH_Getters\GH_InstantBake.cs" />
