@@ -88,9 +88,7 @@ namespace FlexHopper.GH_Getters
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Number of supplied soft bodies doesn't match internal info. Please make sure to supply ALL soft bodies connected to the engine in the correct order");
 
                 int rotateCounter = flex.Scene.NumRigidBodies() * 4;
-                //int translateCounter = flex.Scene.NumRigids() * 3;
                 List<float> rotation = flex.Scene.GetRigidRotations();
-                List<float> translation = flex.Scene.GetRigidRotations();
 
                 for (int i = 0; i < softs.Count; i++)
                 {
@@ -121,7 +119,6 @@ namespace FlexHopper.GH_Getters
 
                         boxTree.Append(new GH_Box(new Box(refPlane, shapePoints)), gp);
 
-                        //translateCounter += 3;
                         rotateCounter += 4;
                     }
                 }
@@ -143,7 +140,7 @@ namespace FlexHopper.GH_Getters
         {
             get
             {
-                return Resources.getRigids;
+                return Resources.getSoftBodies;
             }
         }
 
