@@ -28,7 +28,7 @@ namespace FlexHopper.GH_GroupObjects
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddIntegerParameter("Particle Indices", "Ind", "Particle indices to form shape matching constraints", GH_ParamAccess.tree);
-            pManager.AddNumberParameter("Stiffness", "Stiff", "0.0 to 1.0", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Stiffness", "Stiff", "0.0 to 1.0 (Default: 1.0)", GH_ParamAccess.list);
             pManager[1].Optional = true;
         }
 

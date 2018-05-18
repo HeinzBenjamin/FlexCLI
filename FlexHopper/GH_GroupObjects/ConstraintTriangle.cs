@@ -28,8 +28,6 @@ namespace FlexHopper.GH_GroupObjects
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddIntegerParameter("Triangle Indices", "Ind", "Indices of particles that are connected by a triangle and affected by wind, lift and drag. Supply a tree where each branch has three indices.", GH_ParamAccess.tree);
-            //pManager.AddVectorParameter("Triangle Normals (optional)", "Nor", "Optional vertex normals. Length must be a third of 'Triangle Indices' length.", GH_ParamAccess.list);
-            //pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -47,10 +45,10 @@ namespace FlexHopper.GH_GroupObjects
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             GH_Structure<GH_Integer> ind = new GH_Structure<GH_Integer>();
-            List<Vector3d> nor = new List<Vector3d>();            
+            //List<Vector3d> nor = new List<Vector3d>();            
 
             DA.GetDataTree(0, out ind);
-            DA.GetDataList(1, nor);
+            //DA.GetDataList(1, nor);
 
             
 
