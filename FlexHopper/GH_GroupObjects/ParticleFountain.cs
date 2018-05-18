@@ -28,9 +28,9 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddPlaneParameter("Origin Plane", "Plane", "", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Particle Count", "Count", "Particles generated per tick. Avoid multiples of seven when'Rand' input is false.", GH_ParamAccess.item, 20);
             pManager.AddNumberParameter("Diameter", "Dia", "Diameter of the fountain cross section. When using fluids or self colliding particles make sure this is large enough for the repelling particles to fit in the fountain cross section!", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Random Direction Range", "RDir", "Range of randomness in initial particle directions {0.0 to Pi}", GH_ParamAccess.item, 0.0);
+            pManager.AddNumberParameter("Random Direction Range", "RDir", "Range of randomness in initial particle directions {0.0 to Pi}. If randomness is involved, connect a timer to this component.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Velocity", "Vel", "", GH_ParamAccess.item, 1.0);
-            pManager.AddBooleanParameter("Random Positions", "Rand", "Determine whether initial particle positions are distributed randomly or evenly (through sunflower pattern).", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("Random Positions", "Rand", "Determine whether initial particle positions are distributed randomly or evenly (through sunflower pattern). If randomness is involved, connect a timer to this component.", GH_ParamAccess.item, true);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
