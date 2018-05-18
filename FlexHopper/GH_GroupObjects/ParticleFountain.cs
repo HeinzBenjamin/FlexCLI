@@ -26,14 +26,16 @@ namespace FlexHopper.GH_GroupObjects
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddPlaneParameter("Origin Plane", "Plane", "", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Particle Count", "Count", "Particles generated per tick", GH_ParamAccess.item, 20);
+            pManager.AddIntegerParameter("Particle Count", "Count", "Particles generated per tick. Avoid multiples of seven when'Rand' input is false.", GH_ParamAccess.item, 20);
             pManager.AddNumberParameter("Diameter", "Dia", "Diameter of the fountain cross section. When using fluids or self colliding particles make sure this is large enough for the repelling particles to fit in the fountain cross section!", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Angle", "Angle", "{0.0 to 2*Pi}", GH_ParamAccess.item, Math.PI * 0.16666667);
+            pManager.AddNumberParameter("Random Direction Range", "RDir", "Range of randomness in initial particle directions {0.0 to Pi}", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Velocity", "Vel", "", GH_ParamAccess.item, 1.0);
+            pManager.AddBooleanParameter("Random Positions", "Rand", "Determine whether initial particle positions are distributed randomly or evenly (through sunflower pattern).", GH_ParamAccess.item, true);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
             pManager[4].Optional = true;
+            pManager[5].Optional = true;
         }
 
         /// <summary>
@@ -56,19 +58,32 @@ namespace FlexHopper.GH_GroupObjects
             double angle = 0.0;
             double dia = 1.0;
             double vel = 0.0;
+            bool rand = true;
 
             DA.GetData(0, ref oPlane);
             DA.GetData(1, ref count);
             DA.GetData(2, ref dia);
             DA.GetData(3, ref angle);
             DA.GetData(4, ref vel);
+            DA.GetData(5, ref rand);
 
             List<Point3d> pts = new List<Point3d>();
             List<Vector3d> vels = new List<Vector3d>();
 
             for(int i = 0; i < count; i++)
             {
-                pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 0.5) * dia, (rnd.NextDouble() - 0.5) * dia)));
+                if(rand)
+                    pts.Add(new Point3d(oPlane.PointAt((rnd.NextDouble() - 0.5) * dia, (rnd.NextDouble() - 0.5) * dia)));
+                else
+                {
+                    double ratio = ((double)i / (double)count) * (137.508 / Math.PI);
+                    double u = Math.Pow(ratio, 0.5) * Math.Cos(ratio);
+                    u = u * dia * 0.5 / (2 * Math.PI);
+                    double v = Math.Pow(ratio, 0.5) * Math.Sin(ratio);
+                    v = v * dia * 0.5 / (2 * Math.PI);
+                    pts.Add(oPlane.PointAt(u, v));
+                }
+
                 Vector3d vv = oPlane.ZAxis;
                 vv.Unitize();
                 
