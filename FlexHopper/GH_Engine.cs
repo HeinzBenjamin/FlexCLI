@@ -160,12 +160,22 @@ namespace FlexHopper
                     //update params if timestamp expired
                     DA.GetData(0, ref param);
                     if (param.TimeStamp != paramsTimeStamp)
+                    {
                         flex.SetParams(param);
+                        paramsTimeStamp = param.TimeStamp;
+                    }                        
 
                     //update geom if timestamp expired
-                    DA.GetData(1, ref geom);
-                    if (geom.TimeStamp != geomTimeStamp)
-                        flex.SetCollisionGeometry(geom);
+                    if (DA.GetData(1, ref geom))
+                    {
+                        if (geom.TimeStamp != geomTimeStamp)
+                        {
+                            flex.SetCollisionGeometry(geom);
+                            geomTimeStamp = geom.TimeStamp;
+                        }
+                    }
+                    else if (geom != null)
+                        flex.SetCollisionGeometry(new FlexCollisionGeometry());
 
                     //update forcefields where timestamp expired
                     DA.GetDataList(2, forceFields);

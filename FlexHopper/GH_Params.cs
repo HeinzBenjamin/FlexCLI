@@ -33,7 +33,7 @@ namespace FlexHopper
             pManager.AddNumberParameter("Radius", "Radius", "The maximum interaction radius for particles.", GH_ParamAccess.item, 0.15);
 
             //collisions
-            pManager.AddNumberParameter("Solid Rest Distance", "SolidRestDistance", "The distance non-fluid particles attempt to maintain from each other, must be in the range (0, radius].", GH_ParamAccess.item, 0.075);
+            pManager.AddNumberParameter("Solid Rest Distance", "SolidRestDistance", "The distance non-fluid particles attempt to maintain from each other, must be in the range (0,.", GH_ParamAccess.item, 0.15);
             pManager.AddNumberParameter("Fluid Rest Distance", "FluidRestDistance", "The distance fluid particles are spaced at the rest density, must be in the range (0, radius], for fluids this should generally be 50-70% of Radius, for rigids this can simply be the same as the particle radius.", GH_ParamAccess.item, 0.1);
 
             pManager.AddNumberParameter("Collision Distance", "CollisionDistance", "Distance particles maintain against shapes, note that for robust collision against triangle meshes this distance should be greater than zero.", GH_ParamAccess.item, 0.075);
@@ -41,10 +41,10 @@ namespace FlexHopper
             pManager.AddNumberParameter("Shape Collision Margin", "ShapeCollisionMargin", "Increases the radius used during contact finding against kinematic shapes.", GH_ParamAccess.item, 0.5);
 
             pManager.AddNumberParameter("Max Speed", "MaxSpeed", "	The magnitude of particle velocity will be clamped to this value at the end of each step.", GH_ParamAccess.item, float.MaxValue);
-            pManager.AddNumberParameter("Max Acceleration", "MaxAcceleration", "The magnitude of particle acceleration will be clamped to this value at the end of each step (limits max velocity change per-second), useful to avoid popping due to large interpenetrations.", GH_ParamAccess.item, 1000.0);
+            pManager.AddNumberParameter("Max Acceleration", "MaxAcceleration", "The magnitude of particle acceleration will be clamped to this value at the end of each step (limits max velocity change per-second), useful to avoid popping due to large interpenetrations.", GH_ParamAccess.item, 100.0);
 
             //friction
-            pManager.AddNumberParameter("Dynamic Friction", "DynamicFriction", "Coefficient of friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
+            //pManager.AddNumberParameter("Dynamic Friction", "DynamicFriction", "Coefficient of friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Static Friction", "StaticFriction", "Coefficient of static friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Particle Friction", "ParticleFriction", "Coefficient of friction used when colliding particles.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Restitution", "Restitution", "Coefficient of restitution used when colliding against shapes, particle collisions are always inelastic.", GH_ParamAccess.item, 0.0);
@@ -107,7 +107,7 @@ namespace FlexHopper
             pManager[27].Optional = true;
             pManager[28].Optional = true;
             pManager[29].Optional = true;
-            pManager[30].Optional = true;
+            //pManager[30].Optional = true;
             #endregion
         }
 
@@ -186,6 +186,8 @@ namespace FlexHopper
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            param = new FlexParams();
+
             Vector3d gra = new Vector3d(0.0, 0.0, -9.81);
             double rad = 0.15;
             double srd = 0.075;
@@ -195,7 +197,7 @@ namespace FlexHopper
             double scm = 0.0;
             double mxs = 0.0;
             double mxa = 0.0;
-            double dyf = 0.0;
+            //double dyf = 0.0;
             double stf = 0.0;
             double paf = 0.0;
             double res = 0.0;
@@ -228,7 +230,7 @@ namespace FlexHopper
             DA.GetData("Shape Collision Margin", ref scm);
             DA.GetData("Max Speed", ref mxs);
             DA.GetData("Max Acceleration", ref mxa);
-            DA.GetData("Dynamic Friction", ref dyf);
+            //DA.GetData("Dynamic Friction", ref dyf);
             DA.GetData("Static Friction", ref stf);
             DA.GetData("Particle Friction", ref paf);
             DA.GetData("Restitution", ref res);
@@ -252,6 +254,9 @@ namespace FlexHopper
             DA.GetData("Relaxation Mode", ref rem);
             DA.GetData("Relaxation Factor", ref rfa);
 
+            if (srd > rad)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Solid rest distance should be smaller or equal to radius.");
+
             param.GravityX = (float)gra.X;
             param.GravityY = (float)gra.Y;
             param.GravityZ = (float)gra.Z;
@@ -263,7 +268,7 @@ namespace FlexHopper
             param.ShapeCollisionMargin = (float)scm;
             param.MaxSpeed = (float)mxs;
             param.MaxAcceleration = (float)mxa;
-            param.DynamicFriction = (float)dyf;
+            //param.DynamicFriction = (float)dyf;
             param.StaticFriction = (float)stf;
             param.ParticleFriction = (float)paf;
             param.Restitution = (float)res;

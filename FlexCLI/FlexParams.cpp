@@ -5,7 +5,7 @@ namespace FlexCLI {
 
 	FlexParams::FlexParams() {
 #pragma region set dedault values
-		NumIterations = 2;
+		NumIterations = 3;
 		GravityX = 0.0f;
 		GravityY = 0.0f;
 		GravityZ = -9.81f;
@@ -20,18 +20,17 @@ namespace FlexCLI {
 		FreeSurfaceDrag = 0.0f;
 		Drag = 0.0f;
 		Lift = 0.0f;
-		NumIterations = 3;
-		FluidRestDistance = 0.0f;
-		SolidRestDistance = 0.0f;
+		FluidRestDistance = 0.1f;
+		SolidRestDistance = 0.075f;
 		AnisotropyScale = 0.0f;
 		AnisotropyMin = 0.1f;
 		AnisotropyMax = 0.2f;
 		Smoothing = 0.0f;
 		Dissipation = 0.0f;
 		Damping = 0.0f;
-		ParticleCollisionMargin = 0.0f;
-		ShapeCollisionMargin = 0.0f;
-		CollisionDistance = 0.0f;
+		ParticleCollisionMargin = 0.5f;
+		ShapeCollisionMargin = 0.5f;
+		CollisionDistance = 0.075f;
 		PlasticThreshold = 0.0f;
 		PlasticCreep = 0.0f;
 		Fluid = true;
@@ -59,7 +58,7 @@ namespace FlexCLI {
 		NumPlanes = 0;
 #pragma endregion
 
-		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
+		TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 	bool FlexParams::IsValid() {
 		//TODOOOO!!!!

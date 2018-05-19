@@ -29,7 +29,7 @@ namespace FlexHopper
             pManager.AddPlaneParameter("Collision Planes", "Planes", "If you have planes to register, use this input rather than meshes.", GH_ParamAccess.list);
             pManager.AddSurfaceParameter("Collision Spheres","Spheres", "If you have spheres to register, use this input rather than meshes.", GH_ParamAccess.list);
             pManager.AddBoxParameter("Collision Boxes", "Boxes", "If you have spheres to register, use this input rather than meshes.", GH_ParamAccess.list);
-            pManager.AddMeshParameter("Collision Meshes", "Meshes", "Make sure the mesh is triangulated, clean and all face normals uniformly point inwards", GH_ParamAccess.list);
+            pManager.AddMeshParameter("Collision Meshes", "Meshes", "Make sure the mesh is triangulated and clean. Particles only collide with mesh faces who's normal vectors point away from the particle. E.g. if you want particles to stay outside of the mesh, make all mesh face normals point inward.", GH_ParamAccess.list);
             pManager.AddMeshParameter("Convex Meshes", "CMeshes", "Meshes that are known to be convex are being recognized faster. Add them here. (Currently only supports meshes with up to 64 faces)", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;

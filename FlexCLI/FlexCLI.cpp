@@ -318,7 +318,7 @@ namespace FlexCLI {
 	void Flex::SetCollisionGeometry(FlexCollisionGeometry^ flexCollisionGeometry) {
 
 		//PLANES
-		if (flexCollisionGeometry->NumPlanes > 0 && flexCollisionGeometry->Planes) {
+		//if (flexCollisionGeometry->NumPlanes > 0 && flexCollisionGeometry->Planes) {
 			//unlike other collision geometries, planes are registered in the Flex param (NvFlexParams)
 			Params.numPlanes = flexCollisionGeometry->NumPlanes;
 			for (int i = 0; i < flexCollisionGeometry->NumPlanes; i++) {
@@ -328,7 +328,7 @@ namespace FlexCLI {
 				Params.planes[i][3] = flexCollisionGeometry->Planes[i * 4 + 3];
 			}
 			NvFlexSetParams(Solver, &Params);
-		}
+		//}
 
 
 		//EVERYTHING ELSE
