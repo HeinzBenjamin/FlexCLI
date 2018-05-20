@@ -102,6 +102,7 @@
     <Compile Include="GH_Getters\GH_GetFluids.cs" />
     <Compile Include="GH_Getters\GH_GetInflatables.cs" />
     <Compile Include="GH_Getters\GH_GetParticleDescription.cs" />
+    <Compile Include="GH_Getters\GH_GetRigidTransformations.cs" />
     <Compile Include="GH_Getters\GH_GetSofts.cs" />
     <Compile Include="GH_Getters\GH_GetRigids.cs" />
     <Compile Include="GH_Getters\GH_GetSpringSystems.cs" />
@@ -229,6 +230,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\getSoftBodies.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getRigidTransformations.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

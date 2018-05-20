@@ -85,7 +85,7 @@ namespace FlexHopper
                 else
                     geom.AddSphere(new float[] { (float)sph.Center.X,
                         (float)sph.Center.Y,
-                        (float)sph.Center.Z }, 
+                        (float)sph.Center.Z },
                         (float)sph.Radius);
             }
 

@@ -208,6 +208,7 @@ namespace FlexCLI {
 		List<FlexParticle^>^ GetRigidParticles();
 		List<float>^ GetRigidRotations() { return RigidRotations; };
 		List<float>^ GetRigidTranslations() { return RigidTranslations; };
+		List<float>^ GetShapeMassCenters() { return ShapeMassCenters; }
 
 		//Softs
 		static void InitSoftBodyFromMesh(void*% asset, array<float>^ vertices, array<int>^ triangles, float particleSpacing, float volumeSampling, float surfaceSampling, float clusterSpacing, float clusterRadius, float clusterStiffness, float linkRadius, float linkStiffness, float globalStiffness);
@@ -254,6 +255,7 @@ namespace FlexCLI {
 		List<int>^ RigidOffsets;
 		int NumActualRigids; //number of rigids and not soft bodies
 		List<int>^ SoftBodyOffsets; //particle offset related to each soft body (not indivudal shapes, or "rigids" within a single soft body
+		List<float>^ ShapeMassCenters;
 		List<float>^ RigidRestPositions;
 		List<float>^ RigidRestNormals;
 		List<float>^ RigidStiffnesses;

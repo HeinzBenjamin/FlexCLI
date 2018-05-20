@@ -44,7 +44,7 @@ namespace FlexHopper
             pManager.AddNumberParameter("Max Acceleration", "MaxAcceleration", "The magnitude of particle acceleration will be clamped to this value at the end of each step (limits max velocity change per-second), useful to avoid popping due to large interpenetrations.", GH_ParamAccess.item, 100.0);
 
             //friction
-            //pManager.AddNumberParameter("Dynamic Friction", "DynamicFriction", "Coefficient of friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
+            pManager.AddNumberParameter("Dynamic Friction", "DynamicFriction", "Coefficient of friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Static Friction", "StaticFriction", "Coefficient of static friction used when colliding against shapes.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Particle Friction", "ParticleFriction", "Coefficient of friction used when colliding particles.", GH_ParamAccess.item, 0.0);
             pManager.AddNumberParameter("Restitution", "Restitution", "Coefficient of restitution used when colliding against shapes, particle collisions are always inelastic.", GH_ParamAccess.item, 0.0);
@@ -107,7 +107,7 @@ namespace FlexHopper
             pManager[27].Optional = true;
             pManager[28].Optional = true;
             pManager[29].Optional = true;
-            //pManager[30].Optional = true;
+            pManager[30].Optional = true;
             #endregion
         }
 
@@ -197,7 +197,7 @@ namespace FlexHopper
             double scm = 0.0;
             double mxs = 0.0;
             double mxa = 0.0;
-            //double dyf = 0.0;
+            double dyf = 0.0;
             double stf = 0.0;
             double paf = 0.0;
             double res = 0.0;
@@ -230,7 +230,7 @@ namespace FlexHopper
             DA.GetData("Shape Collision Margin", ref scm);
             DA.GetData("Max Speed", ref mxs);
             DA.GetData("Max Acceleration", ref mxa);
-            //DA.GetData("Dynamic Friction", ref dyf);
+            DA.GetData("Dynamic Friction", ref dyf);
             DA.GetData("Static Friction", ref stf);
             DA.GetData("Particle Friction", ref paf);
             DA.GetData("Restitution", ref res);
@@ -268,7 +268,7 @@ namespace FlexHopper
             param.ShapeCollisionMargin = (float)scm;
             param.MaxSpeed = (float)mxs;
             param.MaxAcceleration = (float)mxa;
-            //param.DynamicFriction = (float)dyf;
+            param.DynamicFriction = (float)dyf;
             param.StaticFriction = (float)stf;
             param.ParticleFriction = (float)paf;
             param.Restitution = (float)res;

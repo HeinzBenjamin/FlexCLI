@@ -10,6 +10,7 @@ namespace FlexCLI {
 		//fluids
 		FluidIndices = gcnew List<int>();
 		//rigids
+		ShapeMassCenters = gcnew List<float>();
 		RigidIndices = gcnew List<int>();
 		RigidOffsets = gcnew List<int>();
 		RigidOffsets->Add(0);
@@ -200,6 +201,10 @@ namespace FlexCLI {
 		massCenter.x /= (float)currentNumParticles;
 		massCenter.y /= (float)currentNumParticles;
 		massCenter.z /= (float)currentNumParticles;
+
+		ShapeMassCenters->Add(massCenter.x);
+		ShapeMassCenters->Add(massCenter.y);
+		ShapeMassCenters->Add(massCenter.z);
 
 		for (int i = 0; i < currentNumParticles; i++) {
 			RigidRestPositions->Add(vertices[i * 3] - massCenter.x);
@@ -536,6 +541,10 @@ namespace FlexCLI {
 			massCenter.y /= shapeMatchingIndices->Length;
 			massCenter.z /= shapeMatchingIndices->Length;
 
+			ShapeMassCenters->Add(massCenter.x);
+			ShapeMassCenters->Add(massCenter.y);
+			ShapeMassCenters->Add(massCenter.z);
+
 			for (int i = 0; i < shapeMatchingIndices->Length; i++) {
 				RigidRestNormals->Add(0.0f);
 				RigidRestNormals->Add(0.0f);
@@ -673,6 +682,7 @@ namespace FlexCLI {
 			this->FluidIndices->Add(fi + oldNumParticles);
 
 		//rigids
+		this->ShapeMassCenters->AddRange(newScene->ShapeMassCenters);
 		int oldRigidOffset = this->RigidOffsets[this->RigidOffsets->Count - 1];
 		for each(int ri in newScene->RigidIndices)
 			this->RigidIndices->Add(ri + oldNumParticles); {}
