@@ -44,6 +44,7 @@ namespace FlexHopper.GH_Getters
             pManager.AddVectorParameter("Velocity", "Vel", "", GH_ParamAccess.tree);
             pManager.AddLineParameter("Spring Lines", "S", "", GH_ParamAccess.tree);
             pManager.AddBoxParameter("Shape Matching Boxes", "B", "", GH_ParamAccess.tree);
+            pManager.AddMeshParameter("Mesh", "M", "Is only generated, when softParams were supplied to attempt bijective mapping (see Soft from Mesh component)", GH_ParamAccess.list);
         }
 
         
@@ -65,6 +66,7 @@ namespace FlexHopper.GH_Getters
             GH_Structure<GH_Vector> vel = new GH_Structure<GH_Vector>();
             GH_Structure<GH_Line> lnTree = new GH_Structure<GH_Line>();
             GH_Structure<GH_Box> boxTree = new GH_Structure<GH_Box>();
+            List<Mesh> meshes = new List<Mesh>();
 
             if (flex != null)
             {
@@ -121,16 +123,23 @@ namespace FlexHopper.GH_Getters
 
                         rotateCounter += 4;
                     }
-                }
 
-                
-                
+                    if (softs[i].NewMeshFaces.Count > 0)         
+                    {
+                        Mesh mmm = new Mesh();
+                        foreach (GH_Point p in thisBranchPts)
+                            mmm.Vertices.Add(p.Value);
+                        mmm.Faces.AddFaces(softs[i].NewMeshFaces);
+                        meshes.Add(mmm);
+                    }
+                }
             }
 
             DA.SetDataTree(0, pts);
             DA.SetDataTree(1, vel);
             DA.SetDataTree(2, lnTree);
             DA.SetDataTree(3, boxTree);
+            DA.SetDataList(4, meshes);
         }
 
         /// <summary>

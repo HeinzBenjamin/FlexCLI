@@ -65,7 +65,6 @@ namespace FlexHopper.GH_Getters
                 List<float> trans = flex.Scene.GetRigidTranslations();
                 List<float> massCenters = flex.Scene.GetShapeMassCenters();
 
-
                 for(int i = 0; i < massCenters.Count / 3; i++)
                 {
                     translations.Add(new Vector3d(trans[i * 3] - massCenters[i * 3], trans[i * 3 + 1] - massCenters[i * 3 + 1], trans[i * 3 + 2] - massCenters[i * 3 + 2]));
@@ -80,7 +79,7 @@ namespace FlexHopper.GH_Getters
                     double angle = 2.0 * halfAngle;
 
                     Transform a = Transform.Translation(translations[i]);
-                    Transform b = Transform.Rotation(angle, r, new Point3d( massCenters[i * 3], massCenters[i * 3 + 1], massCenters[i * 3 + 2]));
+                    Transform b = Transform.Rotation(angle, r, new Point3d(massCenters[i * 3], massCenters[i * 3 + 1], massCenters[i * 3 + 2]));
 
                     Transform t = a * b;
 

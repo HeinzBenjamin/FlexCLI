@@ -31,7 +31,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddMeshParameter("Soft Body Mesh", "Mesh", "Make sure the meshes are clean and all normals are pointing outward.", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new Vector3d(0.0, 0.0, 0.0));
             pManager.AddNumberParameter("Mass", "Mass", "Masses of mesh particles. Supply one value per mesh. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
-            pManager.AddNumberParameter("Soft Params", "Params", "Supply the following parameters as a number list:\n0 Particle spacing\n1 Volume sampling (set to zero if mesh is not closed)\n2 Surface sampling (good for ensure details in intricate meshes and for open meshes)\n3 Cluster spacing (should be at least particle spacing)\n4 Cluster radius(should be larger than cluster sampling, otherwise there's no overlap)\n5 Cluster stiffness\n6 Link radius\n7 Link stiffness\n8 Global stiffness", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Soft Params", "Params", "Supply the following parameters as a number list:\n0 Particle spacing\n1 Volume sampling (set to zero if mesh is not closed)\n2 Surface sampling (good for ensure details in intricate meshes and for open meshes)\n3 Cluster spacing (should be at least particle spacing)\n4 Cluster radius(should be larger than cluster sampling, otherwise there's no overlap)\n5 Cluster stiffness\n6 Link radius\n7 Link stiffness\n8 Global stiffness.\nIf you want the particles to precisely resemble the original mesh vertices (bijective mapping), do not supply the first three values and let the component firgure it out.", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each soft body later on. Each soft body has to have its own unique group index!If you supply multiple meshes you have two different options for the GInd input:\n1) Supply one integer index for each mesh\n2) Supply one integer index for the first mesh, the others are numbered upwards(if you have more object components in your scene, you'll have to ensure yourself that each GInd is globally unique to the engine)", GH_ParamAccess.list, new List<int> { 0 });
         }
 
@@ -127,9 +127,21 @@ namespace FlexHopper.GH_GroupObjects
                     triangles[3 * j + 2] = mesh.Faces[j].C;
                 }
 
-                float[] softParameters = new float[softParams.Count];
-                for (int j = 0; j < softParams.Count; j++)
-                    softParameters[j] = (float)softParams[j];
+                float[] softParameters = new float[9];
+                if (softParams.Count == 9)
+                    for (int j = 0; j < 9; j++)
+                        softParameters[j] = (float)softParams[j];
+
+                else if (softParams.Count == 6)
+                {
+                    softParameters[0] = 1.0e-18f;
+                    softParameters[1] = 0;
+                    softParameters[2] = 1.0e-18f;
+                    for (int j = 0; j < 6; j++)
+                        softParameters[j + 3] = (float)softParams[j];
+                }
+                else
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Either supply all nine soft param values or leave out the first three.");
 
                 int groupIndex = i;
                 if (groupIndices.Count == 1)
@@ -140,6 +152,14 @@ namespace FlexHopper.GH_GroupObjects
                 SoftBody softBody = new SoftBody(vertices, velocity, invMass, triangles, softParameters, groupIndex, ref ptTree, ref spiTree, ref sciTree, ref lnTree, ref boxTree);
                 softBody.Mesh = mesh;
                 softBodies.Add(softBody);
+
+                if (mesh.Vertices.Count != softBody.InitialParticles.Count && softParams.Count == 6)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Sorry, I couldn't generate valid new mesh faces. The mesh preview in GetSoftBodies will not work!");
+                else if (mesh.Vertices.Count == softBody.InitialParticles.Count && softParams.Count == 6)
+                {
+                    softBody.GenerateShuffledFaces();
+                }
+                
             }
 
             DA.SetDataTree(0, ptTree);

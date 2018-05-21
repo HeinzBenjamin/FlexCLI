@@ -96,7 +96,8 @@ namespace FlexHopper
         public float[] SoftParams;
         public int GroupIndex;
         public Mesh Mesh;
-        public ulong Asset;        
+        public ulong Asset;
+        public List<MeshFace> NewMeshFaces; //Is only generated when mapping from orignal mesh vertices to generated particles is bijective
 
         public List<GH_Point> InitialParticles;
         public GH_Structure<GH_Integer> SpringIndices;
@@ -116,6 +117,7 @@ namespace FlexHopper
             InitialParticles = new List<GH_Point>();
             SpringIndices = new GH_Structure<GH_Integer>();
             ShapeIndices = new GH_Structure<GH_Integer>();
+            NewMeshFaces = new List<MeshFace>();
 
             unsafe
             {
@@ -169,6 +171,40 @@ namespace FlexHopper
                     }
                     boxTree.Append(new GH_Box(new BoundingBox(smcPoints)), globalPath);
                 }
+            }
+        }
+
+        //particles might get shuffled during NvFlex assest generation. This adapts the face list accordingly and stores it as NewMeshFaces. The original faces are kept in the Mesh 'Mesh'
+        public void GenerateShuffledFaces()
+        {
+            int[] newIndices = new int[InitialParticles.Count];
+            for (int i = 0; i < InitialParticles.Count; i++)
+            {
+                newIndices[i] = i;
+                double sqDist = 
+                    (Mesh.Vertices[i].X - InitialParticles[i].Value.X) * (Mesh.Vertices[i].X - InitialParticles[i].Value.X) +
+                    (Mesh.Vertices[i].Y - InitialParticles[i].Value.Y) * (Mesh.Vertices[i].Y - InitialParticles[i].Value.Y) +
+                    (Mesh.Vertices[i].Z - InitialParticles[i].Value.Z) * (Mesh.Vertices[i].Z - InitialParticles[i].Value.Z);
+
+                for (int j = 0; j < Mesh.Vertices.Count; j++)
+                {
+                    double newSqDist = (Mesh.Vertices[j].X - InitialParticles[i].Value.X) * (Mesh.Vertices[j].X - InitialParticles[i].Value.X) +
+                    (Mesh.Vertices[j].Y - InitialParticles[i].Value.Y) * (Mesh.Vertices[j].Y - InitialParticles[i].Value.Y) +
+                    (Mesh.Vertices[j].Z - InitialParticles[i].Value.Z) * (Mesh.Vertices[j].Z - InitialParticles[i].Value.Z);
+                    if (newSqDist <= sqDist)
+                    {
+                        sqDist = newSqDist;
+                        newIndices[i] = j;
+                    }
+                }
+            }                
+
+            for(int i = 0; i < Mesh.Faces.Count; i++)
+            {
+                int originalA = Mesh.Faces[i].A;
+                int originalB = Mesh.Faces[i].B;
+                int originalC = Mesh.Faces[i].C;
+                NewMeshFaces.Add(new MeshFace(newIndices[originalA], newIndices[originalB], newIndices[originalC]));
             }
         }
 
