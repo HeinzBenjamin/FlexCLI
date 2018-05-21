@@ -96,8 +96,8 @@ namespace FlexHopper.GH_GroupObjects
             if (!stiffnessTree.IsEmpty) stiffnessTree.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
             if (!anchorTree.IsEmpty) anchorTree.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
 
-            if (springTree.Branches.Count != groupIndexList.Count || springTree.Branches.Count != selfCollisionList.Count)
-                throw new Exception("Line tree doesn't fit either groupIndices count or selfCollision count!");
+            if (springTree.Branches.Count != groupIndexList.Count || (springTree.Branches.Count != selfCollisionList.Count && selfCollisionList.Count != 1))
+                throw new Exception("Line tree doesn't fit either groupIndices count or selfCollision count! While Self Collision accepts a list or a single input for all spring tree branches, Group Index requires a list with as many items as there are tree branches in the Springs input.");
 
             if (springTree.Branches.Count == 1)
             {
@@ -136,6 +136,13 @@ namespace FlexHopper.GH_GroupObjects
                 anchorTree = aT;
             }
             #endregion
+
+            while(selfCollisionList.Count < springTree.Branches.Count)
+            {
+                if (selfCollisionList.Count == 0)
+                    selfCollisionList.Add(false);
+                selfCollisionList.Add(selfCollisionList[0]);
+            }
 
             for (int branchIndex = 0; branchIndex < springTree.Branches.Count; branchIndex++)
             {

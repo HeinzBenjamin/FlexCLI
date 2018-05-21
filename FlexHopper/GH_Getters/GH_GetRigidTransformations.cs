@@ -94,12 +94,12 @@ namespace FlexHopper.GH_Getters
             DA.SetDataList(2, rotAng);
             DA.SetDataList(3, transformations);
         }
-
+        
         public static bool HasValue(double value)
         {
             return !Double.IsNaN(value) && !Double.IsInfinity(value);
         }
-
+                         
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
