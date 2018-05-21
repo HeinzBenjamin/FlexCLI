@@ -242,6 +242,14 @@ namespace FlexCLI {
 		for (int i = 0; i < triangles->Length; i++) tr[i] = triangles[i];
 
 		asset = (void*)NvFlexExtCreateSoftFromMesh(&vt[0], vertices->Length / 3, &tr[0], triangles->Length, particleSpacing, volumeSampling, surfaceSampling, clusterSpacing, clusterRadius, clusterStiffness, linkRadius, linkStiffness, globalStiffness);
+		
+		//sometimes the last shape in the generated asset contains all particles. this bug is removed here
+		NvFlexExtAsset* a = (NvFlexExtAsset*)asset;
+		if (a->numParticles == a->shapeOffsets[a->numShapes - 1] - a->shapeOffsets[a->numShapes - 2])
+		{
+			a->numShapes = a->numShapes - 1;
+			a->numShapeIndices -= a->numParticles;
+		}
 	}
 
 	void FlexScene::UnwrapSoftBody(void* asset, array<float>^% particles, array<int>^% springIndices, array<array<int>^>^% shapeIndices) {
