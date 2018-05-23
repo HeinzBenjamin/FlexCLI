@@ -21,7 +21,7 @@ namespace FlexCLI {
 		Drag = 0.0f;
 		Lift = 0.0f;
 		FluidRestDistance = 0.1f;
-		SolidRestDistance = 0.075f;
+		SolidRestDistance = 0.15f;
 		AnisotropyScale = 0.0f;
 		AnisotropyMin = 0.1f;
 		AnisotropyMax = 0.2f;

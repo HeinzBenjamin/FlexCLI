@@ -484,7 +484,7 @@ namespace FlexHopper
             TimeStamp = TimeStamp = System.DateTime.Now.Minute * 60000 + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Millisecond;
         }
 
-        public ConstraintSystem(int[] triangleIndices, float[] triangleNormals = null)
+        public ConstraintSystem(int[] triangleIndices, bool isTriangle, float[] triangleNormals = null)
         {
             AnchorIndices = new int[0];
             ShapeMatchingIndices = new int[0];

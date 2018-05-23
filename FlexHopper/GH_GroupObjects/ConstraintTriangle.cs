@@ -69,7 +69,7 @@ namespace FlexHopper.GH_GroupObjects
             }*/
 
             //DA.SetData(0, new ConstraintSystem(indices.ToArray(), normals.ToArray()));
-            DA.SetData(0, new ConstraintSystem(indices.ToArray()));
+            DA.SetData(0, new ConstraintSystem(indices.ToArray(), true));
         }
 
         /// <summary>

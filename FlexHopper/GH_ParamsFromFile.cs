@@ -14,6 +14,8 @@ namespace FlexHopper
 {
     public class GH_ParamsFromFile : GH_Component
     {
+
+        string path = "";
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -34,6 +36,7 @@ namespace FlexHopper
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("File path", "Path", "Path to .xml file", GH_ParamAccess.item);
+            pManager[0].Optional = true;
         }
 
         /// <summary>
@@ -44,31 +47,32 @@ namespace FlexHopper
             pManager.AddGenericParameter("FlexParams", "Params", "FlexParams object to be passed into the engine.", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
-        /// to store data in output parameters.</param>
-
-        //private System.Delegate dUpdate(string folder, string filter);
+        bool isDefaultFile = false;
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            string path = "";
+            //string path = "";
             FlexParams param = new FlexParams();
 
-            DA.GetData(0, ref path);
+            if (!isDefaultFile)
+                DA.GetData(0, ref path);
+            else
+                isDefaultFile = false;
 
             XmlDocument doc = new XmlDocument();
             string folder = "";
+            if (path == "")
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Input parameter 'path' failed to collect data.");
+                return;
+            }
+
             if (!path.Contains("/") && !path.Contains(@"\"))
             {
                 folder = this.OnPingDocument().FilePath;
                 path = folder.Substring(0, folder.LastIndexOf(@"\") + 1) + path;
             }
-
             doc.Load(path);
-
 
             foreach (XmlNode node in doc.DocumentElement.ChildNodes)
             {
@@ -258,13 +262,16 @@ namespace FlexHopper
             {
                 try
                 {
-                    string s = "<?xml version=\"1.0\"?><params><GravityX>0.0</GravityX><GravityY>0.0</GravityY><GravityZ>-9.81</GravityZ><WindX>0.0</WindX><WindY>0.0</WindY><WindZ>0.0</WindZ><Radius>0.15</Radius><Viscosity>0.0</Viscosity><DynamicFriction>0.0</DynamicFriction><StaticFriction>0.0</StaticFriction><ParticleFriction>0.0</ParticleFriction><FreeSurfaceDrag>0.0</FreeSurfaceDrag><Drag>0.0</Drag><Lift>0.0</Lift><FluidRestDistance>0.0</FluidRestDistance><SolidRestDistance>0.0</SolidRestDistance><Dissipation>0.0</Dissipation><Damping>0.0</Damping><ParticleCollisionMargin>0.075</ParticleCollisionMargin><ShapeCollisionMargin>0.075</ShapeCollisionMargin><CollisionDistance>0.075</CollisionDistance><PlasticThreshold>0.0</PlasticThreshold><PlasticCreep>0.0</PlasticCreep><Fluid>true</Fluid><SleepThreshold>0.0</SleepThreshold><ShockPropagation>0.0</ShockPropagation><Restitution>0.0</Restitution><MaxSpeed>3.402823466e+38</MaxSpeed><MaxAcceleration>100.0</MaxAcceleration><RelaxationMode>0</RelaxationMode><RelaxationFactor>1.0</RelaxationFactor><SolidPressure>1.0</SolidPressure><Adhesion>0.0</Adhesion><Cohesion>0.025</Cohesion><SurfaceTension>0.0</SurfaceTension><Buoyancy>1.0</Buoyancy></params>";
+                    string s = "<?xml version=\"1.0\"?><params><GravityX>0.0</GravityX><GravityY>0.0</GravityY><GravityZ>-9.81</GravityZ><WindX>0.0</WindX><WindY>0.0</WindY><WindZ>0.0</WindZ><Radius>0.15</Radius><Viscosity>0.0</Viscosity><DynamicFriction>0.0</DynamicFriction><StaticFriction>0.0</StaticFriction><ParticleFriction>0.0</ParticleFriction><FreeSurfaceDrag>0.0</FreeSurfaceDrag><Drag>0.0</Drag><Lift>0.0</Lift><FluidRestDistance>0.1</FluidRestDistance><SolidRestDistance>0.15</SolidRestDistance><Dissipation>0.0</Dissipation><Damping>0.0</Damping><ParticleCollisionMargin>0.075</ParticleCollisionMargin><ShapeCollisionMargin>0.075</ShapeCollisionMargin><CollisionDistance>0.075</CollisionDistance><PlasticThreshold>0.0</PlasticThreshold><PlasticCreep>0.0</PlasticCreep><Fluid>true</Fluid><SleepThreshold>0.0</SleepThreshold><ShockPropagation>0.0</ShockPropagation><Restitution>0.0</Restitution><MaxSpeed>3.402823466e+38</MaxSpeed><MaxAcceleration>100.0</MaxAcceleration><RelaxationMode>1</RelaxationMode><RelaxationFactor>1.0</RelaxationFactor><SolidPressure>1.0</SolidPressure><Adhesion>0.0</Adhesion><Cohesion>0.025</Cohesion><SurfaceTension>0.0</SurfaceTension><Buoyancy>1.0</Buoyancy></params>";
                     XmlDocument xdoc = new XmlDocument();
                     xdoc.LoadXml(s);
                     
                     Stream stream = System.IO.File.Open(savefile.FileName, System.IO.FileMode.Create);
                     xdoc.Save(stream);
+                    path = savefile.FileName;
                     stream.Close();
+                    isDefaultFile = true;
+                    ExpireSolution(true);
                 }
                 catch (Exception ex)
                 {
