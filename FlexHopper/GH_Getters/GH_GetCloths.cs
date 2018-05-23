@@ -33,9 +33,9 @@ namespace FlexHopper.GH_Getters
             pManager.AddGenericParameter("Flex Object", "Flex", "", GH_ParamAccess.item);
             pManager.AddIntegerParameter("n", "n", "You can chose to only draw cloths every nth solver iteration. This significantly speeds up internal simulation at the cost of less smooth appearance. Leave at 0 for preview-only mode.", GH_ParamAccess.item, 0);
             pManager.AddGenericParameter("Cloth object", "Cloth", "Optionally connect the original 'Cloth' component to draw the respective mesh.", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Preview material", "Mat", "Optionally define the preview mesh's display material", GH_ParamAccess.item);
+            //pManager.AddGenericParameter("Preview material", "Mat", "Optionally define the preview mesh's display material", GH_ParamAccess.item);
             pManager[2].Optional = true;
-            pManager[3].Optional = true;
+            //pManager[3].Optional = true;
         }
 
         /// <summary>
