@@ -36,11 +36,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug32|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -223,16 +224,17 @@
     <None Include="Resources\softBody.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
-      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
-      <Name>FlexCLI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\getSoftBodies.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\getRigidTransformations.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlexCLI\FlexCLI.vcxproj">
+      <Project>{46e3cc71-88c4-44d4-afce-f09b745b9991}</Project>
+      <Name>FlexCLI</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

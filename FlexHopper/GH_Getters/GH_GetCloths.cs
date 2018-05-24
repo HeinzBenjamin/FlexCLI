@@ -31,11 +31,11 @@ namespace FlexHopper.GH_Getters
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Flex Object", "Flex", "", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("n", "n", "You can chose to only draw cloths every nth solver iteration. This significantly speeds up internal simulation at the cost of less smooth appearance. Leave at 0 for preview-only mode.", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("n", "n", "You can chose to only draw cloths every nth solver iteration. This significantly speeds up internal simulation at the cost of less smooth appearance. Leave at 0 for preview-only mode.", GH_ParamAccess.item, 1);
             pManager.AddGenericParameter("Cloth object", "Cloth", "Optionally connect the original 'Cloth' component to draw the respective mesh.", GH_ParamAccess.list);
-            //pManager.AddGenericParameter("Preview material", "Mat", "Optionally define the preview mesh's display material", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Preview material", "Mat", "Optionally define the preview mesh's display material", GH_ParamAccess.item);
             pManager[2].Optional = true;
-            //pManager[3].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -106,6 +106,8 @@ namespace FlexHopper.GH_Getters
                     {
                         c.Mesh.Vertices[i] = new Point3f(meshParts[i + c.SpringOffset].PositionX, meshParts[i + c.SpringOffset].PositionY, meshParts[i + c.SpringOffset].PositionZ);
                     }
+                    if (computeMeshNormals)
+                        c.Mesh.Normals.ComputeNormals();
                     draw_msh.Append(new GH_Mesh(c.Mesh), p);
                 }
             }
@@ -139,17 +141,27 @@ namespace FlexHopper.GH_Getters
         }
 
         bool drawMeshWires = true;
+        bool computeMeshNormals = false;
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
 
             ToolStripMenuItem item1 = Menu_AppendItem(menu, "Draw Mesh Wires", item1_Clicked, true, drawMeshWires);
+            ToolStripMenuItem item2 = Menu_AppendItem(menu, "Compute Mesh normals", item2_Clicked, true, computeMeshNormals);
+            item2.ToolTipText = "In Rhino 6, if checked, rendered mesh previews are much nicer at the cost of speed. Doesn't have an effect in Rhono 5.";
         }
 
         private void item1_Clicked(object sender, EventArgs e)
         {
             RecordUndoEvent("drawMeshWires");
             drawMeshWires = !drawMeshWires;
+            ExpireSolution(true);
+        }
+
+        private void item2_Clicked(object sender, EventArgs e)
+        {
+            RecordUndoEvent("computeMeshNormals");
+            computeMeshNormals = !computeMeshNormals;
             ExpireSolution(true);
         }
 
