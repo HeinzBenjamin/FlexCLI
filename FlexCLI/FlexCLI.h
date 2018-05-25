@@ -224,12 +224,12 @@ namespace FlexCLI {
 
 		//Cloth
 		int GetNumCloths() { return NumCloths; };
-		void RegisterCloth(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, array<int>^ anchorIndices, int groupIndex);
+		void RegisterCloth(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, array<int>^ anchorIndices, bool selfCollision, int groupIndex);
 		List<FlexParticle^>^ GetClothParticles();
 
 		//Inflatables
 		int GetNumInflatables() { return NumInflatables; };
-		void RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, int groupIndex);
+		void RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, bool selfCollision, int groupIndex);
 		List<FlexParticle^>^ GetInflatableParticles();
 
 		//Custom Constraints

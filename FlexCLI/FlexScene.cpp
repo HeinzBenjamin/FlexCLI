@@ -343,7 +343,7 @@ namespace FlexCLI {
 	///<summary>
 	///Specify one cloth
 	///</summary>
-	void FlexScene::RegisterCloth(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, array<int>^ anchorIndices, int groupIndex) {
+	void FlexScene::RegisterCloth(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, array<int>^ anchorIndices, bool selfCollision, int groupIndex) {
 #pragma region check everything
 		if (triangles->Length % 3 != 0 || positions->Length % 3 != 0 || velocities->Length % 3 != 0 || inverseMasses->Length * 3 != positions->Length || positions->Length != velocities->Length || stretchStiffness < 0.0f || bendingStiffness < 0.0f)
 			throw gcnew Exception("void FlexScene::RegisterCloth(...) ---> Invalid input!");
@@ -477,7 +477,7 @@ namespace FlexCLI {
 		}
 
 		//Assign springs
-		int oldNumParticles = RegisterSpringSystem(positions, velocities, inverseMasses, springPairIndices->ToArray(), stretchStiffnesses->ToArray(), lengths->ToArray(), true, anchorIndices, groupIndex);
+		int oldNumParticles = RegisterSpringSystem(positions, velocities, inverseMasses, springPairIndices->ToArray(), stretchStiffnesses->ToArray(), lengths->ToArray(), selfCollision, anchorIndices, groupIndex);
 		ClothIndices->AddRange(SpringIndices->GetRange(oldNumParticles, positions->Length / 3));
 		SpringIndices->RemoveRange(oldNumParticles, positions->Length / 3);
 
@@ -488,7 +488,7 @@ namespace FlexCLI {
 		TimeStamp = TimeStamp = System::DateTime::Now.Minute * 60000 + System::DateTime::Now.Second * 1000 + System::DateTime::Now.Millisecond;
 	}
 
-	void FlexScene::RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, int groupIndex) {
+	void FlexScene::RegisterInflatable(array<float>^ positions, array<float>^ velocities, array<float>^ inverseMasses, array<int>^ triangles, array<float>^ triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, array<int>^ anchorIndices, bool selfCollision, int groupIndex) {
 #pragma region check everything
 		if (triangles->Length % 3 != 0 || positions->Length % 3 != 0 || velocities->Length % 3 != 0 || inverseMasses->Length * 3 != positions->Length || positions->Length != velocities->Length || triangleNormals->Length != triangles->Length || restVolume < 0.0f || constraintScale < 0.0f)
 			throw gcnew Exception("void FlexScene::RegisterInflatable(...) ---> Invalid input!");
@@ -499,7 +499,7 @@ namespace FlexCLI {
 
 		InflatableStartIndices->Add(NumParticles());
 		int oldNumParticles = ClothIndices->Count;
-		RegisterCloth(positions, velocities, inverseMasses, triangles, triangleNormals, stretchStiffness, bendingStiffness, preTensionFactor, anchorIndices, groupIndex);
+		RegisterCloth(positions, velocities, inverseMasses, triangles, triangleNormals, stretchStiffness, bendingStiffness, preTensionFactor, anchorIndices, selfCollision, groupIndex);
 		InflatableIndices->AddRange(ClothIndices->GetRange(oldNumParticles, positions->Length / 3));
 		ClothIndices->RemoveRange(oldNumParticles, positions->Length / 3);
 

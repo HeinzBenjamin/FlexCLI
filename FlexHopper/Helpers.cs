@@ -291,9 +291,10 @@ namespace FlexHopper
         public int[] AnchorIndices;
         public int GroupIndex;
         public int SpringOffset;
+        public bool SelfCollision;
         public Mesh Mesh;
 
-        public Cloth(float[] positions, float[] velocities, float[] invMasses, int[] triangles, float[] triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, int[] anchorIndices, int groupIndex)
+        public Cloth(float[] positions, float[] velocities, float[] invMasses, int[] triangles, float[] triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, int[] anchorIndices, bool selfCollision, int groupIndex)
         {
             Positions = positions;
             Velocities = velocities;
@@ -306,6 +307,7 @@ namespace FlexHopper
             AnchorIndices = anchorIndices;
             GroupIndex = groupIndex;
             SpringOffset = 0;
+            SelfCollision = selfCollision;
         }
 
         public override string ToString()
@@ -325,6 +327,7 @@ namespace FlexHopper
             str += "\nAnchor Indices = ";
             foreach (int a in AnchorIndices)
                 str += a + ", ";
+            str += "\nSelfCollision = " + SelfCollision.ToString();
             str += "\nGroup Index = " + GroupIndex;
             return str;
         }
@@ -348,9 +351,10 @@ namespace FlexHopper
         public int SpringOffset;
         public Mesh Mesh;
         private float MeshVolume;
+        public bool SelfCollision;
         
 
-        public Inflatable(float[] positions, float[] velocities, float[] invMasses, int[] triangles, float[] triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, int[] anchorIndices, int groupIndex)
+        public Inflatable(float[] positions, float[] velocities, float[] invMasses, int[] triangles, float[] triangleNormals, float stretchStiffness, float bendingStiffness, float preTensionFactor, float restVolume, float overPressure, float constraintScale, int[] anchorIndices, bool selfCollision, int groupIndex)
         {
             Positions = positions;
             Velocities = velocities;
@@ -366,6 +370,7 @@ namespace FlexHopper
             AnchorIndices = anchorIndices;
             GroupIndex = groupIndex;
             SpringOffset = 0;
+            SelfCollision = selfCollision;
         }
 
         public bool HasMesh()
@@ -411,6 +416,7 @@ namespace FlexHopper
             str += "\nAnchor Indices = ";
             foreach (int a in AnchorIndices)
                 str += a + ", ";
+            str += "\nSelfCollision = " + SelfCollision.ToString();
             str += "\nGroup Index = " + GroupIndex;
             return str;
         }

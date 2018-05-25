@@ -32,6 +32,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Masses", "Mass", "Either supply one value per mesh vertex or one value per mesh (to be applied on each vertx). In any case it has to be a tree structure matching the mesh count.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Stretch Stiffness", "Stretch", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 1.0});
             pManager.AddNumberParameter("Bending Stiffness", "Bend", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 0.0 });
+            pManager.AddBooleanParameter("Self Collision", "SelfColl", "Turn self collision of cloth particles among one another on or off", GH_ParamAccess.list, new List<bool> { false });
             pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddGenericParameter("Anchors", "Anchors", "As vertex index integers or (x,y,z)-points.", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
@@ -41,6 +42,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager[4].Optional = true;
             pManager[5].Optional = true;
             pManager[6].Optional = true;
+            pManager[7].Optional = true;
         }
 
         /// <summary>
@@ -67,6 +69,8 @@ namespace FlexHopper.GH_GroupObjects
             List<double> preTension = new List<double>();
             GH_Structure<IGH_Goo> anchorTree = new GH_Structure<IGH_Goo>();
             List<int> groupIndexList = new List<int>();
+            List<bool> selfCollision = new List<bool>();
+
 
             List<Cloth> cloths = new List<Cloth>();
 
@@ -75,9 +79,10 @@ namespace FlexHopper.GH_GroupObjects
             DA.GetDataTree(2, out massTree);
             DA.GetDataList(3, stretchStiffness);
             DA.GetDataList(4, bendStiffness);
-            DA.GetDataList(5, preTension);
-            DA.GetDataTree(6, out anchorTree);
-            DA.GetDataList(7, groupIndexList);
+            DA.GetDataList(5, selfCollision);
+            DA.GetDataList(6, preTension);
+            DA.GetDataTree(7, out anchorTree);
+            DA.GetDataList(8, groupIndexList);
 
             #region simplify trees and if(branch.Count == 1) make sure everything sits in path {0}
             if (!velTree.IsEmpty) velTree.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
@@ -198,7 +203,7 @@ namespace FlexHopper.GH_GroupObjects
                     bStiffness = (float)bendStiffness[i];
 
 
-                Cloth cloth = new Cloth(positions.ToArray(), velocities.ToArray(), invMasses.ToArray(), triangles, triangleNormals, sStiffness, bStiffness, preTens, anchorIndices.ToArray(), groupIndexList[i]);
+                Cloth cloth = new Cloth(positions.ToArray(), velocities.ToArray(), invMasses.ToArray(), triangles, triangleNormals, sStiffness, bStiffness, preTens, anchorIndices.ToArray(), selfCollision[i], groupIndexList[i]);
                 cloth.Mesh = mesh;
                 cloths.Add(cloth);
             }

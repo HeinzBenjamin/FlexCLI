@@ -31,7 +31,9 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Rest Volume", "RVolume", "Volume at which the inflatable would come to a rest.", GH_ParamAccess.list);
             pManager.AddNumberParameter("Over Pressure", "Pressure", "Factor to the rest volume applied to inflatable.", GH_ParamAccess.list);
             pManager.AddNumberParameter("Contraint Scale", "Constraint", "Similar to a stiffness value", GH_ParamAccess.list);
+            pManager.AddBooleanParameter("Self Collision", "SelfColl", "Turn self collision on or off.", GH_ParamAccess.list, new List<bool> { false });
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
+            pManager[4].Optional = true;
         }
 
         /// <summary>
@@ -53,11 +55,13 @@ namespace FlexHopper.GH_GroupObjects
             List<double> overPressures = new List<double>();
             List<double> constraintScales = new List<double>();
             List<int> groupIndices = new List<int>();
+            List<bool> selfColl = new List<bool>();
 
             DA.GetDataList(0, cloths);
             DA.GetDataList(1, restVolumes);
             DA.GetDataList(2, overPressures);
             DA.GetDataList(3, constraintScales);
+            DA.GetDataList(4, selfColl);
             DA.GetDataList(4, groupIndices);
 
             List<Inflatable> inflatables = new List<Inflatable>();
@@ -67,7 +71,7 @@ namespace FlexHopper.GH_GroupObjects
 
             for (int i = 0; i < cloths.Count; i++)
             {
-                Inflatable infla = new Inflatable(cloths[i].Positions, cloths[i].Velocities, cloths[i].InvMasses, cloths[i].Triangles, cloths[i].TriangleNormals, cloths[i].StretchStiffness, cloths[i].BendingStiffness, cloths[i].PreTensionFactor, (float)restVolumes[i], (float)overPressures[i], (float)constraintScales[i], cloths[i].AnchorIndices, groupIndices[i]);
+                Inflatable infla = new Inflatable(cloths[i].Positions, cloths[i].Velocities, cloths[i].InvMasses, cloths[i].Triangles, cloths[i].TriangleNormals, cloths[i].StretchStiffness, cloths[i].BendingStiffness, cloths[i].PreTensionFactor, (float)restVolumes[i], (float)overPressures[i], (float)constraintScales[i], cloths[i].AnchorIndices, selfColl[i], groupIndices[i]);
                 infla.Mesh = cloths[i].Mesh;
                 inflatables.Add(infla);
             }

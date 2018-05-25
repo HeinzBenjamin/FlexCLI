@@ -94,10 +94,10 @@ namespace FlexHopper
                 s.SpringOffset = scene.RegisterSpringSystem(s.Positions, s.Velocities, s.InvMasses, s.SpringPairIndices, s.Stiffnesses, s.TargetLengths, s.SelfCollision, s.AnchorIndices, s.GroupIndex);
 
             foreach (Cloth c in cloths)
-                scene.RegisterCloth(c.Positions, c.Velocities, c.InvMasses, c.Triangles, c.TriangleNormals, c.StretchStiffness, c.BendingStiffness, c.PreTensionFactor, c.AnchorIndices, c.GroupIndex);
+                scene.RegisterCloth(c.Positions, c.Velocities, c.InvMasses, c.Triangles, c.TriangleNormals, c.StretchStiffness, c.BendingStiffness, c.PreTensionFactor, c.AnchorIndices, c.SelfCollision, c.GroupIndex);
 
             foreach (Inflatable inf in inflatables)
-                scene.RegisterInflatable(inf.Positions, inf.Velocities, inf.InvMasses, inf.Triangles, inf.TriangleNormals, inf.StretchStiffness, inf.BendingStiffness, inf.PreTensionFactor, inf.RestVolume, inf.OverPressure, inf.ConstraintScale, inf.AnchorIndices, inf.GroupIndex);
+                scene.RegisterInflatable(inf.Positions, inf.Velocities, inf.InvMasses, inf.Triangles, inf.TriangleNormals, inf.StretchStiffness, inf.BendingStiffness, inf.PreTensionFactor, inf.RestVolume, inf.OverPressure, inf.ConstraintScale, inf.AnchorIndices, inf.SelfCollision, inf.GroupIndex);
 
             foreach (ConstraintSystem c in constraints)
                 scene.RegisterCustomConstraints(c.AnchorIndices, c.ShapeMatchingIndices, c.ShapeStiffness, c.SpringPairIndices, c.SpringStiffnesses, c.SpringTargetLengths, c.TriangleIndices, c.TriangleNormals);
