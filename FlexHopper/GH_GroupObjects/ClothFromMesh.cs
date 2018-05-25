@@ -32,7 +32,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddNumberParameter("Masses", "Mass", "Either supply one value per mesh vertex or one value per mesh (to be applied on each vertx). In any case it has to be a tree structure matching the mesh count.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Stretch Stiffness", "Stretch", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 1.0});
             pManager.AddNumberParameter("Bending Stiffness", "Bend", "Between 0.0 and 1.0. One value per mesh", GH_ParamAccess.list, new List<double> { 0.0 });
-            pManager.AddBooleanParameter("Self Collision", "SelfColl", "Turn self collision of cloth particles among one another on or off", GH_ParamAccess.list, new List<bool> { false });
+            pManager.AddBooleanParameter("Self Collision", "SelfColl", "Turn self collision of cloth particles among one another on or off. (default: false)", GH_ParamAccess.list, new List<bool> { false });
             pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddGenericParameter("Anchors", "Anchors", "As vertex index integers or (x,y,z)-points.", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
@@ -202,6 +202,12 @@ namespace FlexHopper.GH_GroupObjects
                 if (bendStiffness.Count > i)
                     bStiffness = (float)bendStiffness[i];
 
+
+                bool sc = false;
+                if (selfCollision.Count > 0 & selfCollision.Count < i)
+                    sc = selfCollision[0];
+                else if(selfCollision.Count >= i)
+                    sc = selfCollision[i];
 
                 Cloth cloth = new Cloth(positions.ToArray(), velocities.ToArray(), invMasses.ToArray(), triangles, triangleNormals, sStiffness, bStiffness, preTens, anchorIndices.ToArray(), selfCollision[i], groupIndexList[i]);
                 cloth.Mesh = mesh;
