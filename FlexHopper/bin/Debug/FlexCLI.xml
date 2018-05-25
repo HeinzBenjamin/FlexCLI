@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "FlexCLI"
+    </assembly>
+    <members>
+        <member name="M:FlexCLI.FlexScene.RegisterCustomConstraints(System.Int32[],System.Int32[],System.Single,System.Int32[],System.Single[],System.Single[],System.Int32[],System.Single[])">
+            <returns>Return true, if registration was succesful. Returns false, if constraint indices exceeded particle count.</returns>
+        </member>
+        <member name="M:FlexCLI.FlexScene.RegisterCloth(System.Single[],System.Single[],System.Single[],System.Int32[],System.Single[],System.Single,System.Single,System.Single,System.Int32[],System.Int32)">
+            <summary>
+Specify one cloth
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexScene.RegisterSpringSystem(System.Single[],System.Single[],System.Single[],System.Int32[],System.Single[],System.Single[],System.Boolean,System.Int32[],System.Int32)">
+            <summary>
+Specify one spring system by spring pair indices
+</summary>
+            <returns>The offset in spring indices resulting from previously registered spring systems. Use this to redraw the spring lines correctly later on.</returns>
+        </member>
+        <member name="M:FlexCLI.FlexScene.RegisterRigidBody(System.Single[],System.Single[],System.Single[],System.Single[],System.Single,System.Int32)">
+            <summary>
+Specify one rigid body
+</summary>
+            <param name="vertices">Flat array of vertex positions. Must be of length 3 * nr. of vertices</param>
+            <param name="vertexNormals">Flat array of normal vectors in vertices. Should be of same length as 'vertices'.</param>
+            <param name="velocity">Intial velocity acting on the rigid body.</param>
+            <param name="inverseMass">Supply inverse mass per particle. Alternatively supply array of length one, value will be assigned to every vertex particle.</param>
+            <param name="stiffness">Stiffness between 0.0 and 1.0</param>
+            <param name="groupIndex">A uniquely used index between 0 and 2^24. All particles in this object will be identified by the group index in the future.</param>
+        </member>
+        <member name="M:FlexCLI.FlexScene.RegisterFluid(System.Single[],System.Single[],System.Single[],System.Int32)">
+            <summary>
+Specify one group of fluid particles
+</summary>
+            <param name="positions">Flat array of particle positions [x, y, z]. Must be of length 3 * nr. of vertices</param>
+            <param name="velocities">Flat array of particle velocities [x, y, z]. Should be of same length as 'vertices'.</param>
+            <param name="inverseMass">Supply inverse mass per particle. Alternatively supply array of length one, value will be assigned to every vertex particle.</param>
+            <param name="groupIndex">A uniquely used index between 0 and 2^24. All particles in this group will be identified by the group index in the future.</param>
+        </member>
+        <member name="M:FlexCLI.Flex.SetScene(FlexCLI.FlexScene)">
+            <summary>Register a simulation scenery using the FlexCLI.FlexScene class</summary>
+        </member>
+        <member name="M:FlexCLI.Flex.SetParams(FlexCLI.FlexParams)">
+            <summary>Register simulation parameters using the FlexCLI.FlexParams class</summary>
+        </member>
+        <member name="M:FlexCLI.Flex.SetCollisionGeometry(FlexCLI.FlexCollisionGeometry)">
+            <summary>Register different collision geometries wrapped into the FlexCollisionGeometry class.</summary>
+        </member>
+        <member name="M:FlexCLI.Flex.IsReady">
+            <summary>Returns true if pointers to library and solver objects are valid</summary>
+        </member>
+        <member name="M:FlexCLI.Flex.#ctor">
+            <summary>Create a default Flex engine object. This will initialize a solver, create buffers and set up default NvFlexParams.</summary>
+        </member>
+        <member name="M:FlexCLI.SimBuffers.Destroy">
+            <summary>
+Performs the following steps for every buffer: Check if pointer is 0; if it is, do nothing. If it is not, free buffer (NvFlex function) and set pointer to 0.
+</summary>
+        </member>
+        <member name="M:FlexCLI.SimBuffers.Allocate">
+Tells the host upon startup, how much memory it will need and reserves this memory
+</member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddConvexShape(System.Single[],System.Single[],System.Single[])">
+            <summary>
+Add a convex mesh by the plane of each mesh face in the form ABCD (z+ should point inward) in a flattened array. upper and lower limits (float[3]) refer to vertex positions
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddMesh(System.Single[],System.Int32[])">
+            <summary>
+Add a triangle mesh by its vertex position and faces both as flattened arrays. Make sure front face CCW is pointing outward otherwise results are unforeseen.
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddCapsule(System.Single,System.Single,System.Single[],System.Single[])">
+            <summary>
+UNTESTED: Add a capsule by its extends in X, radius, center position and orientation.
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddBox(System.Single[],System.Single[],System.Single[])">
+            <summary>
+Add a box by its extends in each dimension, center position and orientation.
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddSphere(System.Single[],System.Single)">
+            <summary>
+Add a sphere by its center position and radius.
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexCollisionGeometry.AddPlane(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+Add up to eight collision planes, each in the form: Ax + By + Cz + D = 0. Anything beyond eight planes will be ignored.
+</summary>
+        </member>
+        <member name="M:FlexCLI.FlexScene.NumParticles">
+            <summary>Number of all particles in the scene</summary>
+        </member>
+        <member name="M:FlexCLI.FlexScene.#ctor">
+            <summary>Empty constructor</summary>
+            <summary>Empty constructor</summary>
+        </member>
+    </members>
+</doc>
