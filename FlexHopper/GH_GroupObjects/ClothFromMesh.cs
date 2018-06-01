@@ -184,7 +184,7 @@ namespace FlexHopper.GH_GroupObjects
                             }
                         }
                         else if (ao.CastTo<int>(out aI))
-                            anchorIndices.Add(aI);                        
+                            anchorIndices.Add(aI);
                         else if (ao.CastTo<string>(out aS))
                             anchorIndices.Add(int.Parse(aS));
                     }

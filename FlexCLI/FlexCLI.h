@@ -243,6 +243,7 @@ namespace FlexCLI {
 		int TimeStamp;
 
 		FlexScene^ AppendScene(FlexScene^ newScene);
+		FlexScene^ AlterScene(FlexScene^ alteredScene, bool includeAllParticles);
 
 	internal:
 		//reference to flex class
@@ -298,10 +299,12 @@ namespace FlexCLI {
 	public ref struct FlexSolverOptions {
 	public:
 		FlexSolverOptions();
-		FlexSolverOptions(float dt, int subSteps, int numIterations);
+		FlexSolverOptions(float dt, int subSteps, int numIterations, int sceneMode, int fixedNumTotalIterations);
 		int SubSteps;
 		int NumIterations;
 		float dT;
+		int SceneMode;
+		int FixedTotalIterations;
 		bool IsValid();
 		String^ ToString() override;
 		int TimeStamp;

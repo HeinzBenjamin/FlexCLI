@@ -45,8 +45,8 @@ Specify one group of fluid particles
             <summary>Register simulation parameters using the FlexCLI.FlexParams class</summary>
         </member>
         <member name="M:FlexCLI.Flex.SetCollisionGeometry(FlexCLI.FlexCollisionGeometry)">
-            <summary>Register different collision geometries wrapped into the FlexCollisionGeometry class.</summary>
-        </member>
+Registration methods private and public
+<summary>Register different collision geometries wrapped into the FlexCollisionGeometry class.</summary></member>
         <member name="M:FlexCLI.Flex.IsReady">
             <summary>Returns true if pointers to library and solver objects are valid</summary>
         </member>

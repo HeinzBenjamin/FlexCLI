@@ -24,6 +24,7 @@ namespace FlexCLI {
 	int n; //The particle count in this very iteration
 	float dt;
 	int subSteps;
+	int numFixedIter;
 
 	struct SimBuffers {
 		NvFlexBuffer* Particles;
@@ -312,7 +313,7 @@ namespace FlexCLI {
 		return Library && Solver;
 	}
 
-	//Registration methods private and public
+	///Registration methods private and public
 
 	///<summary>Register different collision geometries wrapped into the FlexCollisionGeometry class.</summary>
 	void Flex::SetCollisionGeometry(FlexCollisionGeometry^ flexCollisionGeometry) {
@@ -588,6 +589,7 @@ namespace FlexCLI {
 			dt = flexSolverOptions->dT;
 			subSteps = flexSolverOptions->SubSteps;
 			Params.numIterations = flexSolverOptions->NumIterations;
+			numFixedIter = flexSolverOptions->FixedTotalIterations;
 		}
 		else
 			throw gcnew Exception("Invalid solver options: Both dt and subSteps have to be > 0");
@@ -838,9 +840,18 @@ namespace FlexCLI {
 
 	//Utils
 	void Flex::UpdateSolver() {
-		NvFlexUpdateSolver(Solver, dt, subSteps, false);
-		Scene->Particles = GetParticles();
-		GetRigidTransformations(Scene->RigidTranslations, Scene->RigidRotations);
+		if (numFixedIter < 2) {
+			NvFlexUpdateSolver(Solver, dt, subSteps, false);
+			Scene->Particles = GetParticles();
+			GetRigidTransformations(Scene->RigidTranslations, Scene->RigidRotations);
+		}
+		else {
+			for (int i = 0; i < numFixedIter; i++) {
+				NvFlexUpdateSolver(Solver, dt, subSteps, false);
+				Scene->Particles = GetParticles();
+				GetRigidTransformations(Scene->RigidTranslations, Scene->RigidRotations);
+			}
+		}
 	}
 
 	void Flex::DecomposePhase(int phase, int %groupIndex, bool %selfCollision, bool %fluid) {

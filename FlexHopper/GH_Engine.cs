@@ -39,7 +39,6 @@ namespace FlexHopper
             pManager.AddGenericParameter("Flex Scene", "Scene", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Global Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles from all scenes combined to allow for constraints involving particles from multiple scenes. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
             pManager.AddGenericParameter("Flex Solver Options", "Options", "", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Lock Mode", "Lock", "If true, the engine won't consider input updates during runtime and therefor run faster. If you want to emit scene objects during simulation or check for updates in params, collision geometry or solver options, this must be false.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Reset", "Reset", "", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Go", "Go", "", GH_ParamAccess.item, false);
             pManager[0].Optional = true;
@@ -48,7 +47,6 @@ namespace FlexHopper
             pManager[3].Optional = true;
             pManager[4].Optional = true;
             pManager[5].Optional = true;
-            pManager[6].Optional = true;
             pManager[3].DataMapping = GH_DataMapping.Flatten;
             pManager[4].DataMapping = GH_DataMapping.Flatten;
         }
@@ -94,9 +92,8 @@ namespace FlexHopper
             
             bool go = false;
 
-            DA.GetData(6, ref lockMode);
-            DA.GetData(7, ref reset);
-            DA.GetData(8, ref go);            
+            DA.GetData(6, ref reset);
+            DA.GetData(7, ref go);            
 
             if (reset)
             {
@@ -155,7 +152,11 @@ namespace FlexHopper
             }
             else if (go && flex != null && flex.IsReady())
             {
-                if (!lockMode)
+                DA.GetData(5, ref options);
+                if (options.TimeStamp != optionsTimeStamp)
+                    flex.SetSolverOptions(options);
+
+                if (options.SceneMode == 0 || options.SceneMode == 1)
                 {
                     //update params if timestamp expired
                     DA.GetData(0, ref param);
@@ -201,7 +202,10 @@ namespace FlexHopper
                     for(int i = 0; i < scenes.Count;i++)
                         if (scenes[i].TimeStamp != sceneTimeStamps[i])
                         {
-                            flex.SetScene(flex.Scene.AppendScene(scenes[i]));
+                            if(options.SceneMode == 0)
+                                flex.SetScene(flex.Scene.AlterScene(scenes[i], false));
+                            else
+                                flex.SetScene(flex.Scene.AppendScene(scenes[i]));                            
                             sceneTimeStamps[i] = scenes[i].TimeStamp;                            
                         }
 
@@ -221,9 +225,7 @@ namespace FlexHopper
                     }
 
 
-                    DA.GetData(5, ref options);
-                    if (options.TimeStamp != optionsTimeStamp)
-                        flex.SetSolverOptions(options);
+                    
                 }
 
                 //Add timing info
@@ -252,7 +254,7 @@ namespace FlexHopper
                 
             }
 
-            if (go)
+            if (go && options.FixedTotalIterations < 1)
                 ExpireSolution(true);
 
             else if (flex != null && UpdateTask.Status == TaskStatus.Running)

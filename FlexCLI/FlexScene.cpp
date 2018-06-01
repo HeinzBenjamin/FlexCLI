@@ -737,6 +737,32 @@ namespace FlexCLI {
 		return this;
 	};
 
+	FlexScene^ FlexScene::AlterScene(FlexScene^ alteredScene, bool includeAllParticles) {
+		if (includeAllParticles)
+			this->Particles = alteredScene->Particles;
+		else
+			for (int i = 0; i < this->NumParticles(); i++) {
+				if (alteredScene->Particles[i]->InverseMass == 0.0f  || this->Particles[i]->InverseMass == 0.0f)// && this->Particles[i]->InverseMass != 0.0f)
+					this->Particles[i] = alteredScene->Particles[i];
+				//else if(this->Particles[i]->InverseMass == 0.0f && alteredScene->Particles[i]->InverseMass != 0.0f)
+
+			}
+
+		this->RigidStiffnesses = alteredScene->RigidStiffnesses;
+
+		this->SpringIndices = alteredScene->SpringIndices;
+		this->SpringPairIndices = alteredScene->SpringPairIndices;
+		this->SpringLengths = alteredScene->SpringLengths;
+		this->SpringStiffnesses = alteredScene->SpringStiffnesses;
+
+		this->InflatableConstraintScales = alteredScene->InflatableConstraintScales;
+		this->InflatableOverPressures = alteredScene->InflatableOverPressures;
+		this->InflatableRestVolumes = alteredScene->InflatableRestVolumes;
+
+		this->TimeStamp = alteredScene->TimeStamp;
+		return this;
+	}
+
 	bool FlexScene::IsValid() {
 		return Particles->Count > 0;
 	}
