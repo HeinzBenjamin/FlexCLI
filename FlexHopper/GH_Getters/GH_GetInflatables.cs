@@ -128,8 +128,8 @@ namespace FlexHopper.GH_Getters
 
         public override void DrawViewportMeshes(IGH_PreviewArgs args)
         {
-            foreach (Mesh m in msh)
-                args.Display.DrawMeshShaded(m, mat);
+            foreach (GH_Mesh m in msh)
+                args.Display.DrawMeshShaded(m.Value, mat);
         }
 
         bool drawMeshWires = true;

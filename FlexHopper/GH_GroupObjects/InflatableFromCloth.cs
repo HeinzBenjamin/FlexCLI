@@ -62,7 +62,7 @@ namespace FlexHopper.GH_GroupObjects
             DA.GetDataList(2, overPressures);
             DA.GetDataList(3, constraintScales);
             DA.GetDataList(4, selfColl);
-            DA.GetDataList(4, groupIndices);
+            DA.GetDataList(5, groupIndices);
 
             List<Inflatable> inflatables = new List<Inflatable>();
 
