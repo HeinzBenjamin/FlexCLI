@@ -27,7 +27,7 @@ namespace FlexHopper.GH_GroupObjects
         {
             pManager.AddIntegerParameter("Spring Pair Indices", "SPI", "Flat list of spring pair indices. Must be of even length", GH_ParamAccess.list);
             pManager.AddNumberParameter("Target Spring Length", "Length", "Leave empty, if current particle distance should be the target length. If you enter a negative value, its absolute value will be interpreted as a length factor. If one value is supplied it will be supplied to all springs", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Spring Stiffness", "Stiff", "Between 0.0 and 1.0. If one value is supplied it will be supplied to all springs", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Spring Stiffness", "Stiff", "Between 0.0 and 1.0. If one value is supplied it will be supplied to all springs. Default: 0.95", GH_ParamAccess.list);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
         }
@@ -70,7 +70,7 @@ namespace FlexHopper.GH_GroupObjects
                     l.Add((float)lengths[0]);
 
                 if (stiffnesses.Count == 0)
-                    s.Add(-1.0f);
+                    s.Add(0.95f);
                 else if (stiffnesses.Count > i)
                     s.Add((float)stiffnesses[i]);
                 else

@@ -28,7 +28,7 @@ namespace FlexHopper.GH_GroupObjects
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Positions", "Pos", "Point cloud of particles. Group in trees by group index", GH_ParamAccess.tree);
+            pManager.AddPointParameter("Points", "Pts", "Point cloud of particles. Group in trees by group index", GH_ParamAccess.tree);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per particle. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Masses", "Mass", "Masses per particle. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.tree);
             pManager.AddBooleanParameter("Self Collision", "SC", "If set, particles of the same group will perform collisions with otehr particles of that group. False by default.", GH_ParamAccess.tree);

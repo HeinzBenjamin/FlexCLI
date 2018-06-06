@@ -30,7 +30,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddMeshParameter("Rigid Body Mesh", "Mesh", "Make sure the meshes are clean and all normals are pointing outward.", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new Vector3d(0.0,0.0,0.0));
             pManager.AddNumberParameter("Mass", "Mass", "Masses of mesh particles. Supply one value per mesh. The values are applied to EACH particle in the respective mesh. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
-            pManager.AddNumberParameter("Stiffness", "Sti", "Betwen [0.0] and [1.0]. If one value is supplied it's applied to all particles equally.", GH_ParamAccess.list, new List<double> { 1.0 });
+            pManager.AddNumberParameter("Stiffness", "Sti", "Betwen [0.0] and [1.0]. If one value is supplied it's applied to all particles equally. Defualt: 0.95", GH_ParamAccess.list, new List<double> { 0.95 });
             pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify each rigid body later on. Each rigid body has to have its own unique group index! If you supply multiple meshes you have two different options for the GInd input:\n1) Supply one integer index for each mesh\n2) Supply one integer index for the first mesh, the others are numbered upwards (if you have more object components in your scene, you'll have to ensure yourself that each GInd is globally unique to the engine)", GH_ParamAccess.list, new List<int> { 0 });
         }
 

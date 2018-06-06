@@ -33,7 +33,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddVectorParameter("Velocities", "Vel", "Initial velocities per particle. If one value is supplied it's applied to all particles equally. Velocities per particle are only supported for mesh inputs.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Masses", "Mass", "Masses per particle. If one value is supplied it's applied to all particles equally. masses per particle are only supported for mesh inputs.", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Target Spring Length", "Length", "Leave empty, if current line length should be the target length. If you enter a negative value, its absolute value will interpreted as a length factor.", GH_ParamAccess.tree);            
-            pManager.AddNumberParameter("Spring Stiffness", "Stiff", "Between 0.0 and 1.0", GH_ParamAccess.tree);
+            pManager.AddNumberParameter("Spring Stiffness", "Stiff", "Between 0.0 and 1.0. Default: 0.95", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Additional Sheet Stiffening", "Sheet", "Optionally supply a stiffness factor value that is applied to the +1-neighborhood of each vertex. This is currently only supported for mesh inputs.", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Self Collision", "SelfColl", "Determine whether particles of one spring group collide with themselves", GH_ParamAccess.list, true);            
             pManager.AddGenericParameter("Anchors", "Anchors", "Index numbers or (x,y,z)-points.", GH_ParamAccess.tree);
@@ -247,7 +247,7 @@ namespace FlexHopper.GH_GroupObjects
                         targetLengths.Add(length);
 
                         //add stiffness
-                        float stiffness = 1.0f;
+                        float stiffness = 0.95f;
                         if (stiffnessTree.PathExists(path))
                         {
                             if (stiffnessTree.get_Branch(path).Count > i)
@@ -427,7 +427,7 @@ namespace FlexHopper.GH_GroupObjects
                         targetLengths.Add(length);
 
                         //add stiffness
-                        float stiffness = 1.0f;
+                        float stiffness = 0.95f;
                         if (stiffnessTree.PathExists(path))
                         {
                             if (stiffnessTree.get_Branch(path).Count > i)
