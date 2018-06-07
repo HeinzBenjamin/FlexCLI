@@ -35,7 +35,7 @@ namespace FlexHopper.GH_GroupObjects
             pManager.AddBooleanParameter("Self Collision", "SelfColl", "Turn self collision of cloth particles among one another on or off. (default: false)", GH_ParamAccess.list, new List<bool> { false });
             pManager.AddNumberParameter("Pre Tension", "Tension", "Optional pre tension factor.", GH_ParamAccess.list, new List<double> { 1.0 });
             pManager.AddGenericParameter("Anchors", "Anchors", "As vertex index integers or (x,y,z)-points.", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Group Index", "GInd", "Index to identify this fluid group later on. Make sure no index is more than once in your entire flex simulation.", GH_ParamAccess.list, new List<int> { 0 });
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
@@ -68,7 +68,7 @@ namespace FlexHopper.GH_GroupObjects
             List<double> bendStiffness = new List<double>();
             List<double> preTension = new List<double>();
             GH_Structure<IGH_Goo> anchorTree = new GH_Structure<IGH_Goo>();
-            List<int> groupIndexList = new List<int>();
+            List<int> groupIndexList = new List<int> { 0 };
             List<bool> selfCollision = new List<bool>();
 
 
