@@ -21,8 +21,9 @@ Please follow the instructions under one of these options:<p>
   - NvFlexExtReleaseD3D_x64.dll<br>
   - NvFlexReleaseD3D_x64.dll<br>
   - amd_ags_x64.dll<br>
-- unpack all files into your Grasshopper Components Folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\') ... if you can't find that folder, open Grasshopper, click "File > Special Folders > Components Folder"
-  (Alternatively to food4rhino you can download the latest package from the "/bin/Release" folder on this very website)br>
+- unpack all files into your Grasshopper Components Folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\')<br>
+  ... if you can't find that folder, open Grasshopper, click "File > Special Folders > Components Folder"<br>
+  (Alternatively to food4rhino you can download the latest package from the "/bin/Release" folder on this very website)<br>
 4. Unlock all .dll and .gha files (Right click -> Properties -> Tick Unlock)
 5. Start up Rhino and start using FlexHopper<br>
 6. Check out the exmaple files in Example files/Flexhopper
