@@ -12,10 +12,17 @@ Please follow the instructions under one of these options:<p>
 <i><b>Option 1: Only use FlexHopper</b></i>
 1. Make sure your machine fulfills the hardware requirements (see below).
 2. Make sure you have Rhino 5 64bit or Rhino 6 64bit along with the latest version of Grasshopper installed.
-3. Download whole package:<br>
-- Go to www.food4rhino.com/app/flexhopper > Download and install from ther
-  (Alternatively: on the upper right of this website click "Clone or Download" > "Download ZIP"; <br>
-  extract all files from the /bin folder into your local Grasshopper/Library folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\'). You can make a subfolder in there if you want, but make sure that all files sit in the same directory.)br>
+3. Download the package:<br>
+- Go to www.food4rhino.com/app/flexhopper<br>
+- Download latest version <br>
+- Unzip the package, it should contain:<br>
+  - FlexHopper.gha<br>
+  - FlexCLI.dll<br>
+  - NvFlexExtReleaseD3D_x64.dll<br>
+  - NvFlexReleaseD3D_x64.dll<br>
+  - amd_ags_x64.dll<br>
+- unpack all files into your Grasshopper Components Folder (usually in 'C:\Users\<your-user-name>\AppData\Roaming\Grasshopper\Libraries\') ... if you can't find that folder, open Grasshopper, click "File > Special Folders > Components Folder"
+  (Alternatively to food4rhino you can download the latest package from the "/bin/Release" folder on this very website)br>
 4. Unlock all .dll and .gha files (Right click -> Properties -> Tick Unlock)
 5. Start up Rhino and start using FlexHopper<br>
 6. Check out the exmaple files in Example files/Flexhopper
