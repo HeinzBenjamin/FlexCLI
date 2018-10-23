@@ -7,7 +7,12 @@ FlexCLI runs on x64 architectures only. It was built against .Net 4.5.2<p>
 Flex.sln contains FlexCLI and FlexHopper. Upon building the solution all compiled files will be stored inside "bin". Make sure to set your compiler platform to x64.<p>
 FlexHopper was tested with Rhino5 64bit and Grasshopper 0.9.0076 WIP
 
-Twitter: @HeinzPfeiffer<p>
+Contact info:<br>
+benjamin@felbrich.com<br>
+flexhopper@felbrich.com<br>
+https://www.linkedin.com/in/benjamin-felbrich/ <br>
+https://twitter.com/BFelbrich <br>
+    
 
 # INSTRUCTIONS
 Please follow the instructions under one of these options:<p>
