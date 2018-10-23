@@ -25,7 +25,7 @@ Please follow the instructions under one of these options:<p>
   ... if you can't find that folder, open Grasshopper, click "File > Special Folders > Components Folder"<br>
   (Alternatively to food4rhino you can download the necessary files from the "/bin/Release" folder on this very website)<br>
 4. Unlock all .dll and .gha files (Right click each of them individually -> Properties -> Tick Unlock)
-5. Start up Rhino and start using FlexHopper<br>
+  5. Start up Rhino 5 or 6 in <b>64 bit</b> Mode and start using FlexHopper<br>
 6. Check out the exmaple files in Example files/Flexhopper
 
 <i><b>Option 2: Use FlexCLI to write your own implementation of NVidia Flex in .Net</i></b>
