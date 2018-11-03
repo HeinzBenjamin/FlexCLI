@@ -48,6 +48,7 @@ namespace FlexCLI {
 		void SetSprings(List<int>^ springPairIndices, List<float>^ springLengths, List<float>^ springCoefficients);
 		void SetDynamicTriangles(List<int>^ triangleIndices, List<float>^ normals);
 		void SetInflatables(List<int>^ startIndices, List<int>^ numTriangles, List<float>^ restVolumes, List<float>^ overPressures, List<float>^ constraintScales);
+		void SetActivity(List<bool>^ activityMask);
 
 		static void DecomposePhase(int phase, int %groupIndex, bool %selfCollision, bool %fluid);
 
@@ -244,6 +245,9 @@ namespace FlexCLI {
 
 		FlexScene^ AppendScene(FlexScene^ newScene);
 		FlexScene^ AlterScene(FlexScene^ alteredScene, bool includeAllParticles);
+
+		//Define which particles are active and which aren't
+		void SetActivity(List<bool>^ activityMask);
 
 	internal:
 		//reference to flex class

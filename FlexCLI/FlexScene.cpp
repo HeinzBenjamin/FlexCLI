@@ -763,6 +763,10 @@ namespace FlexCLI {
 		return this;
 	}
 
+	void FlexScene::SetActivity(List<bool>^ activityMask) {
+		Flex->SetActivity(activityMask);
+	}
+
 	bool FlexScene::IsValid() {
 		return Particles->Count > 0;
 	}

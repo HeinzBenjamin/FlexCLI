@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2037
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexHopper", "FlexHopper\FlexHopper.csproj", "{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}"
 EndProject
@@ -41,8 +41,8 @@ Global
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Debug64|x64.Build.0 = Debug64|Any CPU
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Debug64|x86.ActiveCfg = Debug64|Any CPU
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Debug64|x86.Build.0 = Debug64|Any CPU
-		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|Any CPU.ActiveCfg = Release|x64
+		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|Any CPU.Build.0 = Release|x64
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|x64.ActiveCfg = Release|Any CPU
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|x64.Build.0 = Release|Any CPU
 		{64EA3E8C-CB27-47D3-9E61-0D45AF53596B}.Release|x86.ActiveCfg = Release|Any CPU
@@ -65,7 +65,8 @@ Global
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Debug64|x64.Build.0 = Debug|x64
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Debug64|x86.ActiveCfg = Debug|Win32
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Debug64|x86.Build.0 = Debug|Win32
-		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|Any CPU.ActiveCfg = Release|Win32
+		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|Any CPU.ActiveCfg = Release|x64
+		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|Any CPU.Build.0 = Release|x64
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|x64.ActiveCfg = Release|x64
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|x64.Build.0 = Release|x64
 		{46E3CC71-88C4-44D4-AFCE-F09B745B9991}.Release|x86.ActiveCfg = Release|Win32

@@ -838,6 +838,21 @@ namespace FlexCLI {
 		NvFlexSetInflatables(Solver, Buffers.InflatableStartIndices, Buffers.InflatableNumTriangles, Buffers.InflatableRestVolumes, Buffers.InflatableOverPressures, Buffers.InflatableConstraintScales, startIndices->Count);
 	}
 
+	void Flex::SetActivity(List<bool>^ activityMask) {
+		int nActive = 0;
+
+		int* actives = (int*)NvFlexMap(Buffers.Active, eNvFlexMapWait);
+		
+		for (int i = 0; i < activityMask->Count; i++) {
+			if (activityMask[i]) {
+				actives[nActive] = i;
+				nActive++;
+			}
+		}
+
+		NvFlexUnmap(Buffers.Active);
+		NvFlexSetActive(Solver, Buffers.Active, nActive);
+	}
 	//Utils
 	void Flex::UpdateSolver() {
 		if (numFixedIter < 2) {

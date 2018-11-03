@@ -130,6 +130,7 @@ Class FlexCLI.FlexScene: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     ToString(): PrivateScope, Public, Virtual, HideBySig
     AppendScene(FlexScene): PrivateScope, Public, HideBySig
     AlterScene(FlexScene, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    SetActivity(List`1): PrivateScope, Public, HideBySig
 Class FlexCLI.FlexParticle: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(Single[], Single[], Single, Int32, Boolean): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(Single[], Single[], Single, Boolean, Boolean, Int32, Boolean): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
