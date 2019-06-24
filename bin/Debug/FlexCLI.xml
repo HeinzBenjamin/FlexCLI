@@ -91,6 +91,11 @@ Performs the following steps for every buffer: Check if pointer is 0; if it is, 
         <member name="M:FlexCLI.SimBuffers.Allocate">
 Tells the host upon startup, how much memory it will need and reserves this memory
 </member>
+        <member name="M:FlexCLI.FlexSolverOptions.#ctor(System.Single,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32[])">
+            <summary>
+memoryRequirements: [0] MaxParticles, [1] MaxNeighborperParticle, [2] MaxCollisionShapeNumber, [3] MaxCollisionMeshVertexCount, [4] MaxCollisionMeshIndexCount, [5] MaxCollisionConvexShapePlanes, [6] MaxRigidBodies, [7] MaxSprings, [8] MaxDynamicTriangles
+</summary>
+        </member>
         <member name="M:FlexCLI.FlexScene.NumParticles">
             <summary>Number of all particles in the scene</summary>
         </member>

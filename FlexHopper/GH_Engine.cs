@@ -11,7 +11,6 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 
 using FlexHopper.Properties;
-
 using FlexCLI;
 
 namespace FlexHopper
@@ -81,7 +80,6 @@ namespace FlexHopper
             //CONTINUE HERE!!!!
             UpdateTask = new Task<int>(() => Update());
 
-
             FlexParams param = new FlexParams();
             FlexCollisionGeometry geom = new FlexCollisionGeometry();
             List<FlexForceField> forceFields = new List<FlexForceField>();
@@ -113,12 +111,6 @@ namespace FlexHopper
                 DA.GetDataList(3, scenes);
                 DA.GetDataList(4, constraints);
                 DA.GetData(5, ref options);
-
-                /*for (int i = 0; i < scenes.Count; i++)
-                {
-                    GH_Scene ghScene = (Params.Input[2].Sources[i].Attributes.Parent as GH_ComponentAttributes).Owner as GH_Scene;
-                    ghScene.ExpireSolution(true);
-                }*/
 
                 sceneTimeStamps = new List<int>();
                 forceFieldTimeStamps = new List<int>();

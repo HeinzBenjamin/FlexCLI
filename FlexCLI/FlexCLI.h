@@ -303,12 +303,32 @@ namespace FlexCLI {
 	public ref struct FlexSolverOptions {
 	public:
 		FlexSolverOptions();
-		FlexSolverOptions(float dt, int subSteps, int numIterations, int sceneMode, int fixedNumTotalIterations);
+
+		///<summary>
+		///memoryRequirements: [0] MaxParticles, [1] MaxNeighborperParticle, [2] MaxCollisionShapeNumber, [3] MaxCollisionMeshVertexCount, [4] MaxCollisionMeshIndexCount, [5] MaxCollisionConvexShapePlanes, [6] MaxRigidBodies, [7] MaxSprings, [8] MaxDynamicTriangles
+		///</summary>
+		FlexSolverOptions(
+			float dt,
+			int subSteps,
+			int numIterations,
+			int sceneMode,
+			int fixedNumTotalIterations,
+			array<int>^ memoryRequirements);
+
 		int SubSteps;
 		int NumIterations;
 		float dT;
 		int SceneMode;
 		int FixedTotalIterations;
+		int MaxParticles = 131072;
+		int MaxNeighborsPerParticle = 96;
+		int MaxCollisionShapeNumber = 65536;			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
+		int MaxCollisionMeshVertexCount = 65536;		//max nr. of vertices in a single collision mesh
+		int MaxCollisionMeshIndexCount = 65536;			//max nr. of face indices in a single collision mesh
+		int MaxCollisionConvexShapePlanes = 65536;		//max nr. of face indices in all convex collision meshes combined
+		int MaxRigidBodies = 65536;						//max nr. of rigid bodies
+		int MaxSprings = 196608;						//max nr. of springs
+		int MaxDynamicTriangles = 131072;				//needed for cloth
 		bool IsValid();
 		String^ ToString() override;
 		int TimeStamp;

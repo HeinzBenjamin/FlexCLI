@@ -4,19 +4,6 @@
 
 namespace FlexCLI {
 
-	int multiplicator = 8;
-
-	int maxParticles = 65536 * multiplicator;
-	int maxDiffuseParticles = 0;
-	int maxNeighborsPerParticle = INT8_MAX * multiplicator;
-	int maxCollisionShapeNumber = 65536;			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
-	int maxCollisionMeshVertexCount = 65536;		//max nr. of vertices in a single collision mesh
-	int maxCollisionMeshIndexCount = 65536;			//max nr. of faces in a single collision mesh
-	int maxCollisionConvexShapePlanes = 65536;		//max nr. of faces in all convex collision meshes combined
-	int maxRigidBodies = 65536 * multiplicator;		//max nr. of rigid bodies
-	int maxSprings = 65536 * multiplicator;			//max nr. of springs
-	int maxDynamicTriangles = 65536 * multiplicator;//needed for cloth
-
 	NvFlexLibrary* Library;
 	NvFlexSolver* Solver;
 	NvFlexParams Params;
@@ -25,6 +12,17 @@ namespace FlexCLI {
 	float dt;
 	int subSteps;
 	int numFixedIter;
+
+	int maxParticles = 131072;
+	int maxDiffuseParticles = 0;
+	int maxNeighborsPerParticle = 96;
+	int maxCollisionShapeNumber = 65536;			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
+	int maxCollisionMeshVertexCount = 65536;		//max nr. of vertices in a single collision mesh
+	int maxCollisionMeshIndexCount = 65536;			//max nr. of faces in a single collision mesh
+	int maxCollisionConvexShapePlanes = 65536;		//max nr. of faces in all convex collision meshes combined
+	int maxRigidBodies = 65536;						//max nr. of rigid bodies
+	int maxSprings = 196608;						//max nr. of springs
+	int maxDynamicTriangles = 131072;				//needed for cloth
 
 	struct SimBuffers {
 		NvFlexBuffer* Particles;
@@ -590,6 +588,17 @@ namespace FlexCLI {
 			subSteps = flexSolverOptions->SubSteps;
 			Params.numIterations = flexSolverOptions->NumIterations;
 			numFixedIter = flexSolverOptions->FixedTotalIterations;
+			
+			maxParticles = flexSolverOptions->MaxParticles;
+			maxDiffuseParticles = 0;
+			maxNeighborsPerParticle = flexSolverOptions->MaxNeighborsPerParticle;
+			maxCollisionShapeNumber = flexSolverOptions->MaxCollisionShapeNumber;
+			maxCollisionMeshVertexCount = flexSolverOptions->MaxCollisionMeshVertexCount;
+			maxCollisionMeshIndexCount = flexSolverOptions->MaxCollisionMeshIndexCount;
+			maxCollisionConvexShapePlanes = flexSolverOptions->MaxCollisionConvexShapePlanes;
+			maxRigidBodies = flexSolverOptions->MaxRigidBodies;
+			maxSprings = flexSolverOptions->MaxSprings;
+			maxDynamicTriangles = flexSolverOptions->MaxDynamicTriangles;
 		}
 		else
 			throw gcnew Exception("Invalid solver options: Both dt and subSteps have to be > 0");
@@ -904,6 +913,7 @@ namespace FlexCLI {
 
 	void Flex::Destroy()
 	{
+		NvFlexFlush(Library);
 		Buffers.Destroy();
 		Params.numPlanes = 0;
 

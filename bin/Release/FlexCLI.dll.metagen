@@ -151,7 +151,7 @@ Class FlexCLI.FlexParticle: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     IsValid(): PrivateScope, Public, HideBySig
     ToString(): PrivateScope, Public, Virtual, HideBySig
 Class FlexCLI.FlexSolverOptions: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-    Void .ctor(Single, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Single, Int32, Int32, Int32, Int32, Int32[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     Int32 SubSteps : Public
@@ -159,6 +159,15 @@ Class FlexCLI.FlexSolverOptions: AutoLayout, AnsiClass, Class, Public, BeforeFie
     Single dT : Public
     Int32 SceneMode : Public
     Int32 FixedTotalIterations : Public
+    Int32 MaxParticles : Public
+    Int32 MaxNeighborsPerParticle : Public
+    Int32 MaxCollisionShapeNumber : Public
+    Int32 MaxCollisionMeshVertexCount : Public
+    Int32 MaxCollisionMeshIndexCount : Public
+    Int32 MaxCollisionConvexShapePlanes : Public
+    Int32 MaxRigidBodies : Public
+    Int32 MaxSprings : Public
+    Int32 MaxDynamicTriangles : Public
     Int32 TimeStamp : Public
   Methods:
     IsValid(): PrivateScope, Public, HideBySig
