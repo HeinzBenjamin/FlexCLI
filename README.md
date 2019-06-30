@@ -5,7 +5,7 @@ For more information on NVidia Flex go here: https://developer.nvidia.com/flex a
 
 FlexCLI runs on x64 architectures only. It was built against .Net 4.5.2<p>
 Flex.sln contains FlexCLI and FlexHopper. Upon building the solution all compiled files will be stored inside "bin". Make sure to set your compiler platform to x64.<p>
-FlexHopper was tested with Rhino6 64bit and Grasshopper 1.0.0076
+FlexHopper was tested with Rhino 6 64bit and Grasshopper 1.0.0076
 
 Contact info:<br>
 benjamin@felbrich.com<br>
@@ -52,10 +52,10 @@ Please follow the instructions under one of these options:<p>
 # COMMON ERRORS
 FlexHopper only works with Rhino 6 64bit.<br>
 If you receive an error message saying that FlexCLI or one of its dependecies could not be loaded, make sure to:<br>
-A. Unlock all FlexHopper related files in the Library folder (Right click -> properties)
-B. Update your Rhino 6 to the latest version.
+A. Unlock all FlexHopper related files in the Library folder (Right click -> properties)<br>
+B. Update your Rhino 6 to the latest version.<br>
 C. Start up Rhino 6 in 64bit mode<br>
-If your machine crashes upon resetting the FlexHopper engine:<br>|
-A. Make sure your computer fulfills the hardware requirements (see above)
+If your machine crashes upon resetting the FlexHopper engine:<br>
+A. Make sure your computer fulfills the hardware requirements (see above)<br>
 B. Consider reducing the memory your FlexHopper requires by adjusting the memQ input in the Flex Solver Options accordingly
 
