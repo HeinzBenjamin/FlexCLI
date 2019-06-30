@@ -245,10 +245,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-Copy "$(TargetDir)FlexCLI.dll" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper110\FlexCLI.dll"
-Copy "$(TargetPath)" "C:\Users\ac123639\AppData\Roaming\Grasshopper\Libraries\FlexHopper110\FlexHopper.gha"
-Erase "$(TargetDir)$(ProjectName).dll"</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug32|AnyCPU' ">
     <StartArguments>
