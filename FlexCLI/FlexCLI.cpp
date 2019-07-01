@@ -327,7 +327,7 @@ namespace FlexCLI {
 				Params.planes[i][0] = flexCollisionGeometry->Planes[i * 4];
 				Params.planes[i][1] = flexCollisionGeometry->Planes[i * 4 + 1];
 				Params.planes[i][2] = flexCollisionGeometry->Planes[i * 4 + 2];
-				Params.planes[i][3] = flexCollisionGeometry->Planes[i * 4 + 3];
+				Params.planes[i][3] = flexCollisionGeometry->Planes[i * 4 + 3] * stabilityScaling;
 			}
 			NvFlexSetParams(Solver, &Params);
 		//}
@@ -345,7 +345,11 @@ namespace FlexCLI {
 		for (int i = 0; i < flexCollisionGeometry->NumSpheres; i++) {
 			flags[numShapes] = NvFlexMakeShapeFlags(eNvFlexShapeSphere, false);
 			geometry[numShapes].sphere.radius = flexCollisionGeometry->SphereRadii[i];
-			positions[numShapes] = float4(flexCollisionGeometry->SphereCenters[i * 3], flexCollisionGeometry->SphereCenters[i * 3 + 1], flexCollisionGeometry->SphereCenters[i * 3 + 2], 0.0);
+			positions[numShapes] = float4(
+				flexCollisionGeometry->SphereCenters[i * 3] * stabilityScaling,
+				flexCollisionGeometry->SphereCenters[i * 3 + 1] * stabilityScaling,
+				flexCollisionGeometry->SphereCenters[i * 3 + 2] * stabilityScaling,
+				0.0);
 			rotations[numShapes] = float4(0.0f, 0.0f, 0.0f, 0.0f);
 			numShapes++;
 		}
@@ -353,21 +357,38 @@ namespace FlexCLI {
 		// add boxes
 		for (int i = 0; i < flexCollisionGeometry->NumBoxes; i++) {
 			flags[numShapes] = NvFlexMakeShapeFlags(eNvFlexShapeBox, false);
-			geometry[numShapes].box.halfExtents[0] = flexCollisionGeometry->BoxHalfHeights[i * 3];
-			geometry[numShapes].box.halfExtents[1] = flexCollisionGeometry->BoxHalfHeights[i * 3 + 1];
-			geometry[numShapes].box.halfExtents[2] = flexCollisionGeometry->BoxHalfHeights[i * 3 + 2];
-			positions[numShapes] = float4(flexCollisionGeometry->BoxCenters[i * 3], flexCollisionGeometry->BoxCenters[i * 3 + 1], flexCollisionGeometry->BoxCenters[i * 3 + 2], 0.0);
-			rotations[numShapes] = float4(flexCollisionGeometry->BoxRotations[i * 4], flexCollisionGeometry->BoxRotations[i * 4 + 1], flexCollisionGeometry->BoxRotations[i * 4 + 2], flexCollisionGeometry->BoxRotations[i * 4 + 3]);
+			geometry[numShapes].box.halfExtents[0] = flexCollisionGeometry->BoxHalfHeights[i * 3] * stabilityScaling;
+			geometry[numShapes].box.halfExtents[1] = flexCollisionGeometry->BoxHalfHeights[i * 3 + 1] * stabilityScaling;
+			geometry[numShapes].box.halfExtents[2] = flexCollisionGeometry->BoxHalfHeights[i * 3 + 2] * stabilityScaling;
+			positions[numShapes] = float4(
+				flexCollisionGeometry->BoxCenters[i * 3] * stabilityScaling,
+				flexCollisionGeometry->BoxCenters[i * 3 + 1] * stabilityScaling,
+				flexCollisionGeometry->BoxCenters[i * 3 + 2] * stabilityScaling,
+				0.0);
+
+			rotations[numShapes] = float4(
+				flexCollisionGeometry->BoxRotations[i * 4], 
+				flexCollisionGeometry->BoxRotations[i * 4 + 1], 
+				flexCollisionGeometry->BoxRotations[i * 4 + 2], 
+				flexCollisionGeometry->BoxRotations[i * 4 + 3]);
 			numShapes++;
 		}
 
 		//add capsules
 		for (int i = 0; i < flexCollisionGeometry->NumCapsules; i++) {
 			flags[numShapes] = NvFlexMakeShapeFlags(eNvFlexShapeCapsule, false);
-			geometry[numShapes].capsule.halfHeight = flexCollisionGeometry->CapsuleHalfHeights[i];
-			geometry[numShapes].capsule.radius = flexCollisionGeometry->CapsuleRadii[i];
-			positions[numShapes] = float4(flexCollisionGeometry->CapsuleCenters[i * 4], flexCollisionGeometry->CapsuleCenters[i * 4 + 1], flexCollisionGeometry->CapsuleCenters[i * 4 + 2], 0.0);
-			rotations[numShapes] = float4(flexCollisionGeometry->CapsuleRotations[i * 4], flexCollisionGeometry->CapsuleRotations[i * 4 + 1], flexCollisionGeometry->CapsuleRotations[i * 4 + 2], flexCollisionGeometry->CapsuleRotations[i * 4 + 3]);
+			geometry[numShapes].capsule.halfHeight = flexCollisionGeometry->CapsuleHalfHeights[i] * stabilityScaling;
+			geometry[numShapes].capsule.radius = flexCollisionGeometry->CapsuleRadii[i] * stabilityScaling;
+			positions[numShapes] = float4(
+				flexCollisionGeometry->CapsuleCenters[i * 4] * stabilityScaling,
+				flexCollisionGeometry->CapsuleCenters[i * 4 + 1] * stabilityScaling,
+				flexCollisionGeometry->CapsuleCenters[i * 4 + 2] * stabilityScaling,
+				0.0);
+			rotations[numShapes] = float4(
+				flexCollisionGeometry->CapsuleRotations[i * 4], 
+				flexCollisionGeometry->CapsuleRotations[i * 4 + 1], 
+				flexCollisionGeometry->CapsuleRotations[i * 4 + 2], 
+				flexCollisionGeometry->CapsuleRotations[i * 4 + 3]);
 			numShapes++;
 		}
 
@@ -384,7 +405,10 @@ namespace FlexCLI {
 			array<float>^ v = flexCollisionGeometry->MeshVertices[i];
 			array<int>^ f = flexCollisionGeometry->MeshFaces[i];
 			for (int j = 0; j < v->Length / 3; j++)
-				vertices[j] = float3(-v[j * 3], -v[j * 3 + 1], -v[j * 3 + 2]);
+				vertices[j] = float3(
+					-v[j * 3] * stabilityScaling,
+					-v[j * 3 + 1] * stabilityScaling,
+					-v[j * 3 + 2] * stabilityScaling);
 			for (int j = 0; j < f->Length; j++)
 				faces[j] = f[j];
 
@@ -394,8 +418,8 @@ namespace FlexCLI {
 			float* upper = new float[3];
 			float* lower = new float[3];
 			for (int j = 0; j < 3; j++) {
-				upper[j] = -u[j];
-				lower[j] = -l[j];
+				upper[j] = -u[j] * stabilityScaling;
+				lower[j] = -l[j] * stabilityScaling;
 			}
 			NvFlexUnmap(Buffers.CollisionMeshVertices);
 			NvFlexUnmap(Buffers.CollisionMeshIndices);
@@ -429,7 +453,11 @@ namespace FlexCLI {
 			float4* planes = (float4*)NvFlexMap(Buffers.CollisionConvexMeshPlanes, 0);
 			array<float>^ p = flexCollisionGeometry->ConvexPlanes[i];
 			for (int j = 0; j < p->Length / 4; j++)
-				planes[j] = float4(p[j * 4], p[j * 4 + 1], p[j * 4 + 2], -p[j * 4 + 3]);
+				planes[j] = float4(
+					p[j * 4], 
+					p[j * 4 + 1], 
+					p[j * 4 + 2], 
+					-p[j * 4 + 3] * stabilityScaling);
 
 			//get upper and lower bounds of the mesh
 			array<float>^ u = flexCollisionGeometry->ConvexUpperBounds[i];
@@ -437,8 +465,8 @@ namespace FlexCLI {
 			float* upper = new float[3];
 			float* lower = new float[3];
 			for (int j = 0; j < 3; j++) {
-				upper[j] = -u[j];
-				lower[j] = -l[j];
+				upper[j] = -u[j] * stabilityScaling;
+				lower[j] = -l[j] * stabilityScaling;
 			}
 
 			NvFlexUnmap(Buffers.CollisionConvexMeshPlanes);
@@ -619,10 +647,10 @@ namespace FlexCLI {
 
 		for (int i = 0; i < flexForceFields->Count; i++) {
 			NvFlexExtForceField ff;
-			ff.mPosition[0] = flexForceFields[i]->Position[0];
-			ff.mPosition[1] = flexForceFields[i]->Position[1];
-			ff.mPosition[2] = flexForceFields[i]->Position[2];
-			ff.mRadius = flexForceFields[i]->Radius;
+			ff.mPosition[0] = flexForceFields[i]->Position[0] * stabilityScaling;
+			ff.mPosition[1] = flexForceFields[i]->Position[1] * stabilityScaling;
+			ff.mPosition[2] = flexForceFields[i]->Position[2] * stabilityScaling;
+			ff.mRadius = flexForceFields[i]->Radius * stabilityScaling;
 			ff.mStrength = flexForceFields[i]->Strength;
 			if (flexForceFields[i]->Mode == 0)
 				ff.mMode = NvFlexExtForceMode::eNvFlexExtModeForce;
