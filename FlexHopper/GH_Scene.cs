@@ -27,14 +27,14 @@ namespace FlexHopper
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Particles", "Particles", "", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Fluids", "Fluids", "", GH_ParamAccess.list);
+            //pManager.AddGenericParameter("Fluids", "Fluids", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Rigid Bodies", "Rigids", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Soft Bodies", "Softs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Spring Systems", "Springs", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Cloth", "Cloths", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Inflatables", "Inflatables", "", GH_ParamAccess.list);
             pManager.AddGenericParameter("Local Constraints", "Constraints", "Add additional custom constraints. The indices supplied in these constraints refer to all particles combined in this specific scene. These constraints supplement earlier constraint inputs.", GH_ParamAccess.list);
-            for(int i = 0; i < 8; i++)
+            for(int i = 0; i < 7; i++)
             {
                 pManager[i].Optional = true;
                 pManager[i].DataMapping = GH_DataMapping.Flatten;
@@ -58,7 +58,7 @@ namespace FlexHopper
             FlexScene scene = new FlexScene();
 
             List<FlexParticle> parts = new List<FlexParticle>();
-            List<Fluid> fluids = new List<Fluid>();
+            //List<Fluid> fluids = new List<Fluid>();
             List<RigidBody> rigids = new List<RigidBody>();
             List<SoftBody> softs = new List<SoftBody>();
             List<SpringSystem> springs = new List<SpringSystem>();
@@ -67,20 +67,20 @@ namespace FlexHopper
             List<ConstraintSystem> constraints = new List<ConstraintSystem>();
 
             DA.GetDataList(0, parts);
-            DA.GetDataList(1, fluids);
-            DA.GetDataList(2, rigids);
-            DA.GetDataList(3, softs);
-            DA.GetDataList(4, springs);
-            DA.GetDataList(5, cloths);
-            DA.GetDataList(6, inflatables);
-            DA.GetDataList(7, constraints);
+            //DA.GetDataList(1, fluids);
+            DA.GetDataList(1, rigids);
+            DA.GetDataList(2, softs);
+            DA.GetDataList(3, springs);
+            DA.GetDataList(4, cloths);
+            DA.GetDataList(5, inflatables);
+            DA.GetDataList(6, constraints);
 
 
             foreach (FlexParticle p in parts)
                 scene.RegisterParticles(new float[3] { p.PositionX, p.PositionY, p.PositionZ }, new float[3] { p.VelocityX, p.VelocityY, p.VelocityZ }, new float[1] { p.InverseMass }, p.IsFluid, p.SelfCollision, p.GroupIndex);
 
-            foreach (Fluid f in fluids)
-                scene.RegisterFluid(f.Positions, f.Velocities, f.InvMasses, f.GroupIndex);
+            //foreach (Fluid f in fluids)
+                //scene.RegisterFluid(f.Positions, f.Velocities, f.InvMasses, f.GroupIndex);
 
             foreach(RigidBody r in rigids)
                 scene.RegisterRigidBody(r.Vertices, r.VertexNormals, r.Velocity, r.InvMasses, r.Stiffness, r.GroupIndex);

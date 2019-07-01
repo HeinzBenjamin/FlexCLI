@@ -66,7 +66,6 @@ namespace FlexHopper
         List<string> outInfo = new List<string>();
 
         //time stamps
-        bool lockMode = false;
         int optionsTimeStamp = 0;
         int paramsTimeStamp = 0;
         List<int> sceneTimeStamps = new List<int>();

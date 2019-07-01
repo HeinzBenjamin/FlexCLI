@@ -24,6 +24,9 @@ namespace FlexCLI {
 	int maxSprings = 196608;						//max nr. of springs
 	int maxDynamicTriangles = 131072;				//needed for cloth
 
+	float stabilityScaling = 1.0f;					//this is to tackle the weird bug, where large objects tend to drift away
+	float invStabScale = 1.0f;
+
 	struct SimBuffers {
 		NvFlexBuffer* Particles;
 		NvFlexBuffer* Velocities;
@@ -588,7 +591,9 @@ namespace FlexCLI {
 			subSteps = flexSolverOptions->SubSteps;
 			Params.numIterations = flexSolverOptions->NumIterations;
 			numFixedIter = flexSolverOptions->FixedTotalIterations;
-			
+
+			stabilityScaling = flexSolverOptions->StabilityScalingFactor;
+			invStabScale = 1.0f / stabilityScaling;
 			maxParticles = flexSolverOptions->MaxParticles;
 			maxDiffuseParticles = 0;
 			maxNeighborsPerParticle = flexSolverOptions->MaxNeighborsPerParticle;
@@ -648,8 +653,17 @@ namespace FlexCLI {
 
 		for (int i = 0; i < n; i++) {
 			if (flexParticles[i]->IsValid()) {
-				particles[i] = float4(flexParticles[i]->PositionX, flexParticles[i]->PositionY, flexParticles[i]->PositionZ, flexParticles[i]->InverseMass);
-				velocities[i] = float3(flexParticles[i]->VelocityX, flexParticles[i]->VelocityY, flexParticles[i]->VelocityZ);
+				particles[i] = float4(
+					flexParticles[i]->PositionX * stabilityScaling,
+					flexParticles[i]->PositionY * stabilityScaling,
+					flexParticles[i]->PositionZ * stabilityScaling,
+					flexParticles[i]->InverseMass);
+
+				velocities[i] = float3(
+					flexParticles[i]->VelocityX * stabilityScaling,
+					flexParticles[i]->VelocityY * stabilityScaling,
+					flexParticles[i]->VelocityZ * stabilityScaling);
+
 				phases[i] = flexParticles[i]->Phase;
 				if (flexParticles[i]->IsActive)
 				{
@@ -684,8 +698,15 @@ namespace FlexCLI {
 		int* phases = (int*)NvFlexMap(Buffers.Phases, eNvFlexMapWait);
 
 		for (int i = 0; i < n; i++) {
-			array<float>^ pos = gcnew array<float>{particles[i].x, particles[i].y, particles[i].z};
-			array<float>^ vel = gcnew array<float>{velocities[i].x, velocities[i].y, velocities[i].z};
+			array<float>^ pos = gcnew array<float>{
+				particles[i].x * invStabScale, 
+				particles[i].y * invStabScale,
+				particles[i].z * invStabScale};
+
+			array<float>^ vel = gcnew array<float>{
+				velocities[i].x * invStabScale,
+				velocities[i].y * invStabScale,
+				velocities[i].z * invStabScale};
 
 			int gi = 0;
 			bool sc = false;

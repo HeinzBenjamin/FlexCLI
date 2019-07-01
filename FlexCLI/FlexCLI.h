@@ -313,13 +313,15 @@ namespace FlexCLI {
 			int numIterations,
 			int sceneMode,
 			int fixedNumTotalIterations,
-			array<int>^ memoryRequirements);
+			array<int>^ memoryRequirements,
+			float stabilityScalingFactor);
 
 		int SubSteps;
 		int NumIterations;
 		float dT;
 		int SceneMode;
 		int FixedTotalIterations;
+		float StabilityScalingFactor = 1.0f;
 		int MaxParticles = 131072;
 		int MaxNeighborsPerParticle = 96;
 		int MaxCollisionShapeNumber = 65536;			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 

@@ -32,6 +32,7 @@ namespace FlexHopper
             pManager.AddIntegerParameter("Scene Mode", "sMode", "Define how FlexHopper reacts to changes in your scenes:\n0 - Update existing scene: stiffnesses, anchor positions, and inflation pressures are updated. No new particles can be added to the scene.\n1 - Append scene: New particles are added whenever scene constructors are updated (good for fountains or whenever you want to add new particles)\n3 - Lock Mode: No changes in scenes are considered at all. This is the fastest mode, but doesn't allow much interaction during runtime.", GH_ParamAccess.item, 0);
             pManager.AddIntegerParameter("Fixed Number of Iteration", "fIter", "When positive, the solver will perform the supplied number of calculation cycles, before outputting. Useful, when you don't need to see the system converge, but want only one output after n iterations. Also faster, than normal mode. CAUTION: This might take a while to compute.", GH_ParamAccess.item, -1);
             pManager.AddIntegerParameter("Memory Requirements", "memQ", "Flex needs to reserve memory on GPU and RAM for your simulation. By telling the engine up front how detailed your simulation will be, you can avoid using excessive amounts of memory, or request more memory for big scenes. Normally default vals should be fine. Supply a list containing:\n[0] max nr. of particles (default 131072)\n[1] max nr. of neighbors per particle (default: 96)\n[2] max nr. of collision body entries (default: 65536)\n[3] max nr. of mesh vertices in collision meshes (default: 65536)\n[4] max nr. of mesh faces in collision meshes (default: 65536)\n[5] max nr. of mesh faces in convex meshes (default: 65536)\n[6] max nr. of rigid bodies (default: 65536)\n[7] max nr. of springs (default: 196608)\n[8] max nr. of cloth triangles (default: 131072)\nIMPORTANT NOTE: For input nr. [2] max nr. of collision body entries: This is not the number of collision objects but the number of memory entries the engine needs to make per collision objects. Planes require 0 entries, spheres require 1 entry, boxes require 3 entries, meshes and convex meshes require 4 entries.\nSo if you have a scene of 5 planes, 1000 spheres, 100 boxes and 10 meshes, you should set this value to 5*0 + 1000*1 + 100*3 + 10*4", GH_ParamAccess.list, defaultMemq);
+            pManager.AddNumberParameter("Stability Scale", "stabS", "", GH_ParamAccess.item, 1.0);
         }
 
         /// <summary>
@@ -55,6 +56,7 @@ namespace FlexHopper
             int nI = 3;
             int sM = 0;
             int fI = -1;
+            double stabS = 1.0;
             var memq = new List<int>();
 
             DA.GetData(0, ref dt);
@@ -63,6 +65,7 @@ namespace FlexHopper
             DA.GetData(3, ref sM);
             DA.GetData(4, ref fI);
             DA.GetDataList(5, memq);
+            DA.GetData(6, ref stabS);
 
             if (dt == 0.0 || sS == 0)
                 throw new Exception("Neither dt nor SubSteps can be zero!");
@@ -74,7 +77,7 @@ namespace FlexHopper
                 memq = defaultMemq;
             }
 
-            DA.SetData(0, new FlexSolverOptions((float)dt, sS, nI, sM, fI, memq.ToArray()));
+            DA.SetData(0, new FlexSolverOptions((float)dt, sS, nI, sM, fI, memq.ToArray(), (float)Math.Max(stabS, 0.0001)));
         }
 
         /// <summary>

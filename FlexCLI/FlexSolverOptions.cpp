@@ -9,6 +9,7 @@ namespace FlexCLI {
 		NumIterations = 3;
 		SceneMode = 0;
 		FixedTotalIterations = -1;
+		StabilityScalingFactor = 1.0f;
 		TimeStamp = 0;
 		MaxParticles = 131072;
 		MaxNeighborsPerParticle = 96;
@@ -21,13 +22,14 @@ namespace FlexCLI {
 		MaxDynamicTriangles = 131072;				//needed for cloth
 	}
 	
-	FlexSolverOptions::FlexSolverOptions(float dt, int subSteps, int numIterations, int sceneMode, int fixedNumTotalIterations, array<int>^ memoryRequirements)
+	FlexSolverOptions::FlexSolverOptions(float dt, int subSteps, int numIterations, int sceneMode, int fixedNumTotalIterations, array<int>^ memoryRequirements, float stabilityScalingFactor)
 	{
 		dT = dt;
 		SubSteps = subSteps;
 		NumIterations = numIterations;
 		SceneMode = sceneMode;
 		FixedTotalIterations = fixedNumTotalIterations;
+		StabilityScalingFactor = stabilityScalingFactor;
 		MaxParticles = memoryRequirements[0];
 		MaxNeighborsPerParticle = memoryRequirements[1];
 		MaxCollisionShapeNumber = memoryRequirements[2];			//some geometries requires more entries (sphere: 2, box: 3, mesh: arbitrary), therefore this is NOT the max nr. of collision objects! 
