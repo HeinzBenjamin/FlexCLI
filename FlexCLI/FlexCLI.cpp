@@ -489,7 +489,7 @@ namespace FlexCLI {
 			Params.anisotropyScale = flexParams->AnisotropyScale;
 			Params.buoyancy = flexParams->Buoyancy;
 			Params.cohesion = flexParams->Cohesion;
-			Params.collisionDistance = flexParams->CollisionDistance;
+			Params.collisionDistance = flexParams->CollisionDistance * stabilityScaling;
 			Params.damping = flexParams->Damping;
 			Params.diffuseBallistic = flexParams->DiffuseBallistic;
 			Params.diffuseBuoyancy = flexParams->DiffuseBuoyancy;
@@ -510,21 +510,21 @@ namespace FlexCLI {
 			Params.gravity[2] = flexParams->GravityZ;
 			Params.lift = flexParams->Lift;
 			Params.maxAcceleration = flexParams->MaxAcceleration;
-			Params.maxSpeed = flexParams->MaxSpeed;
-			Params.particleCollisionMargin = flexParams->ParticleCollisionMargin;
+			Params.maxSpeed = flexParams->MaxSpeed * stabilityScaling;
+			Params.particleCollisionMargin = flexParams->ParticleCollisionMargin * stabilityScaling;
 			Params.particleFriction = flexParams->ParticleFriction;
 			Params.plasticCreep = flexParams->PlasticCreep;
 			Params.plasticThreshold = flexParams->PlasticThreshold;
-			Params.radius = flexParams->Radius;
+			Params.radius = flexParams->Radius * stabilityScaling;
 			Params.relaxationFactor = flexParams->RelaxationFactor;
 			Params.relaxationMode = NvFlexRelaxationMode(flexParams->RelaxationMode);
 			Params.restitution = flexParams->Restitution;
-			Params.shapeCollisionMargin = flexParams->ShapeCollisionMargin;
+			Params.shapeCollisionMargin = flexParams->ShapeCollisionMargin * stabilityScaling;
 			Params.shockPropagation = flexParams->ShockPropagation;
 			Params.sleepThreshold = flexParams->SleepThreshold;
 			Params.smoothing = flexParams->Smoothing;
 			Params.solidPressure = flexParams->SolidPressure;
-			Params.solidRestDistance = flexParams->SolidRestDistance;
+			Params.solidRestDistance = flexParams->SolidRestDistance * stabilityScaling;
 			Params.staticFriction = flexParams->StaticFriction;
 			Params.surfaceTension = flexParams->SurfaceTension;
 			Params.viscosity = flexParams->Viscosity;
@@ -745,8 +745,15 @@ namespace FlexCLI {
 		for (int i = 0; i < numRigids; i++) {
 			off[i + 1] = offsets[i + 1];
 			for (int j = offsets[i]; j < offsets[i + 1]; j++) {
-				restPos[j] = float3(restPositions[j * 3], restPositions[j * 3 + 1], restPositions[j * 3 + 2]);
-				restNor[j] = float4(restNormals[j * 4], restNormals[j * 4 + 1], restNormals[j * 4 + 2], restNormals[j * 4 + 3]);
+				restPos[j] = float3(
+					restPositions[j * 3] * stabilityScaling,
+					restPositions[j * 3 + 1] * stabilityScaling,
+					restPositions[j * 3 + 2] * stabilityScaling);
+				restNor[j] = float4(
+					restNormals[j * 4] * stabilityScaling,
+					restNormals[j * 4 + 1] * stabilityScaling,
+					restNormals[j * 4 + 2] * stabilityScaling,
+					restNormals[j * 4 + 3] * stabilityScaling);
 			}
 			sti[i] = stiffnesses[i];
 			//for some weird reason rotations always returns zeros unless w is initialized with some tvalue from the beginning. if x, y, or z are initialized as non-zero values, intitial rotation is applied which is wrong.
@@ -754,7 +761,10 @@ namespace FlexCLI {
 				rot[i] = float4(rotations[i * 4], rotations[i * 4 + 1], rotations[i * 4 + 2], rotations[i * 4 + 3] + 1);
 			else
 				rot[i] = float4(rotations[i * 4], rotations[i * 4 + 1], rotations[i * 4 + 2], rotations[i * 4 + 3]);
-			tra[i] = float3(translations[i * 3], translations[i * 3 + 1], translations[i * 3 + 2]);
+			tra[i] = float3(
+				translations[i * 3] * stabilityScaling,
+				translations[i * 3 + 1] * stabilityScaling,
+				translations[i * 3 + 2] * stabilityScaling);
 		}
 
 		for (int i = 0; i < indices->Count; i++)
@@ -787,9 +797,9 @@ namespace FlexCLI {
 			rotations->Add(rot[i].y);
 			rotations->Add(rot[i].z);
 			rotations->Add(rot[i].w);
-			translations->Add(trans[i].x);
-			translations->Add(trans[i].y);
-			translations->Add(trans[i].z);
+			translations->Add(trans[i].x * invStabScale);
+			translations->Add(trans[i].y * invStabScale);
+			translations->Add(trans[i].z * invStabScale);
 		}
 
 		NvFlexUnmap(Buffers.RigidRotations);
@@ -833,7 +843,10 @@ namespace FlexCLI {
 
 		if (nor)
 			for (int i = 0; i < triangleNormals->Count / 3; i++)
-				nor[i] = float3(triangleNormals[3 * i], triangleNormals[3 * i + 1], triangleNormals[3 * i + 2]);
+				nor[i] = float3(
+					triangleNormals[3 * i] * stabilityScaling, 
+					triangleNormals[3 * i + 1] * stabilityScaling, 
+					triangleNormals[3 * i + 2] * stabilityScaling);
 
 		NvFlexUnmap(Buffers.DynamicTriangleIndices);
 		if (nor) NvFlexUnmap(Buffers.DynamicTriangleNormals);
