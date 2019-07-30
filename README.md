@@ -62,3 +62,18 @@ If your machine crashes upon resetting the FlexHopper engine:<br>
 A. Make sure your computer fulfills the hardware requirements (see above)<br>
 B. Consider reducing the memory your FlexHopper requires by adjusting the memQ input in the Flex Solver Options accordingly
 
+# CITATION
+
+
+<a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
+>## Cite as
+> HeinzBenjamin. (2019, July 30). HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper (Version v1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3355744
+>## BibTex
+> @misc{heinzbenjamin_2019_3355744,<br>
+>   author       = {HeinzBenjamin},<br>
+>   title        = {HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper},<br>
+>   month        = jul,<br>
+>   year         = 2019,<br>
+>   doi          = {10.5281/zenodo.3355744},<br>
+>   url          = {https://doi.org/10.5281/zenodo.3355744}<br>
+> }
