@@ -1,7 +1,4 @@
-<a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
-
-
-# FlexCLI
+# FlexCLI / FlexHopper <a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
 FlexCLI is a C++/CLI interface to access the physics engine NVidia Flex from the .Net environment. Furthermore the repository contains an implementation of FlexCLI in the form of a plugin for Grasshopper in Rhino3D. This plugin - called FlexHopper - provides the possiblity to use NVidia Flex physics simulation - via the FlexCLI pipeline - in the CAD software Rhino.<p>
 FlexCLI is built against NVidia Flex release 1.1.0. NVidia Flex is patented property of NVidia. The author of this repository did not create or change NVidia proprietary code, nor is he the author of NVidia Flex. The author of this repository is the author of FlexCLI and FlexHopper only, both of which can found in the respective folders. The GPL-3.0 license mentioned in this repo applies <b>only</b> to FlexCLI and FlexHopper and <b>not</b> to Nvidia proprietary code (anything inside the folder FlexCore110). There's a respective license to be found in that folder.<br>
 For more information on NVidia Flex go here: https://developer.nvidia.com/flex and https://developer.nvidia.com/nvidia-flex-110-released<p><p>
@@ -63,12 +60,10 @@ A. Make sure your computer fulfills the hardware requirements (see above)<br>
 B. Consider reducing the memory your FlexHopper requires by adjusting the memQ input in the Flex Solver Options accordingly
 
 # CITATION
-
-
-<a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
->## Cite as
+Stable Release DOI: <a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
+#### Cite as
 > HeinzBenjamin. (2019, July 30). HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper (Version v1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3355744
->## BibTex
+#### BibTex
 > @misc{heinzbenjamin_2019_3355744,<br>
 >   author       = {HeinzBenjamin},<br>
 >   title        = {HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper},<br>
