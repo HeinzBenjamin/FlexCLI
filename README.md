@@ -62,10 +62,10 @@ B. Consider reducing the memory your FlexHopper requires by adjusting the memQ i
 # CITATION
 Stable Release DOI: <a href="https://zenodo.org/badge/latestdoi/95669350"><img src="https://zenodo.org/badge/95669350.svg" alt="DOI"></a>
 #### Cite as
-> HeinzBenjamin. (2019, July 30). HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper (Version v1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3355744
+> Felbrich, Benjamin. (2019, July 30). HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper (Version v1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3355744
 #### BibTex
 > @misc{heinzbenjamin_2019_3355744,<br>
->   author       = {HeinzBenjamin},<br>
+>   author       = {Felbrich, Benjamin},<br>
 >   title        = {HeinzBenjamin/FlexCLI: FlexCLI - FlexHopper},<br>
 >   month        = jul,<br>
 >   year         = 2019,<br>
