@@ -18,7 +18,8 @@ https://www.linkedin.com/in/benjamin-felbrich/ <br>
 https://twitter.com/BFelbrich <br>
     
 # HARDWARE REQUIREMENTS NVIDIA FLEX
-1. A <b>dedicated</b> NVidia and AMD graphics card supporting DirectX11 and running one of the following drivers:<br>
+1. A Windows based machine running in x64 bit. (Bootcamp / Parallel Desktop setups might work, too. Give it a try)<br>
+2. A <b>dedicated</b> NVidia and AMD graphics card supporting DirectX11 and running one of the following drivers:<br>
 Nvidia Geforce Game Ready Driver 372.90 or above<br>
 AMD Radeon Driver version 16.9.1 or above<br>
 Onboard graphic chips like Intel HD Graphics 4000 are <b>not</b> supported and might crash your system
