@@ -9,7 +9,7 @@ using Grasshopper.Kernel.Types;
 using Rhino.Display;
 using Rhino.Geometry;
 using FlexHopper.Properties;
-namespace FlexHopper.GH_Getters
+namespace FlexHopper.GH_Util
 {
     public class GH_InstantBake : GH_Component
     {
@@ -18,8 +18,8 @@ namespace FlexHopper.GH_Getters
         /// </summary>
         public GH_InstantBake()
           : base("Instant Bake", "Bake",
-              "Bakes a objects and deletes them again when updated, to account for movement.",
-              "Flex", "Decomposition")
+              "Bakes a objects and deletes them again when updated, to account for movement. Use this to render your animation during runtime.",
+              "Flex", "Util")
         {
         }
 

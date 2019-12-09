@@ -1,0 +1,186 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly FlexCLI, Version=0.9.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class FlexCLI.Flex: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    FlexCLI.FlexScene Scene : Public
+  Methods:
+    SetCollisionGeometry(FlexCollisionGeometry): PrivateScope, Public, HideBySig
+    SetParams(FlexParams): PrivateScope, Public, HideBySig
+    SetScene(FlexScene): PrivateScope, Public, HideBySig
+    SetSolverOptions(FlexSolverOptions): PrivateScope, Public, HideBySig
+    SetForceFields(List`1): PrivateScope, Public, HideBySig
+    IsReady(): PrivateScope, Public, HideBySig
+    UpdateSolver(): PrivateScope, Public, HideBySig
+    Destroy(): PrivateScope, Public, HideBySig
+Class FlexCLI.FlexParams: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 NumIterations : Public
+    Single GravityX : Public
+    Single GravityY : Public
+    Single GravityZ : Public
+    Single Radius : Public
+    Single SolidRestDistance : Public
+    Single FluidRestDistance : Public
+    Single DynamicFriction : Public
+    Single StaticFriction : Public
+    Single ParticleFriction : Public
+    Single Restitution : Public
+    Single Adhesion : Public
+    Single SleepThreshold : Public
+    Single MaxSpeed : Public
+    Single MaxAcceleration : Public
+    Single ShockPropagation : Public
+    Single Dissipation : Public
+    Single Damping : Public
+    Single WindX : Public
+    Single WindY : Public
+    Single WindZ : Public
+    Single Drag : Public
+    Single Lift : Public
+    Boolean Fluid : Public
+    Single Cohesion : Public
+    Single SurfaceTension : Public
+    Single Viscosity : Public
+    Single VorticityConfinement : Public
+    Single AnisotropyScale : Public
+    Single AnisotropyMin : Public
+    Single AnisotropyMax : Public
+    Single Smoothing : Public
+    Single SolidPressure : Public
+    Single FreeSurfaceDrag : Public
+    Single Buoyancy : Public
+    Single DiffuseThreshold : Public
+    Single DiffuseBuoyancy : Public
+    Single DiffuseDrag : Public
+    Int32 DiffuseBallistic : Public
+    Single DiffuseSortAxisX : Public
+    Single DiffuseSortAxisY : Public
+    Single DiffuseSortAxisZ : Public
+    Single DiffuseLifetime : Public
+    Single PlasticThreshold : Public
+    Single PlasticCreep : Public
+    Single CollisionDistance : Public
+    Single ParticleCollisionMargin : Public
+    Single ShapeCollisionMargin : Public
+    Single* Planes : Public
+    Int32 NumPlanes : Public
+    Int32 RelaxationMode : Public
+    Single RelaxationFactor : Public
+    Int32 TimeStamp : Public
+  Methods:
+    IsValid(): PrivateScope, Public, HideBySig
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class FlexCLI.FlexCollisionGeometry: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 TimeStamp : Public
+  Methods:
+    AddPlane(Single, Single, Single, Single): PrivateScope, Public, HideBySig
+    AddSphere(Single[], Single): PrivateScope, Public, HideBySig
+    AddBox(Single[], Single[], Single[]): PrivateScope, Public, HideBySig
+    AddCapsule(Single, Single, Single[], Single[]): PrivateScope, Public, HideBySig
+    AddMesh(Single[], Int32[]): PrivateScope, Public, HideBySig
+    AddConvexShape(Single[], Single[], Single[]): PrivateScope, Public, HideBySig
+Class FlexCLI.FlexScene: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.Collections.Generic.List`1[FlexCLI.FlexParticle] Particles : Public
+    Int32 TimeStamp : Public
+  Methods:
+    NumParticles(): PrivateScope, Public, HideBySig
+    NumRigidBodies(): PrivateScope, Public, HideBySig
+    GetAllParticles(): PrivateScope, Public, HideBySig
+    RegisterParticles(Single[], Single[], Single[], Boolean(HasFieldMarshal), Boolean(HasFieldMarshal), Int32): PrivateScope, Public, HideBySig
+    RegisterFluid(Single[], Single[], Single[], Int32): PrivateScope, Public, HideBySig
+    GetFluidParticles(): PrivateScope, Public, HideBySig
+    NumRigids(): PrivateScope, Public, HideBySig
+    RegisterRigidBody(Single[], Single[], Single[], Single[], Single, Int32): PrivateScope, Public, HideBySig
+    GetRigidParticles(): PrivateScope, Public, HideBySig
+    GetRigidRotations(): PrivateScope, Public, HideBySig
+    GetRigidTranslations(): PrivateScope, Public, HideBySig
+    GetShapeMassCenters(): PrivateScope, Public, HideBySig
+    InitSoftBodyFromMesh(Void*&, Single[], Int32[], Single, Single, Single, Single, Single, Single, Single, Single, Single): PrivateScope, Public, Static, HideBySig
+    UnwrapSoftBody(Void*, Single[]&, Int32[]&, Int32[][]&): PrivateScope, Public, Static, HideBySig
+    DestroySoftBody(NvFlexExtAsset*): PrivateScope, Public, Static, HideBySig
+    GetSoftParticles(): PrivateScope, Public, HideBySig
+    NumSprings(): PrivateScope, Public, HideBySig
+    GetSpringPairIndices(): PrivateScope, Public, HideBySig
+    RegisterSpringSystem(Single[], Single[], Single[], Int32[], Single[], Single[], Boolean(HasFieldMarshal), Int32[], Int32): PrivateScope, Public, HideBySig
+    GetSpringParticles(): PrivateScope, Public, HideBySig
+    GetNumCloths(): PrivateScope, Public, HideBySig
+    RegisterCloth(Single[], Single[], Single[], Int32[], Single[], Single, Single, Single, Int32[], Boolean(HasFieldMarshal), Int32): PrivateScope, Public, HideBySig
+    GetClothParticles(): PrivateScope, Public, HideBySig
+    GetNumInflatables(): PrivateScope, Public, HideBySig
+    RegisterInflatable(Single[], Single[], Single[], Int32[], Single[], Single, Single, Single, Single, Single, Single, Int32[], Boolean(HasFieldMarshal), Int32): PrivateScope, Public, HideBySig
+    GetInflatableParticles(): PrivateScope, Public, HideBySig
+    RegisterCustomConstraints(Int32[], Int32[], Single, Int32[], Single[], Single[], Int32[], Single[]): PrivateScope, Public, HideBySig
+    RegisterAsset(UInt64, Single[], Single, Int32, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    IsValid(): PrivateScope, Public, HideBySig
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    AppendScene(FlexScene): PrivateScope, Public, HideBySig
+    AlterScene(FlexScene, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    SetActivity(List`1): PrivateScope, Public, HideBySig
+Class FlexCLI.FlexParticle: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Single[], Single[], Single, Int32, Boolean): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Single[], Single[], Single, Boolean, Boolean, Int32, Boolean): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Single PositionX : Public
+    Single PositionY : Public
+    Single PositionZ : Public
+    Single InverseMass : Public
+    Single VelocityX : Public
+    Single VelocityY : Public
+    Single VelocityZ : Public
+    Int32 GroupIndex : Public
+    Boolean SelfCollision : Public
+    Boolean IsFluid : Public
+    Int32 Phase : Public
+    Boolean IsActive : Public
+  Methods:
+    IsValid(): PrivateScope, Public, HideBySig
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class FlexCLI.FlexSolverOptions: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Single, Int32, Int32, Int32, Int32, Int32[], Single): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 SubSteps : Public
+    Int32 NumIterations : Public
+    Single dT : Public
+    Int32 SceneMode : Public
+    Int32 FixedTotalIterations : Public
+    Single StabilityScalingFactor : Public
+    Int32 MaxParticles : Public
+    Int32 MaxNeighborsPerParticle : Public
+    Int32 MaxCollisionShapeNumber : Public
+    Int32 MaxCollisionMeshVertexCount : Public
+    Int32 MaxCollisionMeshIndexCount : Public
+    Int32 MaxCollisionConvexShapePlanes : Public
+    Int32 MaxRigidBodies : Public
+    Int32 MaxSprings : Public
+    Int32 MaxDynamicTriangles : Public
+    Int32 TimeStamp : Public
+  Methods:
+    IsValid(): PrivateScope, Public, HideBySig
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class FlexCLI.FlexForceField: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Single[], Single, Single, Boolean, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Single Radius : Public
+    Single Strength : Public
+    Boolean LinearFallOff : Public
+    Single[] Position : Public
+    Int32 Mode : Public
+    Int32 TimeStamp : Public
+  Methods:
+    ToString(): PrivateScope, Public, Virtual, HideBySig

@@ -28,7 +28,7 @@ Onboard graphic chips like Intel HD Graphics 4000 are <b>not</b> supported and m
 Please follow the instructions under one of these options:<p>
 <i><b>Option 1: Only use FlexHopper</b></i>
 1. Make sure your machine fulfills the hardware requirements (see above).
-2. Make sure you have the latest version of Rhino 6 <b>64bit</b> along with the latest version of Grasshopper installed (in Rhino click "Help" > "Check for Updates")
+2. Make sure you have the <b>latest version of Rhino 6 64bit</b> along with the <b>latest version of Grasshopper</b> installed (in Rhino click "Help" > "Check for Updates")
 3. Download the package:<br>
 - Go to www.food4rhino.com/app/flexhopper<br>
 - Download latest version <br>
